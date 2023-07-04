@@ -35,7 +35,6 @@ for (const carpeta of carpetasComandos) {
     for (const archivo of archivosComandos) {
         const rutaArchivo = path.join(rutaComandos, archivo);
         const comando = require(rutaArchivo);
-        // Establece un novo item na colección de comandos con key = nome e value = módulo exportado
         if ("data" in comando && "execute" in comando) {
             mcli.comandos.set(comando.data.name, <Comando>comando);
         } else {
@@ -44,7 +43,7 @@ for (const carpeta of carpetasComandos) {
     }
 }
 
-// Importación de eventos
+// Event handler
 const rutaEventos = path.join(__dirname, "events");
 const eventFiles = fs.readdirSync(rutaEventos).filter((file) => file.endsWith(".ts"));
 
@@ -58,5 +57,5 @@ for (const file of eventFiles) {
     }
 }
 
-// Conexión a Discord co token do cliente
+// Conexión a Discord con token del cliente
 mcli.login(<string>process.env.TOKEN);
