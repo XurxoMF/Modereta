@@ -23,7 +23,7 @@ const intents = {
 // Creción dun cliente
 const mcli = new MClient(intents, new Collection(), new Collection(), db);
 
-mcli.rest.on("rateLimited", (info) => console.log("rate limited", info));
+mcli.rest.on("rateLimited", (info) => console.log("🟡 Rate LImited\n", info));
 
 // Importación de comandos
 const rutaCarpetas = path.join(__dirname, "commands");
@@ -34,9 +34,9 @@ for (const carpeta of carpetasComandos) {
     const archivosComandos = fs.readdirSync(rutaComandos).filter((file) => file.endsWith(".ts"));
     for (const archivo of archivosComandos) {
         const rutaArchivo = path.join(rutaComandos, archivo);
-        const comando = require(rutaArchivo);
+        const comando: Comando = require(rutaArchivo);
         if ("data" in comando && "execute" in comando) {
-            mcli.comandos.set(comando.data.name, <Comando>comando);
+            mcli.comandos.set(comando.data.name, comando);
         } else {
             console.log(`🟡 El comando en ${rutaArchivo} no contiene data o execute!`);
         }

@@ -5,11 +5,12 @@ import {
     ContextMenuCommandBuilder,
     CommandInteraction,
 } from "discord.js";
+import { MClient } from "./helpers/MClient";
 
 export interface Comando {
     data: SlashCommandBuilder | ContextMenuCommandBuilder;
     cooldown?: number;
-    execute: (bot: Bot, interaction: CommandInteraction) => void;
+    execute: (mcli: MClient, interaction: CommandInteraction) => void;
 }
 
 declare global {
