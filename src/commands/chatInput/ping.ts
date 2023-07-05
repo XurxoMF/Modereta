@@ -1,7 +1,9 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
 import { MClient } from "../../helpers/MClient";
+import { TipoComandos, ComandoChatInput } from "../../types";
 
-module.exports = {
+const exp: ComandoChatInput = {
+    tipo: TipoComandos.ChatInput,
     cooldown: 10,
     data: new SlashCommandBuilder().setName("ping").setDescription("Responde con pong!"),
     async execute(mcli: MClient, interaction: ChatInputCommandInteraction) {
@@ -14,3 +16,5 @@ module.exports = {
         interaction.editReply(`Pong! Client ${ping}ms | Websocket: ${mcli.ws.ping}ms`);
     },
 };
+
+module.exports = exp;

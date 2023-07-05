@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { Collection, GatewayIntentBits } from "discord.js";
 import "dotenv/config";
-import { Comando } from "./types";
+import { TipoComandos, ComandoBase, ComandoChatInput, ComandoMessageContextMenu } from "./types";
 import { MClient } from "./helpers/MClient";
 import { db } from "./models";
 
@@ -21,11 +21,11 @@ const intents = {
 };
 
 // Creción dun cliente
-const mcli = new MClient(intents, new Collection(), new Collection(), db);
+const mcli = new MClient(intents, new Collection(), new Collection(), new Collection(), db);
 
 mcli.rest.on("rateLimited", (info) => console.log("🟡 Rate LImited\n", info));
 
-// Importación de comandos
+// Importación de comandosChatImput
 const rutaCarpetas = path.join(__dirname, "commands");
 const carpetasComandos = fs.readdirSync(rutaCarpetas);
 
@@ -34,9 +34,23 @@ for (const carpeta of carpetasComandos) {
     const archivosComandos = fs.readdirSync(rutaComandos).filter((file) => file.endsWith(".ts"));
     for (const archivo of archivosComandos) {
         const rutaArchivo = path.join(rutaComandos, archivo);
-        const comando: Comando = require(rutaArchivo);
+        const comando: ComandoBase = require(rutaArchivo);
         if ("data" in comando && "execute" in comando) {
-            mcli.comandos.set(comando.data.name, comando);
+            switch (comando.tipo) {
+                case TipoComandos.ChatInput:
+                    mcli.comandosChatImput.set(comando.data.name, <ComandoChatInput>comando);
+                    break;
+
+                case TipoComandos.MessageContextMenu:
+                    mcli.comandosMessageContextMenu.set(
+                        comando.data.name,
+                        <ComandoMessageContextMenu>comando
+                    );
+                    break;
+
+                default:
+                    break;
+            }
         } else {
             console.log(`🟡 El comando en ${rutaArchivo} no contiene data o execute!`);
         }

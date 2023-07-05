@@ -1,21 +1,24 @@
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import { db } from "../models/index";
-import { Comando } from "../types";
+import { ComandoChatInput, ComandoMessageContextMenu } from "../types";
 
 export class MClient extends Client {
     cooldowns!: Collection<any, any>;
-    comandos!: Collection<string, Comando>;
+    comandosChatImput!: Collection<string, ComandoChatInput>;
+    comandosMessageContextMenu!: Collection<string, ComandoMessageContextMenu>;
     db!: typeof db;
 
     constructor(
         intents: { intents: GatewayIntentBits[] },
         cooldowns: Collection<any, any>,
-        comandos: Collection<string, Comando>,
+        comandosChatImput: Collection<string, ComandoChatInput>,
+        comandosMessageContextMenu: Collection<string, ComandoMessageContextMenu>,
         database: typeof db
     ) {
         super(intents);
         this.cooldowns = cooldowns;
-        this.comandos = comandos;
+        this.comandosChatImput = comandosChatImput;
+        this.comandosMessageContextMenu = comandosMessageContextMenu;
         this.db = database;
     }
 }

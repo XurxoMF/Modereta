@@ -15,7 +15,7 @@
         "resolveJsonModule": true,
         "forceConsistentCasingInFileNames": true,
         "removeComments": true,
-        "typeRoots": ["./src/types.d.ts", "node_modules/@types"],
+        "typeRoots": ["./src/global.d.ts", "node_modules/@types"],
         "sourceMap": false,
         "baseUrl": "./"
     },
