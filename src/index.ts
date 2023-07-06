@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { Collection, GatewayIntentBits } from "discord.js";
-import "dotenv/config";
+import { TOKEN_DEV, TOKEN_PROD, DEV } from "./config.json";
 import { TipoComandos, ComandoBase, ComandoChatInput, ComandoMessageContextMenu } from "./types";
 import { MClient } from "./helpers/MClient";
 import { db } from "./models";
@@ -23,7 +23,9 @@ const intents = {
 // Creción dun cliente
 const mcli = new MClient(intents, new Collection(), new Collection(), new Collection(), db);
 
-mcli.rest.on("rateLimited", (info) => console.log("🟡 Rate LImited\n", info));
+mcli.rest.on("rateLimited", (info) =>
+    console.log("🟡 Rate Limited | Información avanzada:\n", info)
+);
 
 // Importación de comandosChatImput
 const rutaCarpetas = path.join(__dirname, "commands");
@@ -72,4 +74,4 @@ for (const file of eventFiles) {
 }
 
 // Conexión a Discord con token del cliente
-mcli.login(<string>process.env.TOKEN);
+mcli.login(DEV ? TOKEN_DEV : TOKEN_PROD);

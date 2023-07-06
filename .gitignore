@@ -89,3 +89,6 @@ typings/
 
 # Database
 db/
+
+# Config files
+config.json

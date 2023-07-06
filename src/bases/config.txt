@@ -1,0 +1,9 @@
+{
+    "DEV": true, <= true o false | Si está en desarrollo/test o en producción.
+    "TOKEN_DEV": "", <= TOKEN del bot durante el modo desarrollo.
+    "TOKEN_PROD": "", <= TOKEN del bot durante el modo producción.
+    "CLIENT_ID_DEV": "", <= ID del cliente durante el modo desarrollo.
+    "CLIENT_ID_PROD": "", <= ID del cliente durante el modo producción.
+    "GUILD_ID": "", <= ID del servidor donde usará el bot.
+    "DEV_ID": "" <= ID del usuario que podrá usar el bot durante el modo de desarollo.
+}

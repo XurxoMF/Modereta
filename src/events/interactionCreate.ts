@@ -17,6 +17,7 @@ module.exports = {
                 return;
             }
 
+            // COOLDOWNS
             if (!cooldowns.has(comandoChatImput.data.name)) {
                 cooldowns.set(comandoChatImput.data.name, new Collection());
             }
@@ -40,6 +41,7 @@ module.exports = {
 
             timestamps.set(interaction.user.id, now);
             setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+            // END COOLDOWNS
 
             // EXECUCIÓN
             try {

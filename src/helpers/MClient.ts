@@ -1,19 +1,25 @@
 import { Client, Collection, GatewayIntentBits } from "discord.js";
-import { db } from "../models/index";
-import { ComandoChatInput, ComandoMessageContextMenu } from "../types";
+import { DB, ComandoChatInput, ComandoMessageContextMenu } from "../types";
 
+/**
+ * Cliente extdido para añadir nuevas propiedades al Client base de discord.js
+ *
+ * @export
+ * @class MClient
+ * @extends {Client}
+ */
 export class MClient extends Client {
     cooldowns!: Collection<any, any>;
     comandosChatImput!: Collection<string, ComandoChatInput>;
     comandosMessageContextMenu!: Collection<string, ComandoMessageContextMenu>;
-    db!: typeof db;
+    db!: DB;
 
     constructor(
         intents: { intents: GatewayIntentBits[] },
         cooldowns: Collection<any, any>,
         comandosChatImput: Collection<string, ComandoChatInput>,
         comandosMessageContextMenu: Collection<string, ComandoMessageContextMenu>,
-        database: typeof db
+        database: DB
     ) {
         super(intents);
         this.cooldowns = cooldowns;

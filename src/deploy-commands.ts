@@ -1,5 +1,5 @@
 import { REST, Routes } from "discord.js";
-import "dotenv/config";
+import { TOKEN_DEV, TOKEN_PROD, GUILD_ID, CLIENT_ID_DEV, CLIENT_ID_PROD, DEV } from "./config.json";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -24,26 +24,23 @@ for (const folder of commandFolders) {
     }
 }
 
-const rest = new REST().setToken(<string>process.env.TOKEN);
+const rest = new REST().setToken(DEV ? TOKEN_DEV : TOKEN_PROD);
 
 // Deploy de los comandos
 (async () => {
     try {
         // rest.delete(
         //     Routes.applicationGuildCommand(
-        //         <string>process.env.CLIENT_ID,
-        //         <string>process.env.GUILD_ID,
-        //         "command-id"
+        //         DEV ? CLIENT_ID_DEV : CLIENT_ID_PROD,
+        //         GUILD_ID,
+        //         "id-comando"
         //     )
         // )
         //     .then(() => console.log("🟢 Se ha eliminado un comando con éxito!"))
         //     .catch(console.error);
 
         const data: any = await rest.put(
-            Routes.applicationGuildCommands(
-                <string>process.env.CLIENT_ID,
-                <string>process.env.GUILD_ID
-            ),
+            Routes.applicationGuildCommands(DEV ? CLIENT_ID_DEV : CLIENT_ID_PROD, GUILD_ID),
             {
                 body: commands,
             }

@@ -35,7 +35,7 @@ Al igual que con Sofi también cuenta con algunas ayudas para Karuta bot como lo
 ### CONFIGURACIÓN PARA EL USO DEL BOT
 
 -   Necesitar tener instalados tanto Node.js como NPM.
--   Para la configuración se utiliza un archivo .env, la base de este está en el archivo env.txt, solo renómbralo a .env y añade tu token y valores.
+-   Para la configuración se utiliza el archivo src/config.json. En src/bases/config.txt tenéis la base de este archivo, tenéis que moverlo a src/., cambiar _.txt_ por _.json_, eliminar los "comentarios"(<= texto...) y cubrir los campos con los datos que se piden.
 -   Para poder usar los comandos es necesario establecer la ID del servidor en el que se use en el archivo .env y ejecutar el comando `npm run deploy`.
 -   Una vez completados estos pasos podrás usar el comando `npm run start` para iniciar el bot.
 
