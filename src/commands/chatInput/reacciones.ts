@@ -2,7 +2,7 @@ import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from "
 import { MClient } from "../../helpers/MClient";
 import { TipoComandos, ComandoChatInput, Reaccion } from "../../types";
 import Reacciones from "../../data/comandos/reacciones.data";
-import { Colores } from "../../data/colores.data";
+import { Colores } from "../../data/general.data";
 
 const data = new SlashCommandBuilder()
     .setName("reacciones")
@@ -15,7 +15,7 @@ for (const index in Reacciones) {
 
 const exp: ComandoChatInput = {
     tipo: TipoComandos.ChatInput,
-    cooldown: 10,
+    cooldown: 5,
     data: data,
     async execute(mcli: MClient, interaction: ChatInputCommandInteraction) {
         const idUsuario = interaction.user.id;

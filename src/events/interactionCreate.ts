@@ -90,6 +90,36 @@ module.exports = {
                     });
                 }
             }
+        } else if (interaction.isUserContextMenuCommand()) {
+            const comandoUserContextMenu = mcli.comandosUserContextMenu.get(
+                interaction.commandName
+            );
+
+            if (!comandoUserContextMenu) {
+                interaction.reply({
+                    content: `El comando ${interaction.commandName} no existe! Contacta con el equipo de soporte para que puedan solucionarlo!`,
+                    ephemeral: true,
+                });
+                return;
+            }
+
+            // EXECUCIÓN
+            try {
+                comandoUserContextMenu.execute(mcli, interaction);
+            } catch (error) {
+                console.error(error);
+                if (interaction.replied || interaction.deferred) {
+                    await interaction.followUp({
+                        content: "Ups! Ha ocurrido un error al ejecutar el comando!",
+                        ephemeral: true,
+                    });
+                } else {
+                    await interaction.reply({
+                        content: "Ups! Ha ocurrido un error al ejecutar el comando!",
+                        ephemeral: true,
+                    });
+                }
+            }
         } else {
             return;
         }

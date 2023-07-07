@@ -3,6 +3,7 @@ import {
     ContextMenuCommandBuilder,
     ChatInputCommandInteraction,
     MessageContextMenuCommandInteraction,
+    UserContextMenuCommandInteraction,
 } from "discord.js";
 import { MClient } from "./helpers/MClient";
 import { db } from "./models";
@@ -15,6 +16,7 @@ export type DB = typeof db;
 export enum TipoComandos {
     ChatInput,
     MessageContextMenu,
+    UserContextMenu,
 }
 
 /**
@@ -47,6 +49,16 @@ export interface ComandoChatInput extends ComandoBase {
 export interface ComandoMessageContextMenu extends ComandoBase {
     data: OptionalExceptFor<ContextMenuCommandBuilder, "name">;
     execute: (mcli: MClient, interaction: MessageContextMenuCommandInteraction) => void;
+}
+
+/**
+ * Interfaz para los ContextMenuCommands de usuarios.
+ *
+ * @extends {ComandoBase}
+ */
+export interface ComandoUserContextMenu extends ComandoBase {
+    data: OptionalExceptFor<ContextMenuCommandBuilder, "name">;
+    execute: (mcli: MClient, interaction: UserContextMenuCommandInteraction) => void;
 }
 
 /**
