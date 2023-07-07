@@ -63,6 +63,19 @@ export interface Reaccion {
 }
 
 /**
+ * Interfaz para las acciones.
+ *
+ * @export
+ * @interface Accion
+ */
+export interface Accion {
+    nombre: string;
+    desc: string;
+    frase: string;
+    gifs: string[];
+}
+
+/**
  * Marca todos los parámetros como opcionales a excepción de los elejidos.
  */
 type OptionalExceptFor<T, TRequired extends keyof T = keyof T> = Partial<
