@@ -16,7 +16,7 @@ import {
     eliminarSerie,
     listaSeries,
 } from "../../helpers/commands/sofi-series.helper";
-import { Colores } from "src/data/general.data";
+import { Colores } from "../../data/general.data";
 
 const exp: ComandoChatInput = {
     tipo: TipoComandos.ChatInput,
