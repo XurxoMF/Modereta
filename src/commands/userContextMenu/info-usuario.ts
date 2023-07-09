@@ -5,7 +5,7 @@ import {
 } from "discord.js";
 import { MClient } from "../../helpers/MClient";
 import { TipoComandos, ComandoUserContextMenu } from "../../types";
-import { usuarioInfoController } from "../../helpers/comandos/usuario.helper";
+import { usuarioInfoController } from "../../helpers/commands/usuario.helper";
 
 const exp: ComandoUserContextMenu = {
     tipo: TipoComandos.UserContextMenu,

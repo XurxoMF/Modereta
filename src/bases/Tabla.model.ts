@@ -4,8 +4,8 @@ export interface TablaAttributes {
     columna: string;
 }
 
-@Table
+@Table({})
 export class Tabla extends Model<TablaAttributes> {
-    @Column
+    @Column({})
     declare columna: string;
 }

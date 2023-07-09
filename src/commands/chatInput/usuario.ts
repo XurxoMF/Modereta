@@ -1,19 +1,19 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
 import { MClient } from "../../helpers/MClient";
 import { TipoComandos, ComandoChatInput } from "../../types";
-import { usuarioInfoController } from "../../helpers/comandos/usuario.helper";
+import { usuarioInfoController } from "../../helpers/commands/usuario.helper";
 
 const exp: ComandoChatInput = {
     tipo: TipoComandos.ChatInput,
     data: new SlashCommandBuilder()
         .setName("usuario")
         .setDescription("Comandos realicionados con usuarios!")
-        .addSubcommand((sub) =>
-            sub
+        .addSubcommand((s) =>
+            s
                 .setName("info")
                 .setDescription("Muestra información sobre el usuario.")
-                .addUserOption((user) =>
-                    user
+                .addUserOption((o) =>
+                    o
                         .setName("usuario")
                         .setDescription("Usuario del que se mostrará la información.")
                         .setRequired(true)

@@ -1,5 +1,6 @@
 import { Events, Collection, CommandInteraction } from "discord.js";
 import { MClient } from "../helpers/MClient";
+import { COOLDOWN_BASE } from "../data/general.data";
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -24,7 +25,7 @@ module.exports = {
 
             const now = Date.now();
             const timestamps = cooldowns.get(comandoChatImput.data.name);
-            const defaultCooldownDuration = 3;
+            const defaultCooldownDuration = COOLDOWN_BASE;
             const cooldownAmount = (comandoChatImput.cooldown || defaultCooldownDuration) * 1000;
 
             if (timestamps.has(interaction.user.id)) {

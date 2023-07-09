@@ -1,3 +1,11 @@
+/**
+ * Cooldown por defecto para comandos sin cooldown propio establecido. En segundos.
+ */
+export const COOLDOWN_BASE: number = 3;
+
+/**
+ * Colores usados en Embeds y demás partes del bot. "#ffffff"
+ */
 export enum Colores {
     EMBED_BASE = "#ff00ff",
 }

@@ -10,7 +10,7 @@ const data = new SlashCommandBuilder()
 
 for (const index in Reacciones) {
     const reaccion = Reacciones[index];
-    data.addSubcommand((sub) => sub.setName(reaccion.nombre).setDescription(reaccion.desc));
+    data.addSubcommand((s) => s.setName(reaccion.nombre).setDescription(reaccion.desc));
 }
 
 const exp: ComandoChatInput = {

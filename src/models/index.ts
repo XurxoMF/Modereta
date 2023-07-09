@@ -1,4 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
+import { SofiSeriesUsuarios } from "./SofiSeriesUsuarios.model";
+import { Niveles } from "./Niveles.model";
 
 const sequelize = new Sequelize({
     dialect: "sqlite",
@@ -7,9 +9,11 @@ const sequelize = new Sequelize({
     define: {
         freezeTableName: true,
     },
-    models: [],
+    models: [SofiSeriesUsuarios, Niveles],
 });
 
 export const db = {
     sequelize,
+    SofiSeriesUsuarios,
+    Niveles,
 };

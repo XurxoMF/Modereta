@@ -88,7 +88,7 @@ typings/
 .dynamodb/
 
 # Database
-db/
+/db/
 
 # Config files
-config.json
+/src/config.json

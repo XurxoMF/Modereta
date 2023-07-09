@@ -10,12 +10,12 @@ const data = new SlashCommandBuilder()
 
 for (const index in Acciones) {
     const reaccion = Acciones[index];
-    data.addSubcommand((sub) =>
-        sub
+    data.addSubcommand((s) =>
+        s
             .setName(reaccion.nombre)
             .setDescription(reaccion.desc)
-            .addUserOption((ment) =>
-                ment
+            .addUserOption((o) =>
+                o
                     .setName("usuario")
                     .setDescription("Usuario al que realizar la acción.")
                     .setRequired(true)
