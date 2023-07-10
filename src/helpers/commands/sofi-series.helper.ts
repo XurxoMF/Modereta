@@ -1,6 +1,11 @@
 import { MClient } from "../MClient";
 import { getNivel } from "../../helpers/db/Niveles.helper";
-import { countSeriesUsuario } from "../../helpers/db/SofiSeriesUsuarios.helper";
+import {
+    count,
+    anadir,
+    eliminar,
+    buscarTodoPorId,
+} from "../../helpers/db/SofiSeriesUsuarios.helper";
 
 /**
  * Estados de respuesta de agregarSerie()
@@ -32,15 +37,12 @@ export const anadirSerie = async (
     serie: string
 ): Promise<AgregarSerieStatus> => {
     const nivel = await getNivel(mcli, idUsuario);
-    const series = await countSeriesUsuario(mcli, idUsuario);
+    const series = await count(mcli, idUsuario);
 
     if (series >= 150) return AgregarSerieStatus.MAXIMO_SERIES;
     if (series >= nivel) return AgregarSerieStatus.NIVEL_INSUFICIENTE;
 
-    const [registro, creada] = await mcli.db.SofiSeriesUsuarios.findOrCreate({
-        where: { idUsuario: idUsuario, serie: serie },
-        defaults: { idUsuario: idUsuario, serie: serie },
-    });
+    const [registro, creada] = await anadir(mcli, idUsuario, serie);
 
     if (creada) {
         return AgregarSerieStatus.EXITO;
@@ -74,9 +76,7 @@ export const eliminarSerie = async (
     idUsuario: string,
     serie: string
 ): Promise<EliminarSerieStatus> => {
-    const eliminada = await mcli.db.SofiSeriesUsuarios.destroy({
-        where: { idUsuario: idUsuario, serie: serie },
-    });
+    const eliminada = await eliminar(mcli, idUsuario, serie);
 
     if (eliminada >= 1) {
         return EliminarSerieStatus.EXITO;
@@ -93,9 +93,7 @@ export const eliminarSerie = async (
  * @returns {Promise<string[]>} Array con el nombre de las series
  */
 export const listaSeries = async (mcli: MClient, idUsuario: string): Promise<string[]> => {
-    const series = await mcli.db.SofiSeriesUsuarios.findAll({
-        where: { idUsuario: idUsuario },
-    });
+    const series = await buscarTodoPorId(mcli, idUsuario);
 
     const arraySeries: string[] = [];
 

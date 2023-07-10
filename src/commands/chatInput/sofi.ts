@@ -17,6 +17,7 @@ import {
     listaSeries,
 } from "../../helpers/commands/sofi-series.helper";
 import { Colores } from "../../data/general.data";
+import { togle } from "../../helpers/db/SofiSeriesUsuariosPing.helper";
 
 const exp: ComandoChatInput = {
     tipo: TipoComandos.ChatInput,
@@ -69,6 +70,21 @@ const exp: ComandoChatInput = {
                                 )
                         )
                 )
+                .addSubcommand((s) =>
+                    s
+                        .setName("ping")
+                        .setDescription(
+                            "Activa o desactiva los pings cuando salga una serie que coleccionas."
+                        )
+                        .addBooleanOption((o) =>
+                            o
+                                .setName("activos")
+                                .setDescription(
+                                    "true si quieres que te haga ping o false si no quieres."
+                                )
+                                .setRequired(true)
+                        )
+                )
         ),
     async execute(mcli: MClient, interaction: ChatInputCommandInteraction) {
         const scg = interaction.options.getSubcommandGroup(true);
@@ -87,6 +103,10 @@ const exp: ComandoChatInput = {
 
                     case "lista":
                         await seriesListaController(mcli, interaction);
+                        break;
+
+                    case "ping":
+                        seriesPingController(mcli, interaction);
                         break;
 
                     default:
@@ -245,6 +265,23 @@ const seriesListaController = async (
             });
         });
     }
+};
+
+const seriesPingController = async (
+    mcli: MClient,
+    interaction: ChatInputCommandInteraction
+): Promise<void> => {
+    const activo = interaction.options.getBoolean("activos", true);
+
+    const estado = await togle(mcli, interaction.user.id, activo);
+
+    interaction.reply({
+        content: `> <@${
+            interaction.user.id
+        }> tus pings de drops de series de tu colección están ahora **${
+            estado ? `activados` : `desactivados`
+        }**!`,
+    });
 };
 
 const getPaginaSeries = (series: string[], pagina: number, tamanoPagina: number): string[] => {
