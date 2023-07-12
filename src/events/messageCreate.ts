@@ -1,21 +1,21 @@
-import {
-    ActionRowBuilder,
-    ButtonBuilder,
-    ButtonStyle,
-    ComponentType,
-    EmbedBuilder,
-    Events,
-    Message,
-} from "discord.js";
+import { Events, GuildBasedChannel, GuildMember, Message } from "discord.js";
 import { MClient } from "../helpers/MClient";
-import { DEV, CLIENT_ID_DEV, CLIENT_ID_PROD } from "../config.json";
-import { buscarTodoPorSerie } from "../helpers/db/SofiSeriesUsuarios.helper";
-import { buscarTodos } from "../helpers/db/SofiSeriesUsuariosPing.helper";
+import {
+    DEV,
+    CLIENT_ID_DEV,
+    CLIENT_ID_PROD,
+    NIVELES_ID_DEV,
+    NIVELES_ID_PROD,
+} from "../config.json";
+import { buscarTodoPorSerie } from "../helpers/SofiSeriesUsuarios.helper";
+import { buscarTodos } from "../helpers/SofiSeriesUsuariosPing.helper";
+import { SubirNivelStatus, subirNivel } from "../helpers/Niveles.helper";
+const cooldowns = new Set();
 
 module.exports = {
     name: Events.MessageCreate,
     async execute(mcli: MClient, message: Message) {
-        // Si el mensaje el del propio bot cancelamos todo.
+        // Si el mensaje es del propio bot cancelamos todo.
         if (message.author.id === (DEV ? CLIENT_ID_DEV : CLIENT_ID_PROD)) return;
 
         // Análisis de las series de Sofu y Nori para los pings de coleccionadas.
@@ -27,6 +27,18 @@ module.exports = {
         ) {
             sofiSeriesDropController(mcli, message);
         }
+
+        // Karuta ping de drops
+        if (
+            message.author.id === "646937666251915264" &&
+            message.content.includes("I'm dropping 3 cards since this server is currently active!")
+        ) {
+            message.reply({ content: "<@&1096463668977336383> Karuta está dropeando cartas!" });
+        }
+
+        // Niveles
+        if (!message.inGuild() || message.author.bot || cooldowns.has(message.author.id)) return;
+        nivelesController(mcli, message);
     },
 };
 
@@ -128,4 +140,25 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
             }
         }
     }
+};
+
+const nivelesController = async (mcli: MClient, message: Message): Promise<void> => {
+    const res = await subirNivel(mcli, (<GuildMember>message.member).id, message);
+
+    if (res.estado === SubirNivelStatus.NIVEL) {
+        const canal = <GuildBasedChannel>(
+            message.guild?.channels.cache.get(DEV ? NIVELES_ID_DEV : NIVELES_ID_PROD)
+        );
+
+        if (canal.isTextBased()) {
+            canal.send({
+                content: `<@${message.author.id}> ya eres nivel **${res.nivel}**! Enhorabuena!`,
+            });
+        }
+    }
+
+    cooldowns.add(message.author.id);
+    setTimeout(() => {
+        cooldowns.delete(message.author.id);
+    }, 30_000);
 };

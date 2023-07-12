@@ -15,9 +15,9 @@ import {
     EliminarSerieStatus,
     eliminarSerie,
     listaSeries,
-} from "../../helpers/commands/sofi-series.helper";
+} from "../../helpers/SofiSeriesUsuarios.helper";
 import { Colores } from "../../data/general.data";
-import { togle } from "../../helpers/db/SofiSeriesUsuariosPing.helper";
+import { togle } from "../../helpers/SofiSeriesUsuariosPing.helper";
 
 const exp: ComandoChatInput = {
     tipo: TipoComandos.ChatInput,

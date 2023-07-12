@@ -25,7 +25,6 @@ for (const index in Acciones) {
 
 const exp: ComandoChatInput = {
     tipo: TipoComandos.ChatInput,
-    cooldown: 5,
     data: data,
     async execute(mcli: MClient, interaction: ChatInputCommandInteraction) {
         const idDe = interaction.user.id;

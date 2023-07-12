@@ -18,3 +18,14 @@ export const GestoresDeUsuarios: string[] = [
     "726140295086866454",
     "778560855532765195",
 ];
+
+/**
+ * Roles de recompesnas por subir de nivel.
+ */
+export const RecompensasNivel: any = {
+    10: ["1118870108694122549"],
+    25: ["745202999965515847"],
+    50: ["745203063513677855"],
+    75: ["830581376817954836"],
+    100: ["830581589682815057"],
+};

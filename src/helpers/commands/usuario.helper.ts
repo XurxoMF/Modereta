@@ -16,6 +16,7 @@ export const usuarioInfoController = async (
         ? <GuildMember>interaction.options.getMember("usuario")
         : <GuildMember>interaction.targetMember;
 
+    // Si no tiene el rol Admin/Mod/Propietario cancelamos.
     if (
         !(<GuildMember>interaction.member)["_roles"].some((roleId) =>
             GestoresDeUsuarios.some((rol) => roleId === rol)
