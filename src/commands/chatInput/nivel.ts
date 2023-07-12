@@ -44,7 +44,7 @@ const exp: ComandoChatInput = {
         } else {
             let roles = ``;
             for (const tier of RecompensasNivel) {
-                if (tier[0] === nivel.getDataValue("nivel")) {
+                if (tier[0] <= nivel.getDataValue("nivel")) {
                     for (const rol of tier[1]) {
                         roles += `<@&${rol}>\n`;
                     }
