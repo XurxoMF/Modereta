@@ -66,7 +66,7 @@ const exp: ComandoChatInput = {
                 },
                 {
                     name: `Roles`,
-                    value: roles.length >= 0 ? roles : "`N/A`",
+                    value: roles.length > 0 ? roles : "`N/A`",
                 }
             );
         }
