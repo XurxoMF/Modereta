@@ -1,11 +1,19 @@
 import { Events, Collection, CommandInteraction } from "discord.js";
 import { MClient } from "../helpers/MClient";
 import { COOLDOWN_BASE } from "../data/general.data";
+import { DEV, DEV_ID } from "../config.json";
 
 module.exports = {
     name: Events.InteractionCreate,
     async execute(mcli: MClient, interaction: CommandInteraction) {
         const cooldowns = mcli.cooldowns;
+
+        if (DEV && interaction.user.id !== DEV_ID) {
+            return interaction.reply({
+                content: `> <@${interaction.user.id}> El bot está en **mantenimiento**, inténtalo de nuevo dentro de un rato! <a:av_besitos:1114871486419832852>`,
+                ephemeral: true,
+            });
+        }
 
         if (interaction.isChatInputCommand()) {
             const comandoChatImput = mcli.comandosChatImput.get(interaction.commandName);

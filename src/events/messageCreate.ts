@@ -1,16 +1,12 @@
-import { Events, GuildBasedChannel, GuildMember, Message } from "discord.js";
+import { Events, GuildBasedChannel, GuildMember, Message, WebhookClient } from "discord.js";
 import { MClient } from "../helpers/MClient";
-import {
-    DEV,
-    CLIENT_ID_DEV,
-    CLIENT_ID_PROD,
-    NIVELES_ID_DEV,
-    NIVELES_ID_PROD,
-} from "../config.json";
+import { DEV, CLIENT_ID_DEV, CLIENT_ID_PROD, WH_DEV, WH_NIVELES, DEV_ID } from "../config.json";
 import { buscarTodoPorSerie } from "../helpers/SofiSeriesUsuarios.helper";
 import { buscarTodos } from "../helpers/SofiSeriesUsuariosPing.helper";
-import { SubirNivelStatus, subirNivel } from "../helpers/Niveles.helper";
+import { incrementarXp, recompensar } from "../helpers/Niveles.helper";
 const cooldowns = new Set();
+const sofuId = DEV ? DEV_ID : "950166445034188820";
+const noriId = DEV ? DEV_ID : "742070928111960155";
 
 module.exports = {
     name: Events.MessageCreate,
@@ -18,13 +14,16 @@ module.exports = {
         // Si el mensaje es del propio bot cancelamos todo.
         if (message.author.id === (DEV ? CLIENT_ID_DEV : CLIENT_ID_PROD)) return;
 
-        // Análisis de las series de Sofu y Nori para los pings de coleccionadas.
+        // Pings drops Sofi por actividad
         if (
-            // 950166445034188820
-            message.author.id === "950166445034188820" ||
-            // 742070928111960155
-            message.author.id === "742070928111960155"
+            message.channel.id === "1101853797573206016" &&
+            message.author.id === "853629533855809596"
         ) {
+            sofiPingDropActividad(message);
+        }
+
+        // Análisis de las series de Sofu y Nori para los pings de coleccionadas.
+        if (message.author.id === sofuId || message.author.id === noriId) {
             sofiSeriesDropController(mcli, message);
         }
 
@@ -36,44 +35,52 @@ module.exports = {
             message.reply({ content: "<@&1096463668977336383> Karuta está dropeando cartas!" });
         }
 
+        if (DEV && message.author.id !== DEV_ID) return;
+
         // Niveles
         if (!message.inGuild() || message.author.bot || cooldowns.has(message.author.id)) return;
         nivelesController(mcli, message);
     },
 };
 
+const sofiPingDropActividad = (message: Message): void => {
+    const embed = message.embeds.length >= 1 ? message.embeds[0] : undefined;
+
+    if (embed === undefined) return;
+
+    if (embed.title === "Captcha Drop") {
+        message.reply({
+            content: `<@&1096410227408121898> **Captcha Drop** disponible!`,
+        });
+    } else if (embed.title === "SOFI: MINIGAME") {
+        message.reply({
+            content: `<@&1096410227408121898> **Minijuego** desponible!`,
+        });
+    } else if (embed.description?.includes("I will drop cards from the most voted series")) {
+        message.reply({
+            content: `<@&1096410227408121898> **Drop de Series** desponible!`,
+        });
+    }
+};
+
 const sofiSeriesDropController = async (mcli: MClient, message: Message): Promise<void> => {
     let series: string[] = [];
 
     // Búsca las series en los mensajes de los bots.
-    if (
-        // 950166445034188820
-        message.author.id === "950166445034188820" &&
-        message.content.includes(", we've found the following cards for you")
-    ) {
-        // drop normal SOFU
+    if (message.author.id === sofuId && message.content.includes("has dropeado estas cartas!")) {
         const frases = message.content.split("\n");
-        for (let i = 1; i < frases.length; i++) {
-            series.push(frases[i].split(" • ")[2].slice(1, -1));
+        for (const frase of frases) {
+            if (frase.startsWith("> ")) {
+                series.push(frase.split(" • ")[2]);
+            }
         }
-        //742070928111960155
-    } else if (message.author.id === "742070928111960155") {
-        if (
-            (message.content.includes("1]") && message.content.includes(":heart:")) ||
-            message.content.includes("❤️")
-        ) {
-            // ping de drop de Sofi
-            message.channel.send({
-                content: `<@&${"1096410227408121898"}> Sofi está dropeando por actividad!!`,
-            });
-        }
-
+    } else if (message.author.id === noriId) {
         if (
             message.content.includes("**") &&
             message.content.startsWith("`1]`") &&
             message.content.includes("ɢ")
         ) {
-            // drop de char-serie por actividade
+            // drop formato char-serie por actividade
             const lineas = message.content.split("\n");
             for (const linea of lineas) {
                 series.push(linea.split("•")[4].trim());
@@ -83,13 +90,13 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
             message.content.startsWith("`1]`") &&
             !message.content.includes("ɢ")
         ) {
-            // drop de char-serie por actividade sin g
+            // drop formato char-serie por actividade sin g
             const lineas = message.content.split("\n");
             for (const linea of lineas) {
                 series.push(linea.split("•")[3].trim());
             }
         } else if (!message.content.includes("**") && message.content.startsWith("`1]`")) {
-            // drop de serie por actividade
+            // drop formato serie por actividade
             const lineas = message.content.split("\n");
             for (const linea of lineas) {
                 series.push(linea.split("•")[2].trim());
@@ -97,65 +104,57 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
         }
     }
 
-    // Busca los usuarios en la base de datos, procesa, envía los pings y gestiona el botón de interacción.
+    // Busca los usuarios en la base de datos y envía los pings
     if (series.length > 0) {
         const res = await buscarTodoPorSerie(mcli, series);
         const ping = await buscarTodos(mcli);
         const users = [...res];
+        const seriesUsuarios = new Map<string, string[]>();
 
-        // envía pings as persoas cas series na súa lista
-        if (users.length > 0) {
-            const userSeries: any = {};
-            let content = ``;
+        if (users.length <= 0) return;
 
-            for (const s of series) {
-                userSeries[s] = [];
-                for (const u of users) {
-                    const id = u.getDataValue("idUsuario");
+        let content = ``;
 
-                    if (
-                        u.getDataValue("serie").toLowerCase() === s.toLowerCase() &&
-                        ping.find((pre) => pre.getDataValue("idUsuario") === id)
-                    ) {
-                        userSeries[s].push(u.getDataValue("idUsuario"));
-                    }
+        for (const s of series) {
+            let ids: string[] = [];
+            for (const u of users) {
+                const id = u.getDataValue("idUsuario");
+                if (
+                    u.getDataValue("serie").toLowerCase() === s.toLowerCase() &&
+                    ping.find((p) => p.getDataValue("idUsuario") === id)
+                ) {
+                    ids.push(`<@${id}>`);
                 }
             }
+            seriesUsuarios.set(s, ids);
+        }
 
-            for (const serie in userSeries) {
-                if (userSeries[serie].length > 0) {
-                    content += `## ${serie}\n> `;
-                    for (const id of userSeries[serie]) {
-                        content += `<@${id}>, `;
-                    }
-                    content = content.slice(0, -2);
-                    content += `\n`;
-                }
+        for (const su of seriesUsuarios) {
+            if (su[1].length > 0) {
+                content += `**${su[0]}**\n> ${su[1].join(", ")}\n`;
             }
+        }
 
-            if (content.length > 0) {
-                await message.reply({
-                    content: content,
-                });
-            }
+        if (content.length > 0) {
+            await message.reply({
+                content: content,
+            });
         }
     }
 };
 
 const nivelesController = async (mcli: MClient, message: Message): Promise<void> => {
-    const res = await subirNivel(mcli, (<GuildMember>message.member).id, message);
+    const member = <GuildMember>message.member;
 
-    if (res.estado === SubirNivelStatus.NIVEL) {
-        const canal = <GuildBasedChannel>(
-            message.guild?.channels.cache.get(DEV ? NIVELES_ID_DEV : NIVELES_ID_PROD)
-        );
+    const nivel = await incrementarXp(mcli, member.id);
 
-        if (canal.isTextBased()) {
-            canal.send({
-                content: `<@${message.author.id}> ya eres nivel **${res.nivel}**! Enhorabuena!`,
-            });
-        }
-    }
+    if (nivel === -1) return;
+
+    await recompensar(member, nivel);
+
+    await new WebhookClient({ url: DEV ? WH_DEV : WH_NIVELES }).send({
+        content: `> <@${member.id}> ya eres nivel ${nivel}! Enhorabuena!`,
+    });
 
     cooldowns.add(message.author.id);
     setTimeout(() => {

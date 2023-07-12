@@ -21,11 +21,13 @@ export const GestoresDeUsuarios: string[] = [
 
 /**
  * Roles de recompesnas por subir de nivel.
+ *
+ * Map<`nivel`, `["id1", "id2", ... , "idN"]`>
  */
-export const RecompensasNivel: any = {
-    10: ["1118870108694122549"],
-    25: ["745202999965515847"],
-    50: ["745203063513677855"],
-    75: ["830581376817954836"],
-    100: ["830581589682815057"],
-};
+export const RecompensasNivel = new Map<number, string[]>([
+    [10, ["1118870108694122549"]],
+    [25, ["745202999965515847"]],
+    [50, ["745203063513677855"]],
+    [75, ["830581376817954836"]],
+    [100, ["830581589682815057"]],
+]);

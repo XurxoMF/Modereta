@@ -1,21 +1,7 @@
 import { Niveles } from "src/models/Niveles.model";
 import { MClient } from "./MClient";
 import { RecompensasNivel } from "../data/general.data";
-import { GuildMember, Message } from "discord.js";
-
-/**
- * Estados de respuesta de subirNivel()
- *
- * @enum {number}
- */
-export enum SubirNivelStatus {
-    /**Subió de nivel correctamente. */
-    EXITO,
-    /**Ocurrió algún error, a saber donde, desde subirNivel() para dentro el código basura */
-    ERROR,
-    /**El usuario subió de nivel */
-    NIVEL,
-}
+import { GuildMember } from "discord.js";
 
 /**
  * Busca el nivel de un usuario.
@@ -39,7 +25,7 @@ export const getNivel = async (mcli: MClient, idUsuario: string): Promise<number
  * @param {string} idUsuario Usuario del que se buscará la información
  * @return {Promise<Niveles | null>} Registro de la base de datos con los datos o null si no se encuentra el usuario
  */
-export const getRegistro = async (mcli: MClient, idUsuario: string): Promise<Niveles | null> => {
+export const getUnoPorId = async (mcli: MClient, idUsuario: string): Promise<Niveles | null> => {
     const registro = await mcli.db.Niveles.findOne({
         where: { idUsuario: idUsuario },
     });
@@ -48,103 +34,57 @@ export const getRegistro = async (mcli: MClient, idUsuario: string): Promise<Niv
 };
 
 /**
- * No voy ni a comentar este código, es terrible. En serio, como funciona esta basura?
+ * Incrementa la xp de un usuario en un valor aleatorio entre 10 y 20. Si la xp es mayor o igual al máximo de xp del nivel pone xp a 0 e incrementa en 1 el nivel.
  *
  * @param {MClient} mcli
- * @param {string} idUsuario Usuario al que subirle el nivel
- * @param {Message} message Mensaje delq ue sacar al member y demás info
- * @return {Promise<{ estado: SubirNivelStatus; roles: any }>} Mi madre, tremenda aberración
+ * @param {string} idUsuario Usuario al que se le incrementará la xp
+ * @return {Promise<number>} Nuevo nivel del usuario | -1 si no subió de nivel, solo xp
  */
-export const subirNivel = async (
-    mcli: MClient,
-    idUsuario: string,
-    message: Message
-): Promise<{ estado: SubirNivelStatus; roles: any; nivel: number | undefined }> => {
-    let xpPlus = randomXp();
+export const incrementarXp = async (mcli: MClient, idUsuario: string): Promise<number> => {
+    const rxp = randomXp();
 
-    try {
-        const [user, novo] = await mcli.db.Niveles.findOrCreate({
-            where: { idUsuario: idUsuario },
-            defaults: { idUsuario: idUsuario, xp: 0, nivel: 0 },
+    const [usuario, nuevo] = await mcli.db.Niveles.findOrCreate({
+        where: { idUsuario: idUsuario },
+        defaults: { idUsuario: idUsuario, xp: 0, nivel: 0 },
+    });
+
+    const nxp = usuario.getDataValue("xp") + rxp;
+    const nivel = usuario.getDataValue("nivel");
+
+    if (nxp >= xpNecesaria(nivel)) {
+        await usuario.update({
+            xp: 0,
+            nivel: nivel + 1,
         });
 
-        let nuevaXp = (user.xp += xpPlus);
+        return nivel + 1;
+    } else {
+        await usuario.update({
+            xp: nxp,
+        });
 
-        if (nuevaXp >= xpNecesaria(user.nivel)) {
-            const nuevoUser = await user.update({
-                xp: 0,
-                nivel: user.nivel + 1,
-            });
-
-            try {
-                const roles = await asignarRoles(
-                    <GuildMember>message.member,
-                    nuevoUser.nivel,
-                    false
-                );
-
-                return {
-                    estado: SubirNivelStatus.NIVEL,
-                    roles: roles,
-                    nivel: nuevoUser.getDataValue("nivel"),
-                };
-            } catch (err) {
-                return { estado: SubirNivelStatus.ERROR, roles: undefined, nivel: undefined };
-            }
-        } else {
-            await user.update({ xp: nuevaXp });
-            return { estado: SubirNivelStatus.EXITO, roles: undefined, nivel: undefined };
-        }
-    } catch (err) {
-        return { estado: SubirNivelStatus.ERROR, roles: undefined, nivel: undefined };
+        return -1;
     }
 };
 
 /**
- * Añade o quita roles según el nivel.
+ * Comprueba si hay roles de recompensas para el nivel y se los asigna a un miembro.
  *
- * Este código no se cuestiona, es un montón de basura infecta que funciona y devuelve any hasta en la sopa, pero typescript para alguna cosas es un dolor terrible y devolver un tipo variable es lo más coñazo que te puedes encontrar.
- *
- * @param member Usuario al que se añadirán/quitarán los roles
- * @param nivel Nivel al que está el usuario
- * @param forzar Añadir y eliminar o solo añadir de ser necesario
- * @returns
+ * @param {GuildMember} miembro Usuario al que se asignarán los roles
+ * @param {number} nivel Nivel al que ha subido el usuario
+ * @return {Promise<boolean>} true => se añadieron roles || false => no se añadieron roles
  */
-export const asignarRoles = async (member: GuildMember, nivel: number, forzar: boolean) => {
-    if (!forzar) {
-        if (RecompensasNivel[nivel] && RecompensasNivel[nivel].length > 0) {
-            await member.roles.add(RecompensasNivel[nivel]);
-            return { asignados: RecompensasNivel[nivel], quitados: [] };
-        }
-    } else {
-        let add = [],
-            remove = [];
-        const roles = member.roles.cache;
+export const recompensar = async (miembro: GuildMember, nivel: number): Promise<boolean> => {
+    const recompensa: string[] = [];
 
-        for (const key in RecompensasNivel) {
-            const lvl = Number(key);
-            if (lvl <= nivel) {
-                for (const rol of RecompensasNivel[lvl]) {
-                    if (roles.find((v, k) => k === rol) === undefined) {
-                        add.push(rol);
-                    }
-                }
-            } else {
-                for (const rol of RecompensasNivel[lvl]) {
-                    if (roles.find((v, k) => k === rol) !== undefined) {
-                        remove.push(rol);
-                    }
-                }
-            }
-        }
-
-        if (add.length > 0) await member.roles.add(add);
-        if (remove.length > 0) await member.roles.remove(remove);
-
-        return { asignados: add, quitados: remove };
+    for (const tier of RecompensasNivel) {
+        if (tier[0] <= nivel) recompensa.push(...tier[1]);
     }
 
-    return { asignados: [], quitados: [] };
+    if (recompensa === undefined) return false;
+
+    miembro.roles.add(recompensa);
+    return true;
 };
 
 /**
