@@ -34,5 +34,5 @@ export const togle = async (
  * @returns {}
  */
 export const buscarTodos = async (mcli: MClient): Promise<SofiSeriesUsuariosPing[]> => {
-    return await mcli.db.SofiSeriesUsuariosPing.findAll({ where: { ping: true } });
+    return await mcli.db.SofiSeriesUsuariosPing.findAll();
 };

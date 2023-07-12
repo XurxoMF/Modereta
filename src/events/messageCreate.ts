@@ -107,7 +107,7 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
     // Busca los usuarios en la base de datos y envía los pings
     if (series.length > 0) {
         const res = await buscarTodoPorSerie(mcli, series);
-        const ping = await buscarTodos(mcli);
+        const pings = await buscarTodos(mcli);
         const users = [...res];
         const seriesUsuarios = new Map<string, string[]>();
 
@@ -119,11 +119,11 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
             let ids: string[] = [];
             for (const u of users) {
                 const id = u.getDataValue("idUsuario");
-                if (
-                    u.getDataValue("serie").toLowerCase() === s.toLowerCase() &&
-                    ping.find((p) => p.getDataValue("idUsuario") === id)
-                ) {
-                    ids.push(`<@${id}>`);
+                if (u.getDataValue("serie").toLowerCase() === s.toLowerCase()) {
+                    let ping = pings.find((p) => p.getDataValue("idUsuario") === id);
+                    if (ping === undefined || ping.getDataValue("ping")) {
+                        ids.push(`<@${id}>`);
+                    }
                 }
             }
             seriesUsuarios.set(s, ids);
