@@ -63,7 +63,7 @@ export const anadirSerie = async (
     const series = await count(mcli, idUsuario);
 
     if (series >= 150) return AgregarSerieStatus.MAXIMO_SERIES;
-    if (series >= nivel) return AgregarSerieStatus.NIVEL_INSUFICIENTE;
+    if (nivel < 50 && series >= nivel) return AgregarSerieStatus.NIVEL_INSUFICIENTE;
 
     const [registro, creada] = await mcli.db.SofiSeriesUsuarios.findOrCreate({
         where: { idUsuario: idUsuario, serie: serie },
