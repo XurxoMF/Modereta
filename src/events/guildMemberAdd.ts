@@ -2,6 +2,7 @@ import { Events, GuildMember, EmbedBuilder, WebhookClient } from "discord.js";
 import { MClient } from "../helpers/MClient";
 import { Colores } from "../data/general.data";
 import { WH_BIENVENIDAS } from "../config.json";
+import { toggle } from "../helpers/SofiSeriesUsuariosPing.helper";
 
 module.exports = {
     name: Events.GuildMemberAdd,
@@ -22,6 +23,8 @@ module.exports = {
         await new WebhookClient({ url: WH_BIENVENIDAS }).send({
             embeds: [bienvenida],
         });
+
+        await toggle(mcli, id, true);
 
         await member.roles.add(["726143285545926736"]);
     },

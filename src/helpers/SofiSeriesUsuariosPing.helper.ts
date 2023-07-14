@@ -8,7 +8,7 @@ import { MClient } from "./MClient";
  * @param {boolean} estado Activado o desactivado
  * @returns {Promise<boolean>} Como queda después del cambio
  */
-export const togle = async (
+export const toggle = async (
     mcli: MClient,
     idUsuario: string,
     estado: boolean

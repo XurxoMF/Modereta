@@ -17,7 +17,7 @@ import {
     listaSeries,
 } from "../../helpers/SofiSeriesUsuarios.helper";
 import { Colores } from "../../data/general.data";
-import { togle } from "../../helpers/SofiSeriesUsuariosPing.helper";
+import { toggle } from "../../helpers/SofiSeriesUsuariosPing.helper";
 
 const exp: ComandoChatInput = {
     tipo: TipoComandos.ChatInput,
@@ -273,7 +273,7 @@ const seriesPingController = async (
 ): Promise<void> => {
     const activo = interaction.options.getBoolean("activos", true);
 
-    const estado = await togle(mcli, interaction.user.id, activo);
+    const estado = await toggle(mcli, interaction.user.id, activo);
 
     interaction.reply({
         content: `> <@${
