@@ -148,6 +148,11 @@ const nivelesController = async (mcli: MClient, message: Message): Promise<void>
 
     const nivel = await incrementarXp(mcli, member.id);
 
+    cooldowns.add(message.author.id);
+    setTimeout(() => {
+        cooldowns.delete(message.author.id);
+    }, 30_000);
+
     if (nivel === -1) return;
 
     await recompensar(member, nivel);
@@ -155,9 +160,4 @@ const nivelesController = async (mcli: MClient, message: Message): Promise<void>
     await new WebhookClient({ url: DEV ? WH_DEV : WH_NIVELES }).send({
         content: `> <@${member.id}> ya eres nivel ${nivel}! Enhorabuena!`,
     });
-
-    cooldowns.add(message.author.id);
-    setTimeout(() => {
-        cooldowns.delete(message.author.id);
-    }, 30_000);
 };
