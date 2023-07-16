@@ -20,11 +20,7 @@ Otros ejemplos son **caracruz**...
 
 ### Ayudante de Sofi 🍑
 
-Este bot tiene varias funcionalidades de ayuda para Sofi bot como pueden ser una **lista de series deseadas**, **pog drops** al reaccionar con ⭐️ y alguna cosilla más.
-
-### Ayudante de Karuta 💗
-
-Al igual que con Sofi también cuenta con algunas ayudas para Karuta bot como lo pueden ser **recordatorio de drop en el canal** y **por drops** al reaccionar con ⭐️.
+Este bot tiene varias funcionalidades de ayuda para Sofi bot como pueden ser una **lista de series deseadas** y alguna cosilla más.
 
 ### INFORMACIÓN IMPORTANTE SOBRE EL USO DE ESTE CÓDIGO
 
