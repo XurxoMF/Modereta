@@ -109,20 +109,20 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
         const res = await buscarTodoPorSerie(mcli, series);
         const pings = await buscarTodos(mcli);
         const users = [...res];
-        const seriesUsuarios = new Map<string, string[]>();
+        const seriesUsuarios = new Map<string, Set<string>>();
 
         if (users.length <= 0) return;
 
         let content = ``;
 
         for (const s of series) {
-            let ids: string[] = [];
+            let ids: Set<string> = new Set();
             for (const u of users) {
                 const id = u.getDataValue("idUsuario");
                 if (u.getDataValue("serie").toLowerCase() === s.toLowerCase()) {
                     let ping = pings.find((p) => p.getDataValue("idUsuario") === id);
                     if (ping === undefined || ping.getDataValue("ping")) {
-                        ids.push(`<@${id}>`);
+                        ids.add(`<@${id}>`);
                     }
                 }
             }
@@ -130,8 +130,8 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
         }
 
         for (const su of seriesUsuarios) {
-            if (su[1].length > 0) {
-                content += `**${su[0]}**\n> ${su[1].join(", ")}\n`;
+            if (su[1].size > 0) {
+                content += `**${su[0]}**\n> ${[...su[1]].join(`, `)}\n`;
             }
         }
 
