@@ -8,9 +8,9 @@ const exp: ComandoChatInput = {
     tipo: TipoComandos.ChatInput,
     data: new SlashCommandBuilder()
         .setName("nivel")
-        .setDescription("Muestra tu nivel, xp y roles obtenidos hasta el momento.")
+        .setDescription("Muestra el nivel, xp y roles obtenidos tuyos o del usuario que menciones.")
         .addUserOption((o) =>
-            o.setName("usuario").setDescription("Usuario del que quieres ver el nivel.")
+            o.setName("usuario").setDescription("Usuario del que quieres ver la información.")
         ),
     async execute(mcli: MClient, interaction: ChatInputCommandInteraction) {
         const usuario =

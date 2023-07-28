@@ -1,34 +1,404 @@
-# Modereta
+<p align="center">
+  <img src="https://i.postimg.cc/nhMxnSXj/banner-github.png" width="500"> 
+</p>
 
-Modereta es el bot **privado** de Discord para la comunidad **Astro Vaporwave**.
+# <p align="center">Modereta Vaporwave</p>
 
-Esta cuenta con varias funcionalidades listadas a continuación:
+<p align="center">
+  <strong>Modereta Vaporwave</strong> es el bot <strong>privado</strong> de la comunidad de Discord <strong>Astro Vaporwave</strong>.
+</p>
+<p align="center">
+  <strong>A continuación podrás encontrár una guía de las funcionalidades que tiene el bot y como se usan así como información importante relacionada con este.</strong>.
+</p>
 
-### Sistema de Niveles 🆙
+<br>
 
-Gracias a este los usuarios podrán acumular experiencia al hablar, jugar con bots, enviar mensajes...
-También se pueden establecer **roles como recompensa** por subir de nivel.
+## <p align="center">GUÍA</p>
 
-### Moderación ⚒️
+### Niveles 🆙
 
-Otra de las funciones más interesantes del bot es un sistema de moderación que cuenta con comandos para **mutear, banear, expulsar miembros...**
+Una de las funcionalidades más importantes del bot es el sistema de niveles. Gracias a esta podréis ganar experiencia jugando con bots, hablando, y realizando varias actividades en el servidor, para de esta forma, subir de nivel y ganar recompensas.
 
-### Diversión 🎊
+<details>
+<summary>Comandos</summary>
+  
+-   ### `/nivel`
 
-También cuenta con comandos para pasarlo bien. Algunos de estos son comandos **reacciones** y **acciones**, con los que puedes enviar gifs personalizados.
-Otros ejemplos son **caracruz**...
+    Muestra el nivel, xp y roles obtenidos tuyos o del usuario que menciones.
 
-### Ayudante de Sofi 🍑
+    | Parámetro  | Tipo    | Obligatorio? | Descripción                                |
+    | ---------- | ------- | :----------: | ------------------------------------------ |
+    | `usuario`  | Mención | No           | Usuario del que quieres ver la información |
 
-Este bot tiene varias funcionalidades de ayuda para Sofi bot como pueden ser una **lista de series deseadas** y alguna cosilla más.
+</details>
 
-### INFORMACIÓN IMPORTANTE SOBRE EL USO DE ESTE CÓDIGO
+---
+
+### Lista de series de Sofi 📋
+
+La segunda funcionalidad más importante del bot es la de las series coleccionadas por cada usuario en Sofi bot. Con esta podrás añadir las serues que coleccionas a una lista para que cuando alguna carta de esas serie sea dropeada en Sofi, Modereta de mencionará para que puedas reclamarla. Si no te da tiempo no te preocupes, Modereta mostrará cual es la serie que coleccionas para que otra persona pueda reclamarla por ti.
+
+<details>
+<summary>Comandos</summary>
+  
+-   ### `/sofi series añadir`
+
+    Añade una serie a tu lista de series coleccionadas.
+
+    | Parámetro | Tipo  | Obligatorio? | Descripción                         |
+    | --------- | ----- | :----------: | ----------------------------------- |
+    | `serie`   | Texto | Si           | Serie que quieres añadir a tu lista |
+
+    > El nombre de la serie tienes que escribirlo exactamente igual al que aparece en `scl <serie>`, si no no funcionará.
+    >
+    > <img src="https://i.postimg.cc/X79CdyCx/ejemplo-nombre-serie.png" width="400">
+
+<br>
+
+-   ### `/sofi series eliminar`
+
+    Elimina una serie de tu lista de series coleccionadas.
+
+    | Parámetro | Tipo  | Obligatorio? | Descripción                            |
+    | --------- | ----- | :----------: | -------------------------------------- |
+    | `serie`   | Texto |      Si      | Serie que quieres eliminar de tu lista |
+
+    > El nombre de la serie tienes que escribirlo exactamente igual al que aparce en tu lista de series si no no funcionará. Puedes usar el comando `/sofi series lista` para ver como la tienes agregada.
+
+<br>
+  
+-   ### `/sofi series lista`
+
+    Muestra tu listra de series coleccionadas o la de otro usuario.
+
+    | Parámetro | Tipo  | Obligatorio? | Descripción                                                  |
+    | --------- | ----- | :----------: | ------------------------------------------------------------ |
+    | `usuario` | Texto | No           | Usuario del que quieres ver la lista de series coleccionadas |
+
+<br>
+  
+-   ### `/sofi series ping`
+
+    Activa o desactiva los pings cuando se dropee una serie que coleccionas.
+
+    | Parámetro | Tipo  | Obligatorio? | Descripción                                            |
+    | --------- | ----- | :----------: | ------------------------------------------------------ |
+    | `activo`  | V o F | Si           | True si quieres que te haga ping o False si no quieres |
+
+    > Los usuarios podrán seguir viendo las series que coleccionas con el comando `/sofi series lista` pero Modereta no te notificará cuando se dropeen cartas de tus series coleccionadas.
+
+</details>
+
+---
+
+### Ping de drops por actividad de Sofi 🔔
+
+Cuando Sofi hada un drop por actividad, como son el Drop de Series, Captcha Drop y Minigame, Modereta hará ping al rol `@📌 Sofi Pings` que puedes asignarte en `Canales y roles` en la parte superior de la lista de canales del servidor.
+
+---
+
+### Acciones 🫂
+
+Envía un GIF anime realizando ciertas acciones al usuario que menciones.
+
+<details>
+<summary>Comandos</summary>
+  
+-   ### `/acciones abrazo`
+
+    Le das un abrazo a la persona que menciones.
+
+    | Parámetro  | Tipo    | Obligatorio? | Descripción                       |
+    | ---------- | ------- | :----------: | --------------------------------- |
+    | `usuario`  | Mención | Si           | Usuario al que realizar la acción |
+
+<br>
+
+-   ### `/acciones asesinar`
+
+    Asesinas a la persona que menciones.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                       |
+    | --------- | ------- | :----------: | --------------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que realizar la acción |
+
+<br>
+
+-   ### `/acciones besito`
+
+    Le das un besito en la frente o la mejilla a la persona que menciones.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                       |
+    | --------- | ------- | :----------: | --------------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que realizar la acción |
+
+<br>
+
+-   ### `/acciones beso`
+
+    Le das un beso a la persona que menciones.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                       |
+    | --------- | ------- | :----------: | --------------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que realizar la acción |
+
+<br>
+
+-   ### `/acciones chocarcinco`
+
+    Le chocas los cinco a la persona que mencionas.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                       |
+    | --------- | ------- | :----------: | --------------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que realizar la acción |
+
+<br>
+
+-   ### `/acciones cosquillas`
+
+    Le haces cosquillas la persona que menciones.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                       |
+    | --------- | ------- | :----------: | --------------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que realizar la acción |
+
+<br>
+
+-   ### `/acciones lamer`
+
+    Le pegas un lametón a la persona que menciones.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                       |
+    | --------- | ------- | :----------: | --------------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que realizar la acción |
+
+<br>
+
+-   ### `/acciones morder`
+
+    Le pegas un mordisco a la persona que menciones.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                       |
+    | --------- | ------- | :----------: | --------------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que realizar la acción |
+
+<br>
+
+-   ### `/acciones observar`
+
+    Miras fijamente a la persona que mencionas.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                       |
+    | --------- | ------- | :----------: | --------------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que realizar la acción |
+
+<br>
+
+-   ### `/acciones omedetou`
+
+    Omedetou Shinji 👏👏
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                       |
+    | --------- | ------- | :----------: | --------------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que realizar la acción |
+
+<br>
+
+-   ### `/acciones pat`
+
+    Le haces pat pat a la persona que menciones.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                       |
+    | --------- | ------- | :----------: | --------------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que realizar la acción |
+
+<br>
+
+-   ### `/acciones poke`
+
+    Pinchas con el dedo a la persona que mencionas.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                       |
+    | --------- | ------- | :----------: | --------------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que realizar la acción |
+
+<br>
+
+-   ### `/acciones puñetazo`
+
+    Le pegas un puñetazo a la persona que menciones.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                       |
+    | --------- | ------- | :----------: | --------------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que realizar la acción |
+
+</details>
+
+---
+
+### Reacciones 👤
+
+Envia un GIF anime para reccionar a lo que quieras.
+
+<details>
+<summary>Comandos</summary>
+  
+-   ### `/reacciones ehe`
+
+    Ehe te nandayo?!
+
+<br>
+
+-   ### `/reacciones enamorado`
+
+    What is love? Oh baby, don't hurt me.
+
+<br>
+
+-   ### `/reacciones enfado`
+
+    Me enfado y no respiro!
+
+<br>
+
+-   ### `/reacciones llanto`
+
+    Acuéstate => Intenta no llorar => Llora mucho
+
+<br>
+
+-   ### `/reacciones nose`
+
+    No lo sé, tú dime -\_-
+
+<br>
+
+-   ### `/reacciones okey`
+
+    Okey 🐢👍
+
+<br>
+
+-   ### `/reacciones risa`
+
+    kekw
+
+<br>
+
+-   ### `/reacciones sonrisa`
+
+    Smile Sweet Sister Sadistic Surprise Service
+
+<br>
+
+-   ### `/reacciones sonrojarse`
+
+    😳
+
+<br>
+
+-   ### `/reacciones sueño`
+
+    I sleep.... real shi\*!
+
+</details>
+
+---
+
+### Usuarios y Moderación ⚒️
+
+Muestra información sobre un usuario o realiza acciones de modereacción sobre ellos.
+
+La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `🛡️ Moderador/a` pero algunos los podéis usar todos.
+
+<details>
+<summary>Comandos</summary>
+  
+-   ### `/usuario info`
+
+    Muestra la información más importante sobre un usuario como, fecha de unión al servidor, fecha de creación de cuenta, nivel, muteos, advertencias, notas...
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                                |
+    | --------- | ------- | :----------: | ------------------------------------------ |
+    | `usuario` | Mención | Si           | Usuario del que se mostrará la información |
+
+    > Exclusivo `@⚒️ Administrador/a` y `🛡️ Moderador/a`.
+
+<br>
+
+-   ### `Usuario > Aplicaciones > Info`
+
+    Muestra la información más importante sobre un usuario como, fecha de unión al servidor, fecha de creación de cuenta, nivel, muteos, advertencias, notas(`@⚒️ Administrador/a` y `🛡️ Moderador/a`)...
+
+<br>
+
+-   ### `/usuario advertencias añadir`
+
+    Añade una advertencia a un usuario. Se notificará al usuario en `#⛔・sanciones`.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción              |
+    | --------- | ------- | :----------: | ------------------------ |
+    | `usuario` | Mención |      Si      | Usuario del que advertir |
+    | `razón`   | Texto   |      Si      | Motivo de la advertencia |
+
+    > Exclusivo `@⚒️ Administrador/a` y `🛡️ Moderador/a`.
+
+<br>
+
+-   ### `/usuario advertencias eliminar`
+
+    Elimina una advertencia de un usuario.
+
+    | Parámetro | Tipo   | Obligatorio? | Descripción                     |
+    | --------- | ------ | :----------: | ------------------------------- |
+    | `id`      | Número |      Si      | ID de la advertencia a eliminar |
+
+    > Exclusivo `@⚒️ Administrador/a` y `🛡️ Moderador/a`.
+
+    > El ID de la advertencia se puede ver con el comando `/usuario info` o `Usuario > Aplicaciones > Info`
+
+<br>
+
+-   ### `/usuario notas añadir`
+
+    Añade una nota a un usuario.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción                   |
+    | --------- | ------- | :----------: | ----------------------------- |
+    | `usuario` | Mención |      Si      | Usuario al que añadir la nota |
+    | `nota`    | Texto   |      Si      | Nota para dejarle al usuario  |
+
+    > Exclusivo `@⚒️ Administrador/a` y `🛡️ Moderador/a`.
+
+    > Solo `@⚒️ Administrador/a` y `🛡️ Moderador/a` podrán ver las notas con .
+
+<br>
+
+-   ### `/usuario notas eliminar`
+
+    Elimina una nota de un usuario.
+
+    | Parámetro | Tipo   | Obligatorio? | Descripción              |
+    | --------- | ------ | :----------: | ------------------------ |
+    | `id`      | Número |      Si      | ID de la nota a eliminar |
+
+    > Exclusivo `@⚒️ Administrador/a` y `🛡️ Moderador/a`.
+
+<br>
+
+</details>
+
+<br>
+
+## <p align="center">SOPORTE</p>
+
+-   Si necesitas ayuda con algo relacionado con el bot puedes unirte al [servidor de soporte](https://discord.gg/ZvB55s4) y preguntar en el canal de [ayuda](https://discord.com/channels/726133117722820671/1101792146610196480).
+-   Agreadecería que si encuentras algún bug o error lo notificáseis ya que así podré solucionarlo cuanto antes ^^
+
+<br>
+
+## <p align="center">INFORMACIÓN IMPORTANTE SOBRE EL USO DE ESTE CÓDIGO</p>
 
 -   Puedes descargar y usar el código de este bot para lo que desees
 -   También puedes usar trozos del código si lo deseas ^^
 -   Si usas cualquier parte del código agradecería que añadieras mi cuenta de github, https://github.com/XurxoMF, como créditos o bien en un comentario en el código si solo se usó una parte o bien en la descripción del bot si se usa el código completo.
-
-### SOPORTE
-
--   Si necesitas ayuda con algo relacionado con el bot puedes usirte al [servidor de soporte](https://discord.gg/ZvB55s4) y preguntar en el canal de [ayuda](https://discord.com/channels/726133117722820671/1101792146610196480).
--   Agreadecería que si encontráis un bug o error me lo notificáseis ya que así podré solucionarlo en un furuto ^^

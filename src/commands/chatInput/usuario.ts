@@ -39,7 +39,7 @@ const exp: ComandoChatInput = {
                         .addStringOption((o) =>
                             o
                                 .setName("razón")
-                                .setDescription("Razón de la advertencia.")
+                                .setDescription("Motivo de la advertencia.")
                                 .setRequired(true)
                         )
                 )

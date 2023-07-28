@@ -49,7 +49,7 @@ export const anadirAdvertencia = async (
         .setTimestamp(Date.now())
         .setColor(Colores.ADVERTENCIAS);
 
-    await wh.send({ embeds: [embed] });
+    await wh.send({ content: `<@${idUsuario}>`, embeds: [embed] });
 
     return advertencia;
 };

@@ -74,7 +74,7 @@ const exp: ComandoChatInput = {
                     s
                         .setName("ping")
                         .setDescription(
-                            "Activa o desactiva los pings cuando salga una serie que coleccionas."
+                            "Activa o desactiva los pings cuando se dropee una serie que coleccionas."
                         )
                         .addBooleanOption((o) =>
                             o

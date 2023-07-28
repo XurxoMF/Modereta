@@ -3,7 +3,7 @@ import { Reaccion } from "../../types";
 const Reacciones: Reaccion[] = [
     {
         nombre: "abrazo",
-        desc: "Le das un abrazo a la persona a la que menciones.",
+        desc: "Le das un abrazo a la persona que menciones.",
         frase: "{{de}} le ha dado un abrazo a {{para}} >_<",
         gifs: [
             "https://i.postimg.cc/PrpPmNBm/1.gif",
@@ -18,7 +18,7 @@ const Reacciones: Reaccion[] = [
     },
     {
         nombre: "asesinar",
-        desc: "Asesinas a la persona a la que menciones.",
+        desc: "Asesinas a la persona que menciones.",
         frase: "{{de}} ha asesinado a {{para}} X_X",
         gifs: [
             "https://i.postimg.cc/FFbcnTpT/1.gif",
@@ -32,7 +32,7 @@ const Reacciones: Reaccion[] = [
     },
     {
         nombre: "besito",
-        desc: "Le das un besito en la frente o la mejilla a la persona a la que menciones.",
+        desc: "Le das un besito en la frente o la mejilla a la persona que menciones.",
         frase: "{{de}} le ha dado un besito a {{para}} UwU",
         gifs: [
             "https://i.postimg.cc/RVZf7WPR/1.gif",
@@ -45,7 +45,7 @@ const Reacciones: Reaccion[] = [
     },
     {
         nombre: "beso",
-        desc: "Le das un beso a la persona a la que menciones.",
+        desc: "Le das un beso a la persona que menciones.",
         frase: "{{de}} le ha dado un beso a {{para}} <3",
         gifs: [
             "https://i.postimg.cc/Vsp0djdq/1.gif",
@@ -59,7 +59,7 @@ const Reacciones: Reaccion[] = [
     },
     {
         nombre: "chocarcinco",
-        desc: "Le chocas los cinco a la persona a la que mencionas.",
+        desc: "Le chocas los cinco a la persona que mencionas.",
         frase: "{{de}} le ha chocado los cinco a {{para}}!",
         gifs: [
             "https://i.postimg.cc/d3YXB5Bb/1.gif",
@@ -74,7 +74,7 @@ const Reacciones: Reaccion[] = [
     },
     {
         nombre: "cosquillas",
-        desc: "Le haces cosquillas la persona a la que menciones.",
+        desc: "Le haces cosquillas la persona que menciones.",
         frase: "{{de}} le está haciendo cosquillas a {{para}}!",
         gifs: [
             "https://i.postimg.cc/RhhtjBXK/2.gif",
@@ -87,7 +87,7 @@ const Reacciones: Reaccion[] = [
     },
     {
         nombre: "lamer",
-        desc: "Le pegas un lametón a la persona a la que menciones.",
+        desc: "Le pegas un lametón a la persona que menciones.",
         frase: "{{de}} ha lamido a {{para}} >_<",
         gifs: [
             "https://i.postimg.cc/1t26hdTd/1.gif",
@@ -115,7 +115,7 @@ const Reacciones: Reaccion[] = [
     },
     {
         nombre: "observar",
-        desc: "Miras fijamente a la persona a la que mencionas.",
+        desc: "Miras fijamente a la persona que mencionas.",
         frase: "{{de}} está viendo fijamente a {{para}}",
         gifs: [
             "https://i.postimg.cc/6Qwxz5pj/1.gif",
@@ -133,7 +133,7 @@ const Reacciones: Reaccion[] = [
     },
     {
         nombre: "pat",
-        desc: "Le hacer pat pat a la persona a la que menciones.",
+        desc: "Le haces pat pat a la persona que menciones.",
         frase: "{{de}} le hizo pat pat a {{para}}",
         gifs: [
             "https://i.postimg.cc/9fxFsqSg/1.gif",
@@ -148,7 +148,7 @@ const Reacciones: Reaccion[] = [
     },
     {
         nombre: "poke",
-        desc: "Pinchas con el dedo a la persona a la que mencionas.",
+        desc: "Pinchas con el dedo a la persona que mencionas.",
         frase: "{{de}} ha pinchado a {{para}}!",
         gifs: [
             "https://i.postimg.cc/Nf73Fv4R/1.gif",
@@ -162,7 +162,7 @@ const Reacciones: Reaccion[] = [
     },
     {
         nombre: "puñetazo",
-        desc: "Le pegas un puñetazo al usuario que menciones.",
+        desc: "Le pegas un puñetazo a la persona que menciones.",
         frase: "{{de}} ha pegado un puñetazo a {{para}}! 😵‍💫 ",
         gifs: [
             "https://i.postimg.cc/QdSVpPXT/1.gif",
