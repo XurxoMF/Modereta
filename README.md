@@ -22,7 +22,7 @@ Una de las funcionalidades más importantes del bot es el sistema de niveles. Gr
 <details open>
 <summary>Comandos</summary>
   
--   ### `/nivel`
+-   #### `/nivel`
 
     Muestra el nivel, xp y roles obtenidos tuyos o del usuario que menciones.
 
@@ -41,7 +41,7 @@ La segunda funcionalidad más importante del bot es la de las series coleccionad
 <details open>
 <summary>Comandos</summary>
   
--   ### `/sofi series añadir`
+-   #### `/sofi series añadir`
 
     Añade una serie a tu lista de series coleccionadas.
 
@@ -55,7 +55,7 @@ La segunda funcionalidad más importante del bot es la de las series coleccionad
 
 <br>
 
--   ### `/sofi series eliminar`
+-   #### `/sofi series eliminar`
 
     Elimina una serie de tu lista de series coleccionadas.
 
@@ -67,7 +67,7 @@ La segunda funcionalidad más importante del bot es la de las series coleccionad
 
 <br>
   
--   ### `/sofi series lista`
+-   #### `/sofi series lista`
 
     Muestra tu listra de series coleccionadas o la de otro usuario.
 
@@ -77,7 +77,7 @@ La segunda funcionalidad más importante del bot es la de las series coleccionad
 
 <br>
   
--   ### `/sofi series ping`
+-   #### `/sofi series ping`
 
     Activa o desactiva los pings cuando se dropee una serie que coleccionas.
 
@@ -104,7 +104,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 <details open>
 <summary>Comandos</summary>
   
--   ### `/acciones abrazo`
+-   #### `/acciones abrazo`
 
     Le das un abrazo a la persona que menciones.
 
@@ -114,7 +114,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 <br>
 
--   ### `/acciones asesinar`
+-   #### `/acciones asesinar`
 
     Asesinas a la persona que menciones.
 
@@ -124,7 +124,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 <br>
 
--   ### `/acciones besito`
+-   #### `/acciones besito`
 
     Le das un besito en la frente o la mejilla a la persona que menciones.
 
@@ -134,7 +134,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 <br>
 
--   ### `/acciones beso`
+-   #### `/acciones beso`
 
     Le das un beso a la persona que menciones.
 
@@ -144,7 +144,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 <br>
 
--   ### `/acciones chocarcinco`
+-   #### `/acciones chocarcinco`
 
     Le chocas los cinco a la persona que mencionas.
 
@@ -154,7 +154,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 <br>
 
--   ### `/acciones cosquillas`
+-   #### `/acciones cosquillas`
 
     Le haces cosquillas la persona que menciones.
 
@@ -164,7 +164,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 <br>
 
--   ### `/acciones lamer`
+-   #### `/acciones lamer`
 
     Le pegas un lametón a la persona que menciones.
 
@@ -174,7 +174,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 <br>
 
--   ### `/acciones morder`
+-   #### `/acciones morder`
 
     Le pegas un mordisco a la persona que menciones.
 
@@ -184,7 +184,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 <br>
 
--   ### `/acciones observar`
+-   #### `/acciones observar`
 
     Miras fijamente a la persona que mencionas.
 
@@ -194,7 +194,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 <br>
 
--   ### `/acciones omedetou`
+-   #### `/acciones omedetou`
 
     Omedetou Shinji 👏👏
 
@@ -204,7 +204,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 <br>
 
--   ### `/acciones pat`
+-   #### `/acciones pat`
 
     Le haces pat pat a la persona que menciones.
 
@@ -214,7 +214,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 <br>
 
--   ### `/acciones poke`
+-   #### `/acciones poke`
 
     Pinchas con el dedo a la persona que mencionas.
 
@@ -224,7 +224,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 <br>
 
--   ### `/acciones puñetazo`
+-   #### `/acciones puñetazo`
 
     Le pegas un puñetazo a la persona que menciones.
 
@@ -243,61 +243,61 @@ Envia un GIF anime para reccionar a lo que quieras.
 <details open>
 <summary>Comandos</summary>
   
--   ### `/reacciones ehe`
+-   #### `/reacciones ehe`
 
     Ehe te nandayo?!
 
 <br>
 
--   ### `/reacciones enamorado`
+-   #### `/reacciones enamorado`
 
     What is love? Oh baby, don't hurt me.
 
 <br>
 
--   ### `/reacciones enfado`
+-   #### `/reacciones enfado`
 
     Me enfado y no respiro!
 
 <br>
 
--   ### `/reacciones llanto`
+-   #### `/reacciones llanto`
 
     Acuéstate => Intenta no llorar => Llora mucho
 
 <br>
 
--   ### `/reacciones nose`
+-   #### `/reacciones nose`
 
     No lo sé, tú dime -\_-
 
 <br>
 
--   ### `/reacciones okey`
+-   #### `/reacciones okey`
 
     Okey 🐢👍
 
 <br>
 
--   ### `/reacciones risa`
+-   #### `/reacciones risa`
 
     kekw
 
 <br>
 
--   ### `/reacciones sonrisa`
+-   #### `/reacciones sonrisa`
 
     Smile Sweet Sister Sadistic Surprise Service
 
 <br>
 
--   ### `/reacciones sonrojarse`
+-   #### `/reacciones sonrojarse`
 
     😳
 
 <br>
 
--   ### `/reacciones sueño`
+-   #### `/reacciones sueño`
 
     I sleep.... real shi\*!
 
@@ -314,7 +314,7 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 <details open>
 <summary>Comandos</summary>
   
--   ### `/usuario info`
+-   #### `/usuario info`
 
     Muestra la información más importante sobre un usuario como, fecha de unión al servidor, fecha de creación de cuenta, nivel, muteos, advertencias, notas...
 
@@ -326,13 +326,13 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 
 <br>
 
--   ### `Usuario > Aplicaciones > Info`
+-   #### `Usuario > Aplicaciones > Info`
 
     Muestra la información más importante sobre un usuario como, fecha de unión al servidor, fecha de creación de cuenta, nivel, muteos, advertencias, notas(`@⚒️ Administrador/a` y `🛡️ Moderador/a`)...
 
 <br>
 
--   ### `/usuario advertencias añadir`
+-   #### `/usuario advertencias añadir`
 
     Añade una advertencia a un usuario. Se notificará al usuario en `#⛔・sanciones`.
 
@@ -345,7 +345,7 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 
 <br>
 
--   ### `/usuario advertencias eliminar`
+-   #### `/usuario advertencias eliminar`
 
     Elimina una advertencia de un usuario.
 
@@ -359,7 +359,7 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 
 <br>
 
--   ### `/usuario notas añadir`
+-   #### `/usuario notas añadir`
 
     Añade una nota a un usuario.
 
@@ -374,7 +374,7 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 
 <br>
 
--   ### `/usuario notas eliminar`
+-   #### `/usuario notas eliminar`
 
     Elimina una nota de un usuario.
 
