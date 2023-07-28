@@ -78,7 +78,7 @@ const exp: ComandoChatInput = {
                         )
                         .addBooleanOption((o) =>
                             o
-                                .setName("activos")
+                                .setName("activo")
                                 .setDescription(
                                     "true si quieres que te haga ping o false si no quieres."
                                 )
@@ -271,7 +271,7 @@ const seriesPingController = async (
     mcli: MClient,
     interaction: ChatInputCommandInteraction
 ): Promise<void> => {
-    const activo = interaction.options.getBoolean("activos", true);
+    const activo = interaction.options.getBoolean("activo", true);
 
     const estado = await toggle(mcli, interaction.user.id, activo);
 
