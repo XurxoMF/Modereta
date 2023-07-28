@@ -93,7 +93,7 @@ La segunda funcionalidad más importante del bot es la de las series coleccionad
 
 ### Ping de drops por actividad de Sofi 🔔
 
-Cuando Sofi hada un drop por actividad, como son el Drop de Series, Captcha Drop y Minigame, Modereta hará ping al rol `@📌 Sofi Pings` que puedes asignarte en `Canales y roles` en la parte superior de la lista de canales del servidor.
+Cuando Sofi haga un drop por actividad, como son el Drop de Series, Captcha Drop y Minigame, Modereta hará ping al rol `@📌 Sofi Pings` que puedes asignarte en `Canales y roles` en la parte superior de la lista de canales del servidor.
 
 ---
 
