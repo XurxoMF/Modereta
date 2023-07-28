@@ -5,7 +5,8 @@
     "main": "src/index.ts",
     "scripts": {
         "start": "ts-node src/index.ts",
-        "deploy": "ts-node src/deploy-commands.ts"
+        "deploy": "ts-node src/deploy-commands.ts",
+        "undeploy": "ts-node src/undeploy-command.ts"
     },
     "repository": {
         "type": "git",
