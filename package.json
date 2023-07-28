@@ -6,7 +6,7 @@
     "scripts": {
         "start": "ts-node src/index.ts",
         "deploy": "ts-node src/deploy-commands.ts",
-        "undeploy": "ts-node src/undeploy-command.ts"
+        "undeploy": "ts-node src/undeploy-commands.ts"
     },
     "repository": {
         "type": "git",
