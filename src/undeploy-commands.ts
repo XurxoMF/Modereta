@@ -12,7 +12,7 @@ const rest = new REST().setToken(DEV ? TOKEN_DEV : TOKEN_PROD);
                 body: [],
             }
         );
-        console.log(`🟢 Eliminados con éxito **todos** los comandos de aplicación (/)`);
+        console.log(`🟢 Eliminados con éxito TODOS los comandos de aplicación (/)`);
     } catch (error) {
         console.error(error);
         console.log(`🔴 Ha ocurrido algún error durante el proceso de eliminación de comandos!`);
