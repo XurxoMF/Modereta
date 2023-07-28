@@ -8,6 +8,7 @@ export const COOLDOWN_BASE: number = 3;
  */
 export enum Colores {
     EMBED_BASE = "#ff00ff",
+    ADVERTENCIAS = "#ffbb44",
 }
 
 /**

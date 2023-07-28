@@ -1,4 +1,4 @@
-import { Niveles } from "src/models/Niveles.model";
+import { Niveles } from "../models/Niveles.model";
 import { MClient } from "./MClient";
 import { RecompensasNivel } from "../data/general.data";
 import { GuildMember } from "discord.js";
