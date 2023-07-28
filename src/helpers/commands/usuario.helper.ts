@@ -67,7 +67,6 @@ export const usuarioInfoController = async (
                 name: `ROLES`,
                 value: `${roles.join(", ")}`,
             },
-            { name: "\u200B", value: "\u200B" },
         ]);
 
     if (admin) {
