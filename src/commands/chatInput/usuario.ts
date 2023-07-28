@@ -4,6 +4,7 @@ import { TipoComandos, ComandoChatInput } from "../../types";
 import { usuarioInfoController } from "../../helpers/commands/usuario.helper";
 import { GestoresDeUsuarios } from "../../data/general.data";
 import { anadirAdvertencia, eliminarAdvertencia } from "../../helpers/Advertencias.helper";
+import { anadirNota, eliminarNota } from "../../helpers/Notas.helper";
 
 const exp: ComandoChatInput = {
     tipo: TipoComandos.ChatInput,
@@ -55,6 +56,45 @@ const exp: ComandoChatInput = {
                                 .setRequired(true)
                         )
                 )
+        )
+        .addSubcommandGroup((sg) =>
+            sg
+                .setName("notas")
+                .setDescription(
+                    "Gestiona las notas de un usuario. Solo admins y mods podrán verlas!"
+                )
+                .addSubcommand((s) =>
+                    s
+                        .setName("añadir")
+                        .setDescription(
+                            "Añade una nota a un usuario. Solo admins y mods podrán verlas!"
+                        )
+                        .addUserOption((o) =>
+                            o
+                                .setName("usuario")
+                                .setDescription("Usuario al que añadir la nota.")
+                                .setRequired(true)
+                        )
+                        .addStringOption((o) =>
+                            o
+                                .setName("nota")
+                                .setDescription("Nota para dejarle al usuario.")
+                                .setRequired(true)
+                        )
+                )
+                .addSubcommand((s) =>
+                    s
+                        .setName("eliminar")
+                        .setDescription("Elimina una nota a un usuario.")
+                        .addNumberOption((o) =>
+                            o
+                                .setName("id")
+                                .setDescription(
+                                    "ID de la nota a eliminar. Usa /usuario info para ver el id."
+                                )
+                                .setRequired(true)
+                        )
+                )
         ),
     async execute(mcli: MClient, interaction: ChatInputCommandInteraction) {
         // Si no tiene el rol Admin/Mod/Propietario cancelamos.
@@ -75,7 +115,7 @@ const exp: ComandoChatInput = {
         if (subcommandGroup === null) {
             switch (subcommand) {
                 case "info":
-                    usuarioInfoController(mcli, interaction);
+                    usuarioInfoController(mcli, interaction, true);
                     break;
 
                 default:
@@ -90,6 +130,20 @@ const exp: ComandoChatInput = {
                             break;
                         case "eliminar":
                             usuarioAdvertenciasEliminarController(mcli, interaction);
+                            break;
+
+                        default:
+                            break;
+                    }
+                    break;
+
+                case "notas":
+                    switch (subcommand) {
+                        case "añadir":
+                            usuarioNotasAnadirController(mcli, interaction);
+                            break;
+                        case "eliminar":
+                            usuarioNotasEliminarController(mcli, interaction);
                             break;
 
                         default:
@@ -149,7 +203,52 @@ const usuarioAdvertenciasEliminarController = async (
         });
     } else {
         interaction.reply({
-            content: `> <@${interaction.user.id}> No se h encontrado ninguna Advertencia con el id **${id}**!`,
+            content: `> <@${interaction.user.id}> No se h encontrado ninguna advertencia con el id **${id}**!`,
+            ephemeral: true,
+        });
+    }
+};
+
+const usuarioNotasAnadirController = async (
+    mcli: MClient,
+    interaction: ChatInputCommandInteraction
+) => {
+    const usuario = <GuildMember | null>interaction.options.getMember("usuario");
+    const idAutor = interaction.user.id;
+
+    if (usuario === null) {
+        return interaction.reply({
+            content: `> <@${idAutor}> Ese usuario no está en el servidor!`,
+            ephemeral: true,
+        });
+    }
+
+    const idUsuario = usuario.id;
+    const nota = interaction.options.getString("nota", true);
+
+    const notaCreada = await anadirNota(mcli, idUsuario, nota, idAutor);
+
+    interaction.reply({
+        content: `> <@${idAutor}> Has agregado una nota a <@${idUsuario}> con el siguiente contenido:\n> ${notaCreada.nota}`,
+    });
+};
+
+const usuarioNotasEliminarController = async (
+    mcli: MClient,
+    interaction: ChatInputCommandInteraction
+) => {
+    const id = interaction.options.getNumber("id", true);
+
+    const eliminada = await eliminarNota(mcli, id);
+
+    if (eliminada !== null) {
+        interaction.reply({
+            content: `> <@${interaction.user.id}> Se ha eliminado la nota con id **${id}** del usuario <@${eliminada.idUsuario}>!`,
+            ephemeral: true,
+        });
+    } else {
+        interaction.reply({
+            content: `> <@${interaction.user.id}> No se h encontrado ninguna nota con el id **${id}**!`,
             ephemeral: true,
         });
     }

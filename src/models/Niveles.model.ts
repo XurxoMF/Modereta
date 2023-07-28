@@ -1,9 +1,12 @@
 import { Table, Model, Column } from "sequelize-typescript";
 
 export interface NivelesAttributes {
+    id?: number;
     idUsuario: string;
     xp: number;
     nivel: number;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 @Table

@@ -1,15 +1,16 @@
 import { Table, Model, Column } from "sequelize-typescript";
 
-export interface AdvertenciasAttributes {
+export interface NotasAttributes {
     id?: number;
     idUsuario: string;
-    razon: string;
+    nota: string;
+    idAutor: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
 
 @Table
-export class Advertencias extends Model<AdvertenciasAttributes> {
+export class Notas extends Model<NotasAttributes> {
     @Column({
         allowNull: false,
     })
@@ -18,5 +19,10 @@ export class Advertencias extends Model<AdvertenciasAttributes> {
     @Column({
         allowNull: false,
     })
-    declare razon: string;
+    declare nota: string;
+
+    @Column({
+        allowNull: false,
+    })
+    declare idAutor: string;
 }

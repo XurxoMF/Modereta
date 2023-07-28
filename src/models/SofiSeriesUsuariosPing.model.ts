@@ -1,8 +1,11 @@
 import { Table, Model, Column } from "sequelize-typescript";
 
 export interface SofiSeriesUsuariosPingAttributes {
+    id?: number;
     idUsuario: string;
     ping: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 @Table

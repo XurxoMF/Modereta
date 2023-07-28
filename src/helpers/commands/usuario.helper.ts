@@ -8,11 +8,14 @@ import { MClient } from "../MClient";
 import { Colores } from "../../data/general.data";
 import { getNivel } from "../Niveles.helper";
 import { getAdvertenciasCount } from "../Advertencias.helper";
-import { Advertencias } from "src/models/Advertencias.model";
+import { Advertencias } from "../../models/Advertencias.model";
+import { getNotas } from "../Notas.helper";
+import { Notas } from "../../models/Notas.model";
 
 export const usuarioInfoController = async (
     mcli: MClient,
-    interaction: ChatInputCommandInteraction | UserContextMenuCommandInteraction
+    interaction: ChatInputCommandInteraction | UserContextMenuCommandInteraction,
+    admin?: boolean
 ) => {
     const member = interaction.isChatInputCommand()
         ? <GuildMember>interaction.options.getMember("usuario")
@@ -64,12 +67,26 @@ export const usuarioInfoController = async (
                 name: `ROLES`,
                 value: `${roles.join(", ")}`,
             },
+            { name: "\u200B", value: "\u200B" },
         ]);
+
+    if (admin) {
+        const notas = await getNotas(mcli, member.id);
+
+        if (notas.count > 0) {
+            const lista = await listarNotas(notas.rows);
+
+            embed.addFields({
+                name: `NOTAS - ${notas.count}`,
+                value: lista,
+            });
+        }
+    }
 
     const advertencias = await getAdvertenciasCount(mcli, member.id);
 
     if (advertencias.count > 0) {
-        const lista = await listarAdvertencias(advertencias);
+        const lista = await listarAdvertencias(advertencias.rows);
 
         embed.addFields({
             name: `ADVERTENCIAS - ${advertencias.count}`,
@@ -82,14 +99,22 @@ export const usuarioInfoController = async (
     });
 };
 
-const listarAdvertencias = async (advertencias: { count: number; rows: Advertencias[] }) => {
+const listarAdvertencias = async (advertencias: Advertencias[]) => {
     let res = ``;
 
-    for (const advertencia of advertencias.rows) {
+    for (const advertencia of advertencias) {
         res += `🟡 \`ID: ${advertencia.id}\` | <t:${Math.floor(
             (<Date>advertencia.createdAt).getTime() / 1000
         )}:d> | ${advertencia.razon}\n`;
     }
+    return res.slice(0, -1);
+};
 
+const listarNotas = async (notas: Notas[]) => {
+    let res = ``;
+
+    for (const nota of notas) {
+        res += `- \`ID: ${nota.id}\` | <@${nota.idAutor}> | ${nota.nota}\n`;
+    }
     return res.slice(0, -1);
 };
