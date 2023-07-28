@@ -19,7 +19,7 @@
 
 Una de las funcionalidades más importantes del bot es el sistema de niveles. Gracias a esta podréis ganar experiencia jugando con bots, hablando, y realizando varias actividades en el servidor, para de esta forma, subir de nivel y ganar recompensas.
 
-<details>
+<details open>
 <summary>Comandos</summary>
   
 -   ### `/nivel`
@@ -38,7 +38,7 @@ Una de las funcionalidades más importantes del bot es el sistema de niveles. Gr
 
 La segunda funcionalidad más importante del bot es la de las series coleccionadas por cada usuario en Sofi bot. Con esta podrás añadir las serues que coleccionas a una lista para que cuando alguna carta de esas serie sea dropeada en Sofi, Modereta de mencionará para que puedas reclamarla. Si no te da tiempo no te preocupes, Modereta mostrará cual es la serie que coleccionas para que otra persona pueda reclamarla por ti.
 
-<details>
+<details open>
 <summary>Comandos</summary>
   
 -   ### `/sofi series añadir`
@@ -101,7 +101,7 @@ Cuando Sofi hada un drop por actividad, como son el Drop de Series, Captcha Drop
 
 Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
-<details>
+<details open>
 <summary>Comandos</summary>
   
 -   ### `/acciones abrazo`
@@ -240,7 +240,7 @@ Envía un GIF anime realizando ciertas acciones al usuario que menciones.
 
 Envia un GIF anime para reccionar a lo que quieras.
 
-<details>
+<details open>
 <summary>Comandos</summary>
   
 -   ### `/reacciones ehe`
@@ -311,7 +311,7 @@ Muestra información sobre un usuario o realiza acciones de modereacción sobre 
 
 La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `🛡️ Moderador/a` pero algunos los podéis usar todos.
 
-<details>
+<details open>
 <summary>Comandos</summary>
   
 -   ### `/usuario info`
