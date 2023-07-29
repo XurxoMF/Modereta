@@ -5,6 +5,7 @@ import { usuarioInfoController } from "../../helpers/commands/usuario.helper";
 import { GestoresDeUsuarios } from "../../data/general.data";
 import { anadirAdvertencia, eliminarAdvertencia } from "../../helpers/Advertencias.helper";
 import { anadirNota, eliminarNota } from "../../helpers/Notas.helper";
+import { desmutear, mutear } from "../../helpers/Muteos.helper";
 
 const exp: ComandoChatInput = {
     tipo: TipoComandos.ChatInput,
@@ -95,6 +96,70 @@ const exp: ComandoChatInput = {
                                 .setRequired(true)
                         )
                 )
+        )
+        .addSubcommandGroup((sg) =>
+            sg
+                .setName("muteos")
+                .setDescription("Gestiona los muteos de un usuario.")
+                .addSubcommand((s) =>
+                    s
+                        .setName("mutear")
+                        .setDescription("Mutea a un usuario.")
+                        .addUserOption((o) =>
+                            o
+                                .setName("usuario")
+                                .setDescription("Usuario al que se muteará.")
+                                .setRequired(true)
+                        )
+                        .addNumberOption((o) =>
+                            o
+                                .setName("duración")
+                                .setDescription(
+                                    "Cuanto tiempo estrá muteado el usuario. Se puede desmutear con /usuario muteos desmutear."
+                                )
+                                .setRequired(true)
+                                .addChoices(
+                                    { name: "Indefinido", value: 0 },
+                                    { name: "1 Hora", value: 3600000 },
+                                    { name: "3 Horas", value: 10800000 },
+                                    { name: "6 Horas", value: 21600000 },
+                                    { name: "12 Horas", value: 43200000 },
+                                    { name: "1 Día", value: 86400000 },
+                                    { name: "2 Días", value: 172800000 },
+                                    { name: "3 Días", value: 259200000 },
+                                    { name: "4 Días", value: 345600000 },
+                                    { name: "5 Días", value: 432000000 },
+                                    { name: "6 Días", value: 518400000 },
+                                    { name: "1 Semana", value: 604800017 },
+                                    { name: "2 Semanas", value: 1209600033 },
+                                    { name: "3 Semanas", value: 1814400050 },
+                                    { name: "1 Mes", value: 2629800000 }
+                                )
+                        )
+                        .addStringOption((o) =>
+                            o
+                                .setName("motivo")
+                                .setDescription("Motivo del muteo.")
+                                .setRequired(true)
+                        )
+                )
+                .addSubcommand((s) =>
+                    s
+                        .setName("desmutear")
+                        .setDescription("Desmutea a un usuario.")
+                        .addUserOption((o) =>
+                            o
+                                .setName("usuario")
+                                .setDescription("Usuario al que quieres demutear.")
+                                .setRequired(true)
+                        )
+                        .addStringOption((o) =>
+                            o
+                                .setName("motivo")
+                                .setDescription("Motivo del desmuteo.")
+                                .setRequired(true)
+                        )
+                )
         ),
     async execute(mcli: MClient, interaction: ChatInputCommandInteraction) {
         // Si no tiene el rol Admin/Mod/Propietario cancelamos.
@@ -126,10 +191,10 @@ const exp: ComandoChatInput = {
                 case "advertencias":
                     switch (subcommand) {
                         case "advertir":
-                            usuarioAdvertenciasAnadirController(mcli, interaction);
+                            usuarioAdvertenciasAadvertirController(mcli, interaction);
                             break;
                         case "desadvertir":
-                            usuarioAdvertenciasEliminarController(mcli, interaction);
+                            usuarioAdvertenciasDesadvertirController(mcli, interaction);
                             break;
 
                         default:
@@ -151,6 +216,20 @@ const exp: ComandoChatInput = {
                     }
                     break;
 
+                case "muteos":
+                    switch (subcommand) {
+                        case "mutear":
+                            usuarioMuteosMutearController(mcli, interaction);
+                            break;
+                        case "desmutear":
+                            usuarioMuteosDesmutearController(mcli, interaction);
+                            break;
+
+                        default:
+                            break;
+                    }
+                    break;
+
                 default:
                     break;
             }
@@ -160,7 +239,7 @@ const exp: ComandoChatInput = {
 
 module.exports = exp;
 
-const usuarioAdvertenciasAnadirController = async (
+const usuarioAdvertenciasAadvertirController = async (
     mcli: MClient,
     interaction: ChatInputCommandInteraction
 ) => {
@@ -188,7 +267,7 @@ const usuarioAdvertenciasAnadirController = async (
     });
 };
 
-const usuarioAdvertenciasEliminarController = async (
+const usuarioAdvertenciasDesadvertirController = async (
     mcli: MClient,
     interaction: ChatInputCommandInteraction
 ) => {
@@ -252,4 +331,77 @@ const usuarioNotasEliminarController = async (
             ephemeral: true,
         });
     }
+};
+
+const usuarioMuteosMutearController = async (
+    mcli: MClient,
+    interaction: ChatInputCommandInteraction
+) => {
+    const member = <GuildMember | null>interaction.options.getMember("usuario");
+    const autor = <GuildMember>interaction.member;
+
+    if (member === null) {
+        return interaction.reply({
+            content: `> <@${autor.id}> El usuario mencionado no está en el servidor!`,
+            ephemeral: true,
+        });
+    }
+
+    const motivo = interaction.options.getString("motivo", true);
+    const duracion = interaction.options.getNumber("duración", true);
+
+    let hasta = Date.now() + duracion;
+
+    if (duracion === 0) {
+        hasta = 0;
+    }
+
+    const muteo = await mutear(mcli, motivo, hasta, member, autor);
+
+    if (muteo === null) {
+        return interaction.reply({
+            content: `> <@${autor.id}> Ese usuario ya está muteado!`,
+            ephemeral: true,
+        });
+    }
+
+    interaction.reply({
+        content: `> <@${autor.id}> Se ha muteado a <@${muteo.idUsuario}> ${
+            muteo.fin === 0
+                ? "`de forma indefinida`"
+                : `hasta el <t:${Math.floor(muteo.fin / 1000)}:F>`
+        } por el siguiente motivo:\n> ${muteo.motivo}`,
+        ephemeral: true,
+    });
+};
+
+const usuarioMuteosDesmutearController = async (
+    mcli: MClient,
+    interaction: ChatInputCommandInteraction
+) => {
+    const member = <GuildMember | null>interaction.options.getMember("usuario");
+    const autor = <GuildMember>interaction.member;
+
+    if (member === null) {
+        return interaction.reply({
+            content: `> <@${autor.id}> El usuario mencionado no está en el servidor!`,
+            ephemeral: true,
+        });
+    }
+
+    const motivo = interaction.options.getString("motivo", true);
+
+    const desmuteo = await desmutear(mcli, member, motivo, autor);
+
+    if (desmuteo === null) {
+        return interaction.reply({
+            content: `> <@${autor.id}> Actualmente ese usuario no está muteado!`,
+            ephemeral: true,
+        });
+    }
+
+    interaction.reply({
+        content: `> <@${autor.id}> Se ha desmuteado a <@${desmuteo.idUsuario}> por el siguiente motivo:\n> ${motivo}>`,
+        ephemeral: true,
+    });
 };

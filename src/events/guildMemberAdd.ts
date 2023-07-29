@@ -1,8 +1,9 @@
 import { Events, GuildMember, EmbedBuilder, WebhookClient } from "discord.js";
 import { MClient } from "../helpers/MClient";
-import { Colores } from "../data/general.data";
+import { Colores, ROL_MUTEO } from "../data/general.data";
 import { WH_BIENVENIDAS } from "../config.json";
 import { toggle } from "../helpers/SofiSeriesUsuariosPing.helper";
+import { getMuteo } from "../helpers/Muteos.helper";
 
 module.exports = {
     name: Events.GuildMemberAdd,
@@ -26,6 +27,13 @@ module.exports = {
 
         await toggle(mcli, id, true);
 
-        await member.roles.add(["726143285545926736"]);
+        // Muteo
+        const muteado = await getMuteo(mcli, member.id);
+
+        if (muteado === null) {
+            await member.roles.add(["726143285545926736"]);
+        } else {
+            await member.roles.add([ROL_MUTEO]);
+        }
     },
 };

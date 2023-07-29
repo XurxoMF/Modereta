@@ -11,6 +11,8 @@ import { getAdvertenciasCount } from "../Advertencias.helper";
 import { Advertencias } from "../../models/Advertencias.model";
 import { getNotas } from "../Notas.helper";
 import { Notas } from "../../models/Notas.model";
+import { Muteos } from "../../models/Muteos.model";
+import { getMuteosCount } from "../Muteos.helper";
 export const usuarioInfoController = async (
     mcli: MClient,
     interaction: ChatInputCommandInteraction | UserContextMenuCommandInteraction,
@@ -92,6 +94,21 @@ export const usuarioInfoController = async (
         });
     }
 
+    const muteos = await getMuteosCount(mcli, member.id);
+
+    if (muteos.count > 0) {
+        const resMuteos = await listarMuteos(muteos.rows);
+
+        embed.addFields({
+            name: `MUTEOS - ${muteos.count}`,
+            value: resMuteos.lista,
+        });
+
+        if (resMuteos.muteado) {
+            embed.setColor(Colores.MUTEOS);
+        }
+    }
+
     interaction.reply({
         embeds: [embed],
     });
@@ -115,4 +132,21 @@ const listarNotas = async (notas: Notas[]) => {
         res += `- \`ID: ${nota.id}\` | <@${nota.idAutor}> | ${nota.nota}\n`;
     }
     return res.slice(0, -1);
+};
+
+const listarMuteos = async (muteos: Muteos[]): Promise<{ lista: string; muteado: boolean }> => {
+    let res = { lista: ``, muteado: false };
+
+    for (const muteo of muteos) {
+        if (muteo.muteado) res.muteado = true;
+
+        res.lista += `${muteo.muteado ? `🔴` : `🟢`} <t:${Math.floor(
+            (<Date>muteo.createdAt).getTime() / 1000
+        )}:d> - ${
+            muteo.fin === 0 ? `Indefinidamente` : `<t:${Math.floor(muteo.fin / 1000)}:d>`
+        } | ${muteo.motivo}\n`;
+    }
+    res.lista = res.lista.slice(0, -1);
+
+    return res;
 };

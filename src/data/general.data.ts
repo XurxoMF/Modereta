@@ -9,7 +9,14 @@ export const COOLDOWN_BASE: number = 3;
 export enum Colores {
     EMBED_BASE = "#ff00ff",
     ADVERTENCIAS = "#ffbb44",
+    MUTEOS = "#ff0000",
+    SANCION_ELIMINADA = "#00ff00",
 }
+
+/**
+ * ID del rol de muteo.
+ */
+export const ROL_MUTEO: string = "1111054758350962758";
 
 /**
  * IDs de los roles que puedes **gestionar usuarios**, esto permite **ver info de los usuarios**, **mutear usuarios** y **expulsar usuarios**!

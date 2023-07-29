@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { Collection, GatewayIntentBits } from "discord.js";
-import { TOKEN_DEV, TOKEN_PROD, DEV } from "./config.json";
+import { Collection, GatewayIntentBits, GuildMember } from "discord.js";
+import { TOKEN_DEV, TOKEN_PROD, DEV, GUILD_ID, CLIENT_ID_DEV, CLIENT_ID_PROD } from "./config.json";
 import {
     TipoComandos,
     ComandoBase,
@@ -11,6 +11,8 @@ import {
 } from "./types";
 import { MClient } from "./helpers/MClient";
 import { db } from "./models";
+import { desmutear, getMuteosActivosTerminados } from "./helpers/Muteos.helper";
+import { wait } from "./helpers/Generales.helper";
 
 const intents = {
     intents: [
@@ -39,6 +41,24 @@ const mcli = new MClient(
 mcli.rest.on("rateLimited", (info) =>
     console.log("🟡 Rate Limited | Información avanzada:\n", info)
 );
+
+// Autoeliminación de muteos.
+setInterval(async () => {
+    const muteos = await getMuteosActivosTerminados(mcli);
+    muteos.forEach(async (muteo) => {
+        const guild = mcli.guilds.cache.get(GUILD_ID);
+        const member = guild?.members.cache.get(muteo.idUsuario);
+        if (member !== undefined) {
+            const modereta = <GuildMember>(
+                guild?.members.cache.get(DEV ? CLIENT_ID_DEV : CLIENT_ID_PROD)
+            );
+            desmutear(mcli, member, "Terminado el timepo de muteo.", modereta);
+        } else {
+            await muteo.update({ muteado: false });
+        }
+        await wait(1000);
+    });
+}, 60_000);
 
 // Importación de comandosChatImput
 const rutaCarpetas = path.join(__dirname, "commands");
