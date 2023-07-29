@@ -388,7 +388,7 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 
 -   #### `/usuario muteos mutear`
 
-    Mutea a un usuario.
+    Mutea a un usuario. Se notificará al usuario en #⛔・sanciones.
 
     | Parámetro  | Tipo      | Obligatorio? | Descripción           |
     | ---------- | --------- | :----------: | --------------------- |
@@ -402,7 +402,7 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 
 -   #### `/usuario muteos sedmutear`
 
-    Desmutea a un usuario.
+    Desmutea a un usuario. Se notificará al usuario en #⛔・sanciones.
 
     | Parámetro | Tipo    | Obligatorio? | Descripción              |
     | --------- | ------- | :----------: | ------------------------ |
