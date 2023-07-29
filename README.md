@@ -386,6 +386,31 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 
 <br>
 
+-   #### `/usuario muteos mutear`
+
+    Mutea a un usuario.
+
+    | Parámetro  | Tipo      | Obligatorio? | Descripción           |
+    | ---------- | --------- | :----------: | --------------------- |
+    | `usuario`  | Mención   |      Si      | Usuario al que mutear |
+    | `duración` | Selección |      Si      | Duración del muteo    |
+    | `motivo `  | Texto     |      Si      | Motivo del muteo      |
+
+    > Exclusivo `@⚒️ Administrador/a` y `🛡️ Moderador/a`.
+
+<br>
+
+-   #### `/usuario muteos sedmutear`
+
+    Desmutea a un usuario.
+
+    | Parámetro | Tipo    | Obligatorio? | Descripción              |
+    | --------- | ------- | :----------: | ------------------------ |
+    | `usuario` | Mención |      Si      | Usuario al que desmutear |
+    | `motivo ` | Texto   |      Si      | Motivo del desmuteo      |
+
+    > Exclusivo `@⚒️ Administrador/a` y `🛡️ Moderador/a`.
+
 </details>
 
 <br>
