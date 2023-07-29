@@ -28,7 +28,7 @@ const exp: ComandoChatInput = {
                 .setDescription("Gestiona las advertencias de un usuario.")
                 .addSubcommand((s) =>
                     s
-                        .setName("añadir")
+                        .setName("advertir")
                         .setDescription("Añade una advertencia a un usuario.")
                         .addUserOption((o) =>
                             o
@@ -38,14 +38,14 @@ const exp: ComandoChatInput = {
                         )
                         .addStringOption((o) =>
                             o
-                                .setName("razón")
+                                .setName("motivo")
                                 .setDescription("Motivo de la advertencia.")
                                 .setRequired(true)
                         )
                 )
                 .addSubcommand((s) =>
                     s
-                        .setName("eliminar")
+                        .setName("desadvertir")
                         .setDescription("Elimina una advertencia.")
                         .addNumberOption((o) =>
                             o
@@ -125,10 +125,10 @@ const exp: ComandoChatInput = {
             switch (subcommandGroup) {
                 case "advertencias":
                     switch (subcommand) {
-                        case "añadir":
+                        case "advertir":
                             usuarioAdvertenciasAnadirController(mcli, interaction);
                             break;
-                        case "eliminar":
+                        case "desadvertir":
                             usuarioAdvertenciasEliminarController(mcli, interaction);
                             break;
 
@@ -173,17 +173,17 @@ const usuarioAdvertenciasAnadirController = async (
         });
     }
 
-    const razon = interaction.options.getString("razón", true);
+    const motivo = interaction.options.getString("motivo", true);
 
     const advertencia = await anadirAdvertencia(
         mcli,
         member.id,
-        razon,
+        motivo,
         <GuildMember>interaction.member
     );
 
     interaction.reply({
-        content: `> <@${interaction.user.id}> Se ha advertido al usuario <@${advertencia.idUsuario}> por ${advertencia.razon}!`,
+        content: `> <@${interaction.user.id}> Se ha advertido al usuario <@${advertencia.idUsuario}> por ${advertencia.motivo}!`,
         ephemeral: true,
     });
 };

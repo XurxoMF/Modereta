@@ -3,7 +3,7 @@ import { Table, Model, Column } from "sequelize-typescript";
 export interface AdvertenciasAttributes {
     id?: number;
     idUsuario: string;
-    razon: string;
+    motivo: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -18,5 +18,5 @@ export class Advertencias extends Model<AdvertenciasAttributes> {
     @Column({
         allowNull: false,
     })
-    declare razon: string;
+    declare motivo: string;
 }

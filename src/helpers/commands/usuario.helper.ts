@@ -11,7 +11,6 @@ import { getAdvertenciasCount } from "../Advertencias.helper";
 import { Advertencias } from "../../models/Advertencias.model";
 import { getNotas } from "../Notas.helper";
 import { Notas } from "../../models/Notas.model";
-
 export const usuarioInfoController = async (
     mcli: MClient,
     interaction: ChatInputCommandInteraction | UserContextMenuCommandInteraction,
@@ -104,7 +103,7 @@ const listarAdvertencias = async (advertencias: Advertencias[]) => {
     for (const advertencia of advertencias) {
         res += `🟡 \`ID: ${advertencia.id}\` | <t:${Math.floor(
             (<Date>advertencia.createdAt).getTime() / 1000
-        )}:d> | ${advertencia.razon}\n`;
+        )}:d> | ${advertencia.motivo}\n`;
     }
     return res.slice(0, -1);
 };

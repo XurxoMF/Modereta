@@ -23,25 +23,25 @@ export const getAdvertenciasCount = async (
  *
  * @param {MClient} mcli
  * @param {string} idUsuario Usuario al que advertir
- * @param {string} razon Razón de la advertencia
+ * @param {string} motivo Motivo de la advertencia
  * @return {Promise<Advertencias>} Advertencia creada
  */
 export const anadirAdvertencia = async (
     mcli: MClient,
     idUsuario: string,
-    razon: string,
+    motivo: string,
     moderador: GuildMember
 ): Promise<Advertencias> => {
     const advertencia = await mcli.db.Advertencias.create({
         idUsuario: idUsuario,
-        razon: razon,
+        motivo: motivo,
     });
 
     const wh = new WebhookClient({ url: DEV ? WH_DEV : WH_SANCIONES });
 
     const embed = new EmbedBuilder()
         .setTitle("Usuario Advertido")
-        .setDescription(`- **Usuario:** <@${idUsuario}>\n- **Razón:** ${razon}`)
+        .setDescription(`- **Usuario:** <@${idUsuario}>\n- **Motivo:** ${motivo}`)
         .setFooter({
             text: moderador.displayName,
             iconURL: moderador.displayAvatarURL(),

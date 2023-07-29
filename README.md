@@ -36,7 +36,7 @@ Una de las funcionalidades más importantes del bot es el sistema de niveles. Gr
 
 ### Lista de series de Sofi 📋
 
-La segunda funcionalidad más importante del bot es la de las series coleccionadas por cada usuario en Sofi bot. Con esta podrás añadir las serues que coleccionas a una lista para que cuando alguna carta de esas serie sea dropeada en Sofi, Modereta de mencionará para que puedas reclamarla. Si no te da tiempo no te preocupes, Modereta mostrará cual es la serie que coleccionas para que otra persona pueda reclamarla por ti.
+La segunda funcionalidad más importante del bot es la de las series coleccionadas por cada usuario en Sofi bot. Con esta podrás añadir las series que coleccionas a una lista para que cuando alguna carta de esas series sea dropeada en Sofi, Modereta de mencionará para que puedas reclamarla. Si no te da tiempo no te preocupes, Modereta mostrará cual es la serie que coleccionas para que otra persona pueda reclamarla por ti. Si no te interesa ninguna carta de tu drop y otra persona colecciona algo, se amable y reclámala para dársela. Si das cartas, la gente te dará cartas!
 
 <details open>
 <summary>Comandos</summary>
@@ -332,20 +332,20 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 
 <br>
 
--   #### `/usuario advertencias añadir`
+-   #### `/usuario advertencias advertir`
 
     Añade una advertencia a un usuario. Se notificará al usuario en `#⛔・sanciones`.
 
     | Parámetro | Tipo    | Obligatorio? | Descripción              |
     | --------- | ------- | :----------: | ------------------------ |
     | `usuario` | Mención |      Si      | Usuario del que advertir |
-    | `razón`   | Texto   |      Si      | Motivo de la advertencia |
+    | `motivo`  | Texto   |      Si      | Motivo de la advertencia |
 
     > Exclusivo `@⚒️ Administrador/a` y `🛡️ Moderador/a`.
 
 <br>
 
--   #### `/usuario advertencias eliminar`
+-   #### `/usuario advertencias desadvertir`
 
     Elimina una advertencia de un usuario.
 
