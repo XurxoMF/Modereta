@@ -400,7 +400,7 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 
 <br>
 
--   #### `/usuario muteos sedmutear`
+-   #### `/usuario muteos desmutear`
 
     Desmutea a un usuario. Se notificará al usuario en #⛔・sanciones.
 
