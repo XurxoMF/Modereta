@@ -77,8 +77,8 @@ export const incrementarXp = async (mcli: MClient, idUsuario: string): Promise<n
 export const recompensar = async (miembro: GuildMember, nivel: number): Promise<boolean> => {
     const recompensa: string[] = [];
 
-    for (const tier of RecompensasNivel) {
-        if (tier[0] <= nivel) recompensa.push(...tier[1]);
+    for (const [tier, roles] of RecompensasNivel) {
+        if (tier <= nivel) recompensa.push(...roles);
     }
 
     if (recompensa === undefined) return false;
