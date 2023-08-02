@@ -52,7 +52,7 @@ Para que Modereta te notifique tienen que haber hecho drop al menos **1** vez en
     | `serie`   | Texto | Si           | Serie que quieres añadir a tu lista |
 
     > El nombre de la serie tienes que escribirlo exactamente igual al que aparece en `scl <serie>`, si no no funcionará.
-    > Podrás añadir 5 series por nivel con un máximo de 150 series a nivel 30!
+    > Podrás añadir un máximo de 150 series!
     >
     > <img src="https://i.postimg.cc/X79CdyCx/ejemplo-nombre-serie.png" width="400">
 

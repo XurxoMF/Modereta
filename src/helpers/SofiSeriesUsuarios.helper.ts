@@ -11,8 +11,6 @@ import { getNivel } from "./Niveles.helper";
 export enum AgregarSerieStatus {
     /**Serie añadida correctamente */
     EXITO,
-    /**Nivel insuficiente */
-    NIVEL_INSUFICIENTE,
     /**Ya tiene 150 series */
     MAXIMO_SERIES,
     /**Serie ya en la lista */
@@ -63,7 +61,6 @@ export const anadirSerie = async (
     const series = await count(mcli, idUsuario);
 
     if (series >= 150) return AgregarSerieStatus.MAXIMO_SERIES;
-    if (series >= nivel * 5) return AgregarSerieStatus.NIVEL_INSUFICIENTE;
 
     const [registro, creada] = await mcli.db.SofiSeriesUsuarios.findOrCreate({
         where: { idUsuario: idUsuario, serie: serie },
