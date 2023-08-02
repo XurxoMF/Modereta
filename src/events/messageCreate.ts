@@ -16,7 +16,7 @@ module.exports = {
         // Si el mensaje es del propio bot cancelamos todo.
         if (message.author.id === (DEV ? CLIENT_ID_DEV : CLIENT_ID_PROD)) return;
 
-        if (message.author.id === sofiId && message.content.includes(" dropped the cards.")) {
+        if (message.author.id === sofiId && message.content.includes(" dropped the cards")) {
             const palabras = message.content.split(" ");
             const id = palabras[0].slice(2, -1);
 
