@@ -1,4 +1,4 @@
-import { SofiSeriesUsuariosPing } from "src/models/SofiSeriesUsuariosPing.model";
+import { SofiSeriesUsuariosPing } from "../models/SofiSeriesUsuariosPing.model";
 import { MClient } from "./MClient";
 /**
  * Activa o desactiva los pings de drops de series de la colección de un usuario.

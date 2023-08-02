@@ -1,4 +1,3 @@
-import { SofiDropCount } from "src/models/SofiDropCount.model";
 import { MClient } from "./MClient";
 import { Op } from "sequelize";
 

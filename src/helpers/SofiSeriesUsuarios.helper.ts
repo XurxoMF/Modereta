@@ -1,4 +1,4 @@
-import { SofiSeriesUsuarios } from "src/models/SofiSeriesUsuarios.model";
+import { SofiSeriesUsuarios } from "../models/SofiSeriesUsuarios.model";
 import { MClient } from "./MClient";
 import { Op } from "sequelize";
 import { getNivel } from "./Niveles.helper";

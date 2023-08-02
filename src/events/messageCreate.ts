@@ -4,7 +4,7 @@ import { DEV, CLIENT_ID_DEV, CLIENT_ID_PROD, WH_DEV, WH_NIVELES, DEV_ID } from "
 import { buscarTodoPorSerie } from "../helpers/SofiSeriesUsuarios.helper";
 import { buscarTodos, checkEstado } from "../helpers/SofiSeriesUsuariosPing.helper";
 import { incrementarXp, recompensar } from "../helpers/Niveles.helper";
-import { countDrops } from "src/helpers/SofiDropCount.helper";
+import { countDrops } from "../helpers/SofiDropCount.helper";
 const cooldowns = new Set();
 const sofuId = DEV ? DEV_ID : "950166445034188820";
 const noriId = DEV ? DEV_ID : "742070928111960155";
