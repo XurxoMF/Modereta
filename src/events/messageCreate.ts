@@ -4,10 +4,11 @@ import { DEV, CLIENT_ID_DEV, CLIENT_ID_PROD, WH_DEV, WH_NIVELES, DEV_ID } from "
 import { buscarTodoPorSerie } from "../helpers/SofiSeriesUsuarios.helper";
 import { buscarTodos, checkEstado } from "../helpers/SofiSeriesUsuariosPing.helper";
 import { incrementarXp, recompensar } from "../helpers/Niveles.helper";
-import { countDrops } from "../helpers/SofiDropCount.helper";
+import { anadirDrop, countDrops } from "../helpers/SofiDropCount.helper";
 const cooldowns = new Set();
 const sofuId = DEV ? DEV_ID : "950166445034188820";
 const noriId = DEV ? DEV_ID : "742070928111960155";
+const sofiId = "853629533855809596";
 
 module.exports = {
     name: Events.MessageCreate,
@@ -15,11 +16,18 @@ module.exports = {
         // Si el mensaje es del propio bot cancelamos todo.
         if (message.author.id === (DEV ? CLIENT_ID_DEV : CLIENT_ID_PROD)) return;
 
-        // Pings drops Sofi por actividad
+        if (message.author.id === sofiId && message.content.includes(" dropped the cards.")) {
+            const palabras = message.content.split(" ");
+            const id = palabras[0].slice(2, -1);
+
+            await anadirDrop(mcli, id);
+        }
+
         if (
             message.channel.id === "1101853797573206016" &&
             message.author.id === "853629533855809596"
         ) {
+            // Pings drops Sofi por actividad
             sofiPingDropActividad(message);
         }
 
