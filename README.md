@@ -5,10 +5,10 @@
 # <p align="center">Modereta Vaporwave</p>
 
 <p align="center">
-  <strong>Modereta Vaporwave</strong> es el bot <strong>privado</strong> de la comunidad de Discord <strong>Astro Vaporwave</strong>.
+  <strong>Modereta Vaporwave</strong> es el bot <strong>privado</strong> de la comunidad de Discord <strong>Astro Vaporwave.</strong>
 </p>
 <p align="center">
-  <strong>A continuación podrás encontrár una guía de las funcionalidades que tiene el bot y como se usan así como información importante relacionada con este.</strong>.
+  <strong>A continuación podrás encontrár una guía de las funcionalidades que tiene el bot y como se usan así como información importante relacionada con este.</strong>
 </p>
 
 <br>
@@ -17,7 +17,7 @@
 
 ### Niveles 🆙
 
-Una de las funcionalidades más importantes del bot es el sistema de niveles. Gracias a esta podréis ganar experiencia jugando con bots, hablando, y realizando varias actividades en el servidor, para de esta forma, subir de nivel y ganar recompensas.
+Una de las funcionalidades más importantes del bot es el sistema de niveles. Gracias a este podréis ganar experiencia jugando con bots, hablando, y realizando varias actividades en el servidor, para de esta forma, subir de nivel y ganar recompensas.
 
 <details open>
 <summary>Comandos</summary>
@@ -36,7 +36,9 @@ Una de las funcionalidades más importantes del bot es el sistema de niveles. Gr
 
 ### Lista de series de Sofi 📋
 
-La segunda funcionalidad más importante del bot es la de las series coleccionadas por cada usuario en Sofi bot. Con esta podrás añadir las series que coleccionas a una lista para que cuando alguna carta de esas series sea dropeada en Sofi, Modereta de mencionará para que puedas reclamarla. Si no te da tiempo no te preocupes, Modereta mostrará cual es la serie que coleccionas para que otra persona pueda reclamarla por ti. Si no te interesa ninguna carta de tu drop y otra persona colecciona algo, se amable y reclámala para dársela. Si das cartas, la gente te dará cartas!
+La segunda funcionalidad más importante del bot es la de las series coleccionadas por cada usuario en Sofi bot. Con esta podrás añadir las series que coleccionas a una lista para que cuando alguna carta de esas series sea dropeada en Sofi, Modereta te mencionará para que puedas reclamarla. Si no te da tiempo no te preocupes, Modereta mostrará cual es la serie que coleccionas para que otra persona pueda reclamarla por ti. Si no te interesa ninguna carta de tu drop y otra persona colecciona algo, se amable y reclámala para dársela. Si das cartas, la gente te dará cartas!
+
+Para que Modereta te notifique tienen que haber hecho drop al menos **1** vez en las últimas **24 horas** y tener los ping activos, puedes activarlos y desactivarlos con `/sofi series ping`.
 
 <details open>
 <summary>Comandos</summary>
@@ -50,6 +52,7 @@ La segunda funcionalidad más importante del bot es la de las series coleccionad
     | `serie`   | Texto | Si           | Serie que quieres añadir a tu lista |
 
     > El nombre de la serie tienes que escribirlo exactamente igual al que aparece en `scl <serie>`, si no no funcionará.
+    > Podrás añadir 5 series por nivel con un máximo de 150 series a nivel 30!
     >
     > <img src="https://i.postimg.cc/X79CdyCx/ejemplo-nombre-serie.png" width="400">
 
@@ -307,7 +310,7 @@ Envia un GIF anime para reccionar a lo que quieras.
 
 ### Usuarios y Moderación ⚒️
 
-Muestra información sobre un usuario o realiza acciones de modereacción sobre ellos.
+Muestra información sobre un usuario o realiza acciones de modereacción en ellos.
 
 La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `🛡️ Moderador/a` pero algunos los podéis usar todos.
 
@@ -316,7 +319,7 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
   
 -   #### `/usuario info`
 
-    Muestra la información más importante sobre un usuario como, fecha de unión al servidor, fecha de creación de cuenta, nivel, muteos, advertencias, notas...
+    Muestra la información más importante sobre un usuario como fecha de unión al servidor, fecha de creación de cuenta, nivel, muteos, advertencias, notas...
 
     | Parámetro | Tipo    | Obligatorio? | Descripción                                |
     | --------- | ------- | :----------: | ------------------------------------------ |
@@ -328,17 +331,17 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 
 -   #### `Usuario > Aplicaciones > Info`
 
-    Muestra la información más importante sobre un usuario como, fecha de unión al servidor, fecha de creación de cuenta, nivel, muteos, advertencias, notas(`@⚒️ Administrador/a` y `🛡️ Moderador/a`)...
+    Muestra la información más importante sobre un usuario como fecha de unión al servidor, fecha de creación de cuenta, nivel, muteos, advertencias...
 
 <br>
 
 -   #### `/usuario advertencias advertir`
 
-    Añade una advertencia a un usuario. Se notificará al usuario en `#⛔・sanciones`.
+    Añade una advertencia a un usuario. Se le notificará en `#⛔・sanciones`.
 
     | Parámetro | Tipo    | Obligatorio? | Descripción              |
     | --------- | ------- | :----------: | ------------------------ |
-    | `usuario` | Mención |      Si      | Usuario del que advertir |
+    | `usuario` | Mención |      Si      | Usuario al que advertir  |
     | `motivo`  | Texto   |      Si      | Motivo de la advertencia |
 
     > Exclusivo `@⚒️ Administrador/a` y `🛡️ Moderador/a`.
@@ -388,7 +391,7 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 
 -   #### `/usuario muteos mutear`
 
-    Mutea a un usuario. Se notificará al usuario en #⛔・sanciones.
+    Mutea a un usuario. Se le notificará en #⛔・sanciones.
 
     | Parámetro  | Tipo      | Obligatorio? | Descripción           |
     | ---------- | --------- | :----------: | --------------------- |
@@ -402,7 +405,7 @@ La mayoría de estos comandos son exclusivos para `@⚒️ Administrador/a` y `�
 
 -   #### `/usuario muteos desmutear`
 
-    Desmutea a un usuario. Se notificará al usuario en #⛔・sanciones.
+    Desmutea a un usuario. Se le notificará en #⛔・sanciones.
 
     | Parámetro | Tipo    | Obligatorio? | Descripción              |
     | --------- | ------- | :----------: | ------------------------ |

@@ -135,7 +135,7 @@ const seriesAnadirController = async (
     } else if (status === AgregarSerieStatus.MAXIMO_SERIES) {
         content = `> Ya tienes 150 series en tu lista de series! Elimina alguna antes de añadir más.`;
     } else if (status === AgregarSerieStatus.NIVEL_INSUFICIENTE) {
-        content = `> <@${idUsuario}> Hasta nivel **\`50\`** solo podrás añadir **\`1\`** serie por nivel. Una vez alcanzado el nivel, podrás añadir un máximo de **\`150\`** series! Usa **\`/nivel\`** para ver tu nivel actual.`;
+        content = `> <@${idUsuario}> Solo puedes añadir **\`5\`** series por nivel! Usa **\`/nivel\`** para ver tu nivel actual.`;
     } else if (status === AgregarSerieStatus.SERIE_EXISTENTE) {
         content = `> <@${idUsuario}> La serie **${serie}** ya está en tu lista!`;
     }

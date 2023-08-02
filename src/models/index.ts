@@ -5,6 +5,7 @@ import { SofiSeriesUsuariosPing } from "./SofiSeriesUsuariosPing.model";
 import { Advertencias } from "./Advertencias.model";
 import { Notas } from "./Notas.model";
 import { Muteos } from "./Muteos.model";
+import { SofiDropCount } from "./SofiDropCount.model";
 
 const sequelize = new Sequelize({
     dialect: "sqlite",
@@ -13,7 +14,15 @@ const sequelize = new Sequelize({
     define: {
         freezeTableName: true,
     },
-    models: [SofiSeriesUsuarios, Niveles, SofiSeriesUsuariosPing, Advertencias, Notas, Muteos],
+    models: [
+        SofiSeriesUsuarios,
+        Niveles,
+        SofiSeriesUsuariosPing,
+        Advertencias,
+        Notas,
+        Muteos,
+        SofiDropCount,
+    ],
 });
 
 export const db = {
@@ -24,4 +33,5 @@ export const db = {
     Advertencias,
     Notas,
     Muteos,
+    SofiDropCount,
 };

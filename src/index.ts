@@ -13,6 +13,7 @@ import { MClient } from "./helpers/MClient";
 import { db } from "./models";
 import { desmutear, getMuteosActivosTerminados } from "./helpers/Muteos.helper";
 import { wait } from "./helpers/Generales.helper";
+import { eliminarCaducados } from "./helpers/SofiDropCount.helper";
 
 const intents = {
     intents: [
@@ -42,8 +43,8 @@ mcli.rest.on("rateLimited", (info) =>
     console.log("🟡 Rate Limited | Información avanzada:\n", info)
 );
 
-// Autoeliminación de muteos.
 setInterval(async () => {
+    // Autoeliminación de muteos.
     const muteos = await getMuteosActivosTerminados(mcli);
     muteos.forEach(async (muteo) => {
         const guild = mcli.guilds.cache.get(GUILD_ID);
@@ -58,6 +59,9 @@ setInterval(async () => {
         }
         await wait(1000);
     });
+
+    // Autoeliminación de drops de Sofi caducados.
+    eliminarCaducados(mcli);
 }, 60_000);
 
 // Importación de comandosChatImput

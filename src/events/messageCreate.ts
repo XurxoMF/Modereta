@@ -2,8 +2,9 @@ import { Events, GuildBasedChannel, GuildMember, Message, WebhookClient } from "
 import { MClient } from "../helpers/MClient";
 import { DEV, CLIENT_ID_DEV, CLIENT_ID_PROD, WH_DEV, WH_NIVELES, DEV_ID } from "../config.json";
 import { buscarTodoPorSerie } from "../helpers/SofiSeriesUsuarios.helper";
-import { buscarTodos } from "../helpers/SofiSeriesUsuariosPing.helper";
+import { buscarTodos, checkEstado } from "../helpers/SofiSeriesUsuariosPing.helper";
 import { incrementarXp, recompensar } from "../helpers/Niveles.helper";
+import { countDrops } from "src/helpers/SofiDropCount.helper";
 const cooldowns = new Set();
 const sofuId = DEV ? DEV_ID : "950166445034188820";
 const noriId = DEV ? DEV_ID : "742070928111960155";
@@ -107,7 +108,6 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
     // Busca los usuarios en la base de datos y envía los pings
     if (series.length > 0) {
         const res = await buscarTodoPorSerie(mcli, series);
-        const pings = await buscarTodos(mcli);
         const users = [...res];
         const seriesUsuarios = new Map<string, Set<string>>();
 
@@ -118,10 +118,11 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
         for (const s of series) {
             let ids: Set<string> = new Set();
             for (const u of users) {
-                const id = u.getDataValue("idUsuario");
                 if (u.getDataValue("serie").toLowerCase() === s.toLowerCase()) {
-                    let ping = pings.find((p) => p.getDataValue("idUsuario") === id);
-                    if (ping === undefined || ping.getDataValue("ping")) {
+                    const id = u.getDataValue("idUsuario");
+                    const drops = await countDrops(mcli, id);
+                    const ping = await checkEstado(mcli, id);
+                    if (drops >= 1 && ping) {
                         ids.add(`<@${id}>`);
                     }
                 }

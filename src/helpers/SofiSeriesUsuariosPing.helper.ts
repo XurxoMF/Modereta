@@ -29,10 +29,26 @@ export const toggle = async (
 };
 
 /**
+ * Busca todos los pings de todos los uisuarios.
  *
  * @param {MClient} mcli
- * @returns {}
+ * @returns {Promise<SofiSeriesUsuariosPing[]>} Lista de pings de usuarios
  */
 export const buscarTodos = async (mcli: MClient): Promise<SofiSeriesUsuariosPing[]> => {
     return await mcli.db.SofiSeriesUsuariosPing.findAll();
+};
+
+/**
+ * BUsca el estado de ping de un usuario.
+ *
+ * @param {MClient} mcli
+ * @param {string} idUsuario Usuario a comprobar
+ * @return {Promise<boolean>} True si el usuario lo tiene en true o si no lo ha establecido, false si lo ha desactivado
+ */
+export const checkEstado = async (mcli: MClient, idUsuario: string): Promise<boolean> => {
+    const ping = await mcli.db.SofiSeriesUsuariosPing.findOne({ where: { idUsuario: idUsuario } });
+
+    if (ping === null) return true;
+
+    return ping.ping;
 };

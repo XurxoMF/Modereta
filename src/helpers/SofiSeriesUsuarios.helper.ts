@@ -1,6 +1,6 @@
 import { SofiSeriesUsuarios } from "src/models/SofiSeriesUsuarios.model";
 import { MClient } from "./MClient";
-import { Op, Sequelize } from "sequelize";
+import { Op } from "sequelize";
 import { getNivel } from "./Niveles.helper";
 
 /**
@@ -13,7 +13,7 @@ export enum AgregarSerieStatus {
     EXITO,
     /**Nivel insuficiente */
     NIVEL_INSUFICIENTE,
-    /**Ya tiene 100 series */
+    /**Ya tiene 150 series */
     MAXIMO_SERIES,
     /**Serie ya en la lista */
     SERIE_EXISTENTE,
@@ -63,7 +63,7 @@ export const anadirSerie = async (
     const series = await count(mcli, idUsuario);
 
     if (series >= 150) return AgregarSerieStatus.MAXIMO_SERIES;
-    if (nivel < 50 && series >= nivel) return AgregarSerieStatus.NIVEL_INSUFICIENTE;
+    if (series >= nivel * 5) return AgregarSerieStatus.NIVEL_INSUFICIENTE;
 
     const [registro, creada] = await mcli.db.SofiSeriesUsuarios.findOrCreate({
         where: { idUsuario: idUsuario, serie: serie },
