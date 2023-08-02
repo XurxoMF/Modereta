@@ -160,7 +160,7 @@ const nivelesController = async (mcli: MClient, message: Message): Promise<void>
     cooldowns.add(message.author.id);
     setTimeout(() => {
         cooldowns.delete(message.author.id);
-    }, 30_000);
+    }, 40_000);
 
     if (nivel === -1) return;
 

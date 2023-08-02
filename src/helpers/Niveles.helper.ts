@@ -93,8 +93,8 @@ export const recompensar = async (miembro: GuildMember, nivel: number): Promise<
  * @return {number} XP
  */
 export const randomXp = (): number => {
-    let min = 10,
-        max = 15;
+    let min = 7,
+        max = 12;
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
