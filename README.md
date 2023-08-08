@@ -15,6 +15,8 @@
 
 ## <p align="center">GUÍA</p>
 
+## <p align="center">https://xurxomf.gitbook.io/docs-modereta/</p>
+
 ### Niveles 🆙
 
 Una de las funcionalidades más importantes del bot es el sistema de niveles. Gracias a este podréis ganar experiencia jugando con bots, hablando, y realizando varias actividades en el servidor, para de esta forma, subir de nivel y ganar recompensas.
