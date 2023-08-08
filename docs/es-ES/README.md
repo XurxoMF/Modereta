@@ -1,12 +1,24 @@
-<p align="center">
-  <img src="https://i.postimg.cc/nhMxnSXj/banner-github.png" width="500"> 
-</p>
+---
+description: Bienvenid@ a la documentación de Modereta Vaporwave!
+layout:
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+---
 
-# <p align="center">Modereta Vaporwave</p>
+# 👋 Inicio
 
-<p align="center">
-  <strong>Modereta Vaporwave</strong> es el bot <strong>privado</strong> de la comunidad de Discord <strong>Astro Vaporwave.</strong>
-</p>
-<p align="center">
-  <strong>A continuación podrás encontrár una guía de las funcionalidades que tiene el bot y como se usan así como información importante relacionada con este.</strong>
-</p>
+<figure><img src=".gitbook/assets/banner_github.png" alt=""><figcaption></figcaption></figure>
+
+Aquí podrás encontrar toda la información que necesitas a cerca de **Modereta Vaporwave** como pueden ser sus funcionalidades o sus comandos y como se usan.
+
+{% hint style="info" %}
+Modereta solo se puede usar en Astro Vaporwave y no puede ser invitada a ningún otro servidor!
+{% endhint %}
