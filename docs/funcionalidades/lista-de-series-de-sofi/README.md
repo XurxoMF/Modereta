@@ -13,3 +13,16 @@ Si no os interesa ninguna carta de vuestro drop y otra persona colecciona algo, 
 {% hint style="warning" %}
 Para que Modereta os notifique tenéis que haber hecho al menos **1 drop** en las últimas **24 horas** y tener los ping activos, podéis activarlos y desactivarlos con [**/sofi series ping**](sofi-series-ping.md).
 {% endhint %}
+
+<details>
+
+<summary>Comandos</summary>
+
+* [**`/sofi series añadir`**](sofi-series-anadir.md)
+* [**`/sofi series eliminar`**](sofi-series-eliminar.md)
+* [**`/sofi series lista`**](sofi-series-lista.md)
+* [**`/sofi series ping`**](sofi-series-ping.md)
+
+</details>
+
+*

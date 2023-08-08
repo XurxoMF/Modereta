@@ -15,7 +15,7 @@ layout:
 
 # 👋 Inicio
 
-<figure><img src="es-ES/.gitbook/assets/banner_github.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/banner_github.png" alt=""><figcaption></figcaption></figure>
 
 Aquí podréis encontrar toda la información que necesitáis a cerca de **Modereta Vaporwave** como pueden ser sus funcionalidades o sus comandos y como se usan.
 
