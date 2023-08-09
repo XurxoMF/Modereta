@@ -1,6 +1,6 @@
 # /usuario info
 
-Mostráis información útil relacionada con un usuario como pueden ser sus **roles**, **nivel**, **fecha de creación de la cuenta**, **fecha de unión al servidor**, **muteos**, **advertencias**, **notas**, **etc**.
+Muestra información útil relacionada con un usuario como pueden ser sus **roles**, **nivel**, **fecha de creación de la cuenta**, **fecha de unión al servidor**, **muteos**, **advertencias**, **notas**, **etc**.
 
 ### Parámetros
 
