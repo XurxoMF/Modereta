@@ -11,6 +11,7 @@
   * [/sofi series añadir](funcionalidades/lista-de-series-de-sofi/sofi-series-anadir.md)
   * [/sofi series eliminar](funcionalidades/lista-de-series-de-sofi/sofi-series-eliminar.md)
   * [/sofi series lista](funcionalidades/lista-de-series-de-sofi/sofi-series-lista.md)
+  * [/sofi series coleccionan](funcionalidades/lista-de-series-de-sofi/sofi-series-coleccionan.md)
   * [/sofi series ping](funcionalidades/lista-de-series-de-sofi/sofi-series-ping.md)
 * [📌 Ping de drops de Sofi](funcionalidades/ping-de-drops-de-sofi.md)
 * [🫂 Acciones](funcionalidades/acciones/README.md)

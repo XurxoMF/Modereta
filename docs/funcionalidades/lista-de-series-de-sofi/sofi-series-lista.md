@@ -1,6 +1,6 @@
 # /sofi series lista
 
-Muestra la lista de series coleccionadas.
+Muestra la lista de series coleccionadas por un usuario o si este colecciona una serie en específico.
 
 ### Parámetros
 
@@ -10,10 +10,25 @@ Muestra la lista de series coleccionadas.
 
 **`Obligatorio?`** :x:
 
-**`Descripción:`** Usuario del que se mostrará la lista de series coleccionadas.
+**`Descripción:`** Usuario del que se mostrará la lista o buscará en la misma.
 
 {% hint style="info" %}
-Si no se especifica se mostrará la lista de series coleccionadas del usuario que ejecutó el comando!
+Si no se especifica se usará al usuario que ejecutó el comando!
+
+Si se especifíca se usará al usuario mencionado.
+{% endhint %}
+{% endtab %}
+
+{% tab title="serie" %}
+**`Tipo:`** Texto
+
+**`Obligatorio?`** :x:
+
+**`Descripción:`** Serie que se buscará en la lista.
+
+{% hint style="info" %}
+Si no se especifica se mostrarán **todas** las series del usuario correspondiente.\
+Si se especifica dirá si el usuario colecciona la serie o no.
 {% endhint %}
 {% endtab %}
 {% endtabs %}
