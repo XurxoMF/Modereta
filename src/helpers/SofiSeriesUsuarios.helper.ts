@@ -175,7 +175,16 @@ export const usuarioColecciona = async (
     serie: string
 ): Promise<boolean> => {
     const registro = await mcli.db.SofiSeriesUsuarios.findOne({
-        where: { idUsuario: idUsuario, serie: serie },
+        where: {
+            idUsuario: idUsuario,
+            serie: {
+                [Op.or]: [
+                    {
+                        [Op.like]: serie.toLowerCase(),
+                    },
+                ],
+            },
+        },
     });
 
     return registro === null ? false : true;
