@@ -1,7 +1,6 @@
 import { SofiSeriesUsuarios } from "../models/SofiSeriesUsuarios.model";
 import { MClient } from "./MClient";
 import { Op } from "sequelize";
-import { getNivel } from "./Niveles.helper";
 
 /**
  * Estados de respuesta de agregarSerie()
@@ -57,7 +56,6 @@ export const anadirSerie = async (
     idUsuario: string,
     serie: string
 ): Promise<AgregarSerieStatus> => {
-    const nivel = await getNivel(mcli, idUsuario);
     const series = await count(mcli, idUsuario);
 
     if (series >= 150) return AgregarSerieStatus.MAXIMO_SERIES;
@@ -119,9 +117,9 @@ export const buscarTodoPorId = async (
  *
  * @param mcli
  * @param {string} series Array de series del drop para buscarlas
- * @returns {Promise<SofiSeriesUsuarios[]>} Usuarios que soleccionan las series
+ * @returns {Promise<SofiSeriesUsuarios[]>} Usuarios que coleccionan las series
  */
-export const buscarTodoPorSerie = async (
+export const buscarUsuariosPorSeries = async (
     mcli: MClient,
     series: string[]
 ): Promise<SofiSeriesUsuarios[]> => {
@@ -161,4 +159,55 @@ export const listaSeries = async (mcli: MClient, idUsuario: string): Promise<str
     }
 
     return arraySeries;
+};
+
+/**
+ * Comprueba si un usuario colecciona una serie en concreto.
+ *
+ * @param {MClient} mcli
+ * @param {string} idUsuario Usuario al que se buscará la serie
+ * @param {string} serie Serie que se buscará
+ * @return {Promise<boolean>} Colecciona o no la serie
+ */
+export const usuarioColecciona = async (
+    mcli: MClient,
+    idUsuario: string,
+    serie: string
+): Promise<boolean> => {
+    const registro = await mcli.db.SofiSeriesUsuarios.findOne({
+        where: { idUsuario: idUsuario, serie: serie },
+    });
+
+    return registro === null ? false : true;
+};
+
+/**
+ * Busca los usuario que coleccionan una serie en específico.
+ *
+ * @param mcli
+ * @param {string} serie Serie por la que se buscará
+ * @returns {Set<string>} IDs de los usuarios que coleccionan las series
+ */
+export const buscarUsuariosPorSerie = async (
+    mcli: MClient,
+    serie: string
+): Promise<Set<string>> => {
+    const usuarios = await mcli.db.SofiSeriesUsuarios.findAll({
+        where: {
+            serie: {
+                [Op.or]: [
+                    {
+                        [Op.like]: serie.toLowerCase(),
+                    },
+                ],
+            },
+        },
+    });
+
+    let IDs = new Set<string>();
+    for (const usuario of usuarios) {
+        IDs.add(usuario.idUsuario);
+    }
+
+    return IDs;
 };

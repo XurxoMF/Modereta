@@ -15,6 +15,8 @@ import {
     EliminarSerieStatus,
     eliminarSerie,
     listaSeries,
+    usuarioColecciona,
+    buscarUsuariosPorSerie,
 } from "../../helpers/SofiSeriesUsuarios.helper";
 import { Colores } from "../../data/general.data";
 import { toggle } from "../../helpers/SofiSeriesUsuariosPing.helper";
@@ -58,6 +60,17 @@ const exp: ComandoChatInput = {
                 )
                 .addSubcommand((s) =>
                     s
+                        .setName("coleccionan")
+                        .setDescription("Busca los usuarios que coleccionan una serie en concreto.")
+                        .addStringOption((o) =>
+                            o
+                                .setName("serie")
+                                .setDescription("Serie por la que se buscarán los usuarios.")
+                                .setRequired(true)
+                        )
+                )
+                .addSubcommand((s) =>
+                    s
                         .setName("lista")
                         .setDescription(
                             "Muestra tu listra de series coleccionadas o la de otro usuario."
@@ -68,6 +81,9 @@ const exp: ComandoChatInput = {
                                 .setDescription(
                                     "Usuario del que quieres ver la lista de series coleccionadas."
                                 )
+                        )
+                        .addStringOption((o) =>
+                            o.setName("serie").setDescription("Serie que se buscará en la lista.")
                         )
                 )
                 .addSubcommand((s) =>
@@ -103,6 +119,10 @@ const exp: ComandoChatInput = {
 
                     case "lista":
                         await seriesListaController(mcli, interaction);
+                        break;
+
+                    case "coleccionan":
+                        await seriesUsuariosController(mcli, interaction);
                         break;
 
                     case "ping":
@@ -173,34 +193,145 @@ const seriesListaController = async (
         interaction.options.getUser("usuario") !== null
             ? interaction.options.getUser("usuario", true)
             : interaction.user;
+
+    const serie = interaction.options.getString("serie");
+
     const idUsuario = usuario.id;
 
-    const series = await listaSeries(mcli, idUsuario);
+    if (serie !== null) {
+        const colecciona = await usuarioColecciona(mcli, idUsuario, serie);
 
-    if (series.length <= 0) {
         if (interaction.user.id === idUsuario) {
             await interaction.reply({
-                content: `> <@${idUsuario}> No tienes ninguna serie en tu lista de series coleccionadas! Usa **\`/sofi series añadir\`** para añadir una.`,
+                content: `> <@${idUsuario}> La serie **${serie}** ${
+                    colecciona ? "" : "**NO** "
+                }está en tu lista de series coleccionadas.`,
             });
         } else {
             await interaction.reply({
-                content: `> <@${interaction.user.id}> Ese usuario no tiene ninguna serie en su lista de series coleccionadas!`,
+                content: `> <@${interaction.user.id}> La serie **${serie}** ${
+                    colecciona ? "" : "**NO** "
+                }está en la lista de series coleccionadas de ese usuario.`,
             });
         }
     } else {
+        const series = await listaSeries(mcli, idUsuario);
+
+        if (series.length <= 0) {
+            if (interaction.user.id === idUsuario) {
+                await interaction.reply({
+                    content: `> <@${idUsuario}> No tienes ninguna serie en tu lista de series coleccionadas! Usa **\`/sofi series añadir\`** para añadir una.`,
+                });
+            } else {
+                await interaction.reply({
+                    content: `> <@${interaction.user.id}> Ese usuario no tiene ninguna serie en su lista de series coleccionadas!`,
+                });
+            }
+        } else {
+            const tamanoPagina: number = 10;
+            const totalPaginas: number = Math.ceil(series.length / 10);
+            let pagina: number = 1;
+
+            let seriesPagina = getPaginaSeries(series, pagina, tamanoPagina);
+            let desc = ``;
+
+            for (const serie of seriesPagina) {
+                desc += `> ${serie}\n`;
+            }
+
+            const embed = new EmbedBuilder()
+                .setTitle(`Series coleccionadas por ${usuario.username}`)
+                .setDescription(desc)
+                .setFooter({
+                    text: `Página ${pagina} de ${totalPaginas}`,
+                })
+                .setColor(Colores.EMBED_BASE);
+
+            const avanzar = new ButtonBuilder()
+                .setCustomId("avanzar")
+                .setLabel(">")
+                .setStyle(ButtonStyle.Primary);
+            const retroceder = new ButtonBuilder()
+                .setCustomId("retroceder")
+                .setLabel("<")
+                .setStyle(ButtonStyle.Primary)
+                .setDisabled(true);
+
+            if (pagina >= totalPaginas) avanzar.setDisabled(true);
+
+            const row = new ActionRowBuilder<ButtonBuilder>().addComponents([retroceder, avanzar]);
+
+            const res = await interaction.reply({
+                embeds: [embed],
+                components: [row],
+            });
+
+            const filter = (i: any) => i.user.id === interaction.user.id;
+
+            const collector = res.createMessageComponentCollector({
+                filter,
+                componentType: ComponentType.Button,
+                idle: 60_000,
+            });
+
+            collector.on("collect", async (i) => {
+                const opcion = i.customId;
+
+                if (opcion === "avanzar") {
+                    pagina += 1;
+                    if (totalPaginas <= pagina) avanzar.setDisabled(true);
+                    retroceder.setDisabled(false);
+                } else if (opcion === "retroceder") {
+                    pagina -= 1;
+                    if (pagina <= 1) retroceder.setDisabled(true);
+                    avanzar.setDisabled(false);
+                }
+
+                seriesPagina = getPaginaSeries(series, pagina, tamanoPagina);
+                desc = ``;
+
+                for (const serie of seriesPagina) {
+                    desc += `> ${serie}\n`;
+                }
+
+                embed.setDescription(desc);
+                embed.setFooter({ text: `Página ${pagina} de ${totalPaginas}` });
+
+                i.update({
+                    embeds: [embed],
+                    components: [row],
+                });
+            });
+        }
+    }
+};
+
+const seriesUsuariosController = async (
+    mcli: MClient,
+    interaction: ChatInputCommandInteraction
+): Promise<void> => {
+    const serie = interaction.options.getString("serie", true);
+
+    const IDs = await buscarUsuariosPorSerie(mcli, serie);
+
+    if (IDs.size <= 0) {
+        await interaction.reply({
+            content: `> <@${interaction.user.id}> Ningún usuario colecciona la serie ${serie}!`,
+        });
+    } else {
         const tamanoPagina: number = 10;
-        const totalPaginas: number = Math.ceil(series.length / 10);
+        const totalPaginas: number = Math.ceil(IDs.size / 10);
         let pagina: number = 1;
 
-        let seriesPagina = getPaginaSeries(series, pagina, tamanoPagina);
+        let IDsPagina = getPaginaIDs(Array.from(IDs), pagina, tamanoPagina);
         let desc = ``;
 
-        for (const serie of seriesPagina) {
-            desc += `> ${serie}\n`;
+        for (const ID of IDsPagina) {
+            desc += `> <@${ID}> - ${ID}\n`;
         }
 
         const embed = new EmbedBuilder()
-            .setTitle(`Series coleccionadas por ${usuario.username}`)
+            .setTitle(`Usuarios que coleccionan ${serie}`)
             .setDescription(desc)
             .setFooter({
                 text: `Página ${pagina} de ${totalPaginas}`,
@@ -247,11 +378,11 @@ const seriesListaController = async (
                 avanzar.setDisabled(false);
             }
 
-            seriesPagina = getPaginaSeries(series, pagina, tamanoPagina);
+            IDsPagina = getPaginaIDs(Array.from(IDs), pagina, tamanoPagina);
             desc = ``;
 
-            for (const serie of seriesPagina) {
-                desc += `> ${serie}\n`;
+            for (const ID of IDsPagina) {
+                desc += `> <@${ID}> - ${ID}\n`;
             }
 
             embed.setDescription(desc);
@@ -287,6 +418,16 @@ const getPaginaSeries = (series: string[], pagina: number, tamanoPagina: number)
 
     for (let i = (pagina - 1) * tamanoPagina; i < tamanoPagina * pagina && i < series.length; i++) {
         seriesPagina.push(series[i]);
+    }
+
+    return seriesPagina;
+};
+
+const getPaginaIDs = (IDs: string[], pagina: number, tamanoPagina: number): string[] => {
+    const seriesPagina: string[] = [];
+
+    for (let i = (pagina - 1) * tamanoPagina; i < tamanoPagina * pagina && i < IDs.length; i++) {
+        seriesPagina.push(IDs[i]);
     }
 
     return seriesPagina;

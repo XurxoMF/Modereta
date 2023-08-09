@@ -1,7 +1,7 @@
 import { Events, GuildBasedChannel, GuildMember, Message, WebhookClient } from "discord.js";
 import { MClient } from "../helpers/MClient";
 import { DEV, CLIENT_ID_DEV, CLIENT_ID_PROD, WH_DEV, WH_NIVELES, DEV_ID } from "../config.json";
-import { buscarTodoPorSerie } from "../helpers/SofiSeriesUsuarios.helper";
+import { buscarUsuariosPorSeries } from "../helpers/SofiSeriesUsuarios.helper";
 import { buscarTodos, checkEstado } from "../helpers/SofiSeriesUsuariosPing.helper";
 import { incrementarXp, recompensar } from "../helpers/Niveles.helper";
 import { anadirDrop, countDrops } from "../helpers/SofiDropCount.helper";
@@ -115,7 +115,7 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
 
     // Busca los usuarios en la base de datos y envía los pings
     if (series.length > 0) {
-        const res = await buscarTodoPorSerie(mcli, series);
+        const res = await buscarUsuariosPorSeries(mcli, series);
         const users = [...res];
         const seriesUsuarios = new Map<string, Set<string>>();
 
