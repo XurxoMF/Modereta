@@ -13,6 +13,7 @@ import { getNotas } from "../Notas.helper";
 import { Notas } from "../../models/Notas.model";
 import { Muteos } from "../../models/Muteos.model";
 import { getMuteosCount } from "../Muteos.helper";
+
 export const usuarioInfoController = async (
     mcli: MClient,
     interaction: ChatInputCommandInteraction | UserContextMenuCommandInteraction,
@@ -109,9 +110,16 @@ export const usuarioInfoController = async (
         }
     }
 
-    interaction.reply({
-        embeds: [embed],
-    });
+    if (admin) {
+        interaction.reply({
+            embeds: [embed],
+            ephemeral: true,
+        });
+    } else {
+        interaction.reply({
+            embeds: [embed],
+        });
+    }
 };
 
 const listarAdvertencias = async (advertencias: Advertencias[]) => {
