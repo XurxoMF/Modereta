@@ -105,5 +105,5 @@ export const randomXp = (): number => {
  * @return {number} XP necesaria
  */
 export const xpNecesaria = (nivel: number): number => {
-    return nivel === 0 ? 1 : 90 * (nivel * 1.4);
+    return nivel === 0 ? 1 : Math.floor(90 * (nivel * 1.4));
 };
