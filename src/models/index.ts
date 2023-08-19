@@ -6,6 +6,7 @@ import { Advertencias } from "./Advertencias.model";
 import { Notas } from "./Notas.model";
 import { Muteos } from "./Muteos.model";
 import { SofiDropCount } from "./SofiDropCount.model";
+import { SofiSeries } from "./SofiSeries.model";
 
 const sequelize = new Sequelize({
     dialect: "sqlite",
@@ -22,6 +23,7 @@ const sequelize = new Sequelize({
         Notas,
         Muteos,
         SofiDropCount,
+        SofiSeries,
     ],
 });
 
@@ -34,4 +36,5 @@ export const db = {
     Notas,
     Muteos,
     SofiDropCount,
+    SofiSeries,
 };
