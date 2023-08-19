@@ -10,7 +10,7 @@ import { MClient } from "./MClient";
 export const anadirSeries = async (mcli: MClient, series: string[]): Promise<void> => {
     try {
         for (const serie of series) {
-            mcli.db.SofiSeries.findOrCreate({ where: { serie: serie } });
+            await mcli.db.SofiSeries.findOrCreate({ where: { serie: serie } });
         }
     } catch (err) {
         console.log(

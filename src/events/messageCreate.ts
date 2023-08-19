@@ -5,7 +5,7 @@ import { buscarUsuariosPorSeries } from "../helpers/SofiSeriesUsuarios.helper";
 import { checkEstado } from "../helpers/SofiSeriesUsuariosPing.helper";
 import { incrementarXp, recompensar } from "../helpers/Niveles.helper";
 import { anadirDrop, countDrops } from "../helpers/SofiDropCount.helper";
-import { anadirSeries } from "src/helpers/SofiSeries.helper";
+import { anadirSeries } from "../helpers/SofiSeries.helper";
 const cooldowns = new Set();
 const sofuId = DEV ? DEV_ID : "950166445034188820";
 const noriId = DEV ? DEV_ID : "742070928111960155";
@@ -117,7 +117,7 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
     // Busca los usuarios en la base de datos y envía los pings
     if (series.length > 0) {
         // Añade las series a la base de datos de series de Sofi.
-        anadirSeries(mcli, series);
+        await anadirSeries(mcli, series);
 
         const res = await buscarUsuariosPorSeries(mcli, series);
         const users = [...res];
