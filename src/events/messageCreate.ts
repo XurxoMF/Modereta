@@ -109,8 +109,12 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
     if (lineasTop.length > 0) {
         let desc = "";
         for (const linea of lineasTop) {
-            desc += `\n${linea}`;
+            desc += `${linea}\n`;
         }
+        desc = desc.slice(0, -1);
+
+        console.log(`Descripción:\n${desc}`);
+
         topDropController(mcli, message, desc);
     }
 
