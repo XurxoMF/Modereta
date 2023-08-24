@@ -134,7 +134,7 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
                     const id = u.getDataValue("idUsuario");
                     const drops = await countDrops(mcli, id);
                     const ping = await checkEstado(mcli, id);
-                    if (drops >= 0) {
+                    if (drops >= 1) {
                         if (ping) {
                             menciones.add(`<@${id}>`);
                         } else {
