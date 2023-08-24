@@ -39,7 +39,7 @@ export const buscarTodos = async (mcli: MClient): Promise<SofiSeriesUsuariosPing
 };
 
 /**
- * BUsca el estado de ping de un usuario.
+ * Busca el estado de ping de un usuario.
  *
  * @param {MClient} mcli
  * @param {string} idUsuario Usuario a comprobar
