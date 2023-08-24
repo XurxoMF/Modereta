@@ -96,26 +96,7 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
         for (const linea of lineas) {
             let partes = linea.split("•");
             series.push(partes[partes.length - 1].trim());
-
-            if (partes[2].includes("ɢ") || partes[2].startsWith(" **")) {
-                let wl = partes[1].match(`[0-9]{1,}`);
-                if (Number(wl) >= 100) {
-                    lineasTop.push(linea);
-                }
-            }
         }
-    }
-
-    if (lineasTop.length > 0) {
-        let desc = "";
-        for (const linea of lineasTop) {
-            desc += `${linea}\n`;
-        }
-        desc = desc.slice(0, -1);
-
-        console.log(`Descripción:\n${desc}`);
-
-        topDropController(mcli, message, desc);
     }
 
     // Busca los usuarios en la base de datos y envía los pings
@@ -167,53 +148,6 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
             await message.reply({
                 content: content,
             });
-        }
-    }
-};
-
-const topDropController = async (mcli: MClient, message: Message, desc: string): Promise<void> => {
-    let refer = message.reference;
-
-    if (refer !== null) {
-        let drop = await message.fetchReference();
-        let embed = new EmbedBuilder()
-            .setTitle("IR AL DROP")
-            .setURL(
-                `https://discord.com/channels/${refer.guildId}/${refer.channelId}/${refer.messageId}`
-            );
-
-        if (drop.embeds.length > 0) {
-            if (drop.embeds[0].title === "SOFI: MINIGAME") {
-                embed.setTitle("SOFI: MINIJUEGO");
-                embed.setDescription(`${desc}`);
-                embed.setImage((<EmbedAssetData>drop.embeds[0].image).url);
-            } else if (drop.embeds[0].title === "Captcha Drop") {
-                embed.setTitle("SOFI: CAPTCHA DROP");
-                embed.setDescription(`${desc}`);
-                embed.setImage((<EmbedAssetData>drop.embeds[0].image).url);
-            }
-        } else {
-            if (
-                drop.content.includes("is dropping the cards") ||
-                drop.content.includes("Your extra drop is being used")
-            ) {
-                embed.setTitle("SOFI: DROP DE USUARIO");
-                embed.setDescription(`${desc}`);
-                embed.setImage((<Attachment>drop.attachments.at(0)).url);
-            } else if (drop.content === "**Series drop**") {
-                embed.setTitle("SOFI: DROP DE SERIES");
-                embed.setDescription(`${desc}`);
-                embed.setImage((<Attachment>drop.attachments.at(0)).url);
-            }
-        }
-
-        const wh = new WebhookClient({ url: WH_SOFI_TOP_DROPS });
-        try {
-            await wh.send({
-                embeds: [embed],
-            });
-        } catch (error) {
-            console.log(`🔴 Error SOFI: TOP DROP:\n${error}`);
         }
     }
 };
