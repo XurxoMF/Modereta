@@ -97,7 +97,7 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
             let partes = linea.split("•");
             series.push(partes[partes.length - 1].trim());
 
-            if (partes[2].includes("ɢ") || partes[2].match(`\*\*.{1,}\*\*`)) {
+            if (partes[2].includes("ɢ") || partes[2].startsWith(" **")) {
                 let wl = partes[1].match(`[0-9]{1,}`);
                 if (Number(wl) >= 100) {
                     lineasTop.push(linea);
