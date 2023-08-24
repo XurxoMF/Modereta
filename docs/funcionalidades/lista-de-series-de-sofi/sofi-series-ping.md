@@ -1,6 +1,6 @@
 # /sofi series ping
 
-Activa o desactiva los pings cuando se dropea una serie que coleccionáis.
+Activa o desactiva los pings cuando se dropea una serie que coleccionáis. Se seguirá mostrando el nickname o display name si no se tiene el primero pero no se te mencionará.
 
 ### Parámetros
 
