@@ -176,9 +176,11 @@ const topDropController = async (mcli: MClient, message: Message, desc: string):
 
     if (refer !== null) {
         let drop = await message.fetchReference();
-        let embed = new EmbedBuilder().setURL(
-            `https://discord.com/channels/${refer.guildId}/${refer.channelId}/${refer.messageId}`
-        );
+        let embed = new EmbedBuilder()
+            .setTitle("IR AL DROP")
+            .setURL(
+                `https://discord.com/channels/${refer.guildId}/${refer.channelId}/${refer.messageId}`
+            );
 
         if (drop.embeds.length > 0) {
             if (drop.embeds[0].title === "SOFI: MINIGAME") {
