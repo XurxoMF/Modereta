@@ -41,11 +41,7 @@ module.exports = {
             await anadirDrop(mcli, id);
         }
 
-        if (
-            message.channel.id === "1101853797573206016" &&
-            message.author.id === "853629533855809596" &&
-            !DEV
-        ) {
+        if (message.channel.id === "1101853797573206016" && message.author.id === sofiId && !DEV) {
             // Pings drops Sofi por actividad
             sofiPingDropActividad(message);
         }
@@ -95,7 +91,7 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
     let series: string[] = [];
     let lineasTop: string[] = [];
 
-    if (message.content.includes("❤️")) {
+    if (message.content.includes("❤️") || message.content.includes(":heart:")) {
         const lineas = message.content.split("\n");
         for (const linea of lineas) {
             let partes = linea.split("•");
