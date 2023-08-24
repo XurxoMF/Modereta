@@ -187,7 +187,10 @@ const topDropController = async (mcli: MClient, message: Message, desc: string):
                 embed.setImage((<EmbedAssetData>drop.embeds[0].image).url);
             }
         } else {
-            if (drop.content.includes("is dropping the cards")) {
+            if (
+                drop.content.includes("is dropping the cards") ||
+                drop.content.includes("Your extra drop is being used")
+            ) {
                 embed.setTitle("SOFI: DROP DE USUARIO");
                 embed.setDescription(`${desc}`);
                 embed.setImage((<Attachment>drop.attachments.at(0)).url);
