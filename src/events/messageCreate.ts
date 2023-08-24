@@ -1,13 +1,30 @@
-import { Events, GuildMember, Message, WebhookClient } from "discord.js";
+import {
+    Attachment,
+    EmbedAssetData,
+    EmbedBuilder,
+    Events,
+    Guild,
+    GuildMember,
+    Message,
+    WebhookClient,
+} from "discord.js";
 import { MClient } from "../helpers/MClient";
-import { DEV, CLIENT_ID_DEV, CLIENT_ID_PROD, WH_DEV, WH_NIVELES, DEV_ID } from "../config.json";
+import {
+    DEV,
+    CLIENT_ID_DEV,
+    CLIENT_ID_PROD,
+    WH_DEV,
+    WH_NIVELES,
+    DEV_ID,
+    WH_SOFI_TOP_DROPS,
+    GUILD_ID,
+} from "../config.json";
 import { buscarUsuariosPorSeries } from "../helpers/SofiSeriesUsuarios.helper";
 import { checkEstado } from "../helpers/SofiSeriesUsuariosPing.helper";
 import { incrementarXp, recompensar } from "../helpers/Niveles.helper";
 import { anadirDrop, countDrops } from "../helpers/SofiDropCount.helper";
 import { anadirSeries } from "../helpers/SofiSeries.helper";
 const cooldowns = new Set();
-const sofuId = DEV ? DEV_ID : "950166445034188820";
 const noriId = DEV ? DEV_ID : "742070928111960155";
 const sofiId = "853629533855809596";
 
@@ -26,15 +43,16 @@ module.exports = {
 
         if (
             message.channel.id === "1101853797573206016" &&
-            message.author.id === "853629533855809596"
+            message.author.id === "853629533855809596" &&
+            !DEV
         ) {
             // Pings drops Sofi por actividad
             sofiPingDropActividad(message);
         }
 
         // Análisis de las series de Sofu y Nori para los pings de coleccionadas.
-        if (message.author.id === sofuId || message.author.id === noriId) {
-            sofiSeriesDropController(mcli, message);
+        if (message.author.id === noriId) {
+            sofiDropController(mcli, message);
         }
 
         // Karuta ping de drops
@@ -73,45 +91,31 @@ const sofiPingDropActividad = (message: Message): void => {
     }
 };
 
-const sofiSeriesDropController = async (mcli: MClient, message: Message): Promise<void> => {
+const sofiDropController = async (mcli: MClient, message: Message): Promise<void> => {
     let series: string[] = [];
+    let lineasTop: string[] = [];
 
-    // Búsca las series en los mensajes de los bots.
-    if (message.author.id === sofuId && message.content.includes("has dropeado estas cartas!")) {
-        const frases = message.content.split("\n");
-        for (const frase of frases) {
-            if (frase.startsWith("> ")) {
-                series.push(frase.split(" • ")[2]);
+    if (message.content.includes("❤️")) {
+        const lineas = message.content.split("\n");
+        for (const linea of lineas) {
+            let partes = linea.split("•");
+            series.push(partes[partes.length - 1].trim());
+
+            if (partes[2].includes("ɢ") || partes[2].match(`\*\*.{1,}\*\*`)) {
+                let wl = partes[1].match(`[0-9]{1,}`);
+                if (Number(wl) >= 100) {
+                    lineasTop.push(linea);
+                }
             }
         }
-    } else if (message.author.id === noriId) {
-        if (
-            message.content.includes("**") &&
-            message.content.startsWith("`1]`") &&
-            message.content.includes("ɢ")
-        ) {
-            // drop formato char-serie por actividade
-            const lineas = message.content.split("\n");
-            for (const linea of lineas) {
-                series.push(linea.split("•")[4].trim());
-            }
-        } else if (
-            message.content.includes("**") &&
-            message.content.startsWith("`1]`") &&
-            !message.content.includes("ɢ")
-        ) {
-            // drop formato char-serie por actividade sin g
-            const lineas = message.content.split("\n");
-            for (const linea of lineas) {
-                series.push(linea.split("•")[3].trim());
-            }
-        } else if (!message.content.includes("**") && message.content.startsWith("`1]`")) {
-            // drop formato serie por actividade
-            const lineas = message.content.split("\n");
-            for (const linea of lineas) {
-                series.push(linea.split("•")[2].trim());
-            }
+    }
+
+    if (lineasTop.length > 0) {
+        let desc = "";
+        for (const linea of lineasTop) {
+            desc += `\n${linea}`;
         }
+        topDropController(mcli, message, desc);
     }
 
     // Busca los usuarios en la base de datos y envía los pings
@@ -120,26 +124,37 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
         await anadirSeries(mcli, series);
 
         const res = await buscarUsuariosPorSeries(mcli, series);
-        const users = [...res];
+        const usuarios = [...res];
         const seriesUsuarios = new Map<string, Set<string>>();
 
-        if (users.length <= 0) return;
+        if (usuarios.length <= 0) return;
 
         let content = ``;
 
         for (const s of series) {
-            let ids: Set<string> = new Set();
-            for (const u of users) {
+            let menciones: Set<string> = new Set();
+            for (const u of usuarios) {
                 if (u.getDataValue("serie").toLowerCase() === s.toLowerCase()) {
                     const id = u.getDataValue("idUsuario");
                     const drops = await countDrops(mcli, id);
                     const ping = await checkEstado(mcli, id);
-                    if (drops >= 1 && ping) {
-                        ids.add(`<@${id}>`);
+                    if (drops >= 0) {
+                        if (ping) {
+                            menciones.add(`<@${id}>`);
+                        } else {
+                            let member = mcli.guilds.cache.get(GUILD_ID)?.members.cache.get(id);
+                            if (member === undefined) {
+                                // CONSUME API CALL, TENER CUIDADO
+                                member = await (<Guild>(
+                                    mcli.guilds.cache.get(GUILD_ID)
+                                )).members.fetch(id);
+                            }
+                            menciones.add(`\`${member.displayName}\``);
+                        }
                     }
                 }
             }
-            seriesUsuarios.set(s, ids);
+            seriesUsuarios.set(s, menciones);
         }
 
         for (const su of seriesUsuarios) {
@@ -152,6 +167,48 @@ const sofiSeriesDropController = async (mcli: MClient, message: Message): Promis
             await message.reply({
                 content: content,
             });
+        }
+    }
+};
+
+const topDropController = async (mcli: MClient, message: Message, desc: string): Promise<void> => {
+    let refer = message.reference;
+
+    if (refer !== null) {
+        let drop = await message.fetchReference();
+        let embed = new EmbedBuilder().setURL(
+            `https://discord.com/channels/${refer.guildId}/${refer.channelId}/${refer.messageId}`
+        );
+
+        if (drop.embeds.length > 0) {
+            if (drop.embeds[0].title === "SOFI: MINIGAME") {
+                embed.setTitle("SOFI: MINIJUEGO");
+                embed.setDescription(`${desc}`);
+                embed.setImage((<EmbedAssetData>drop.embeds[0].image).url);
+            } else if (drop.embeds[0].title === "Captcha Drop") {
+                embed.setTitle("SOFI: CAPTCHA DROP");
+                embed.setDescription(`${desc}`);
+                embed.setImage((<EmbedAssetData>drop.embeds[0].image).url);
+            }
+        } else {
+            if (drop.content.includes("is dropping the cards")) {
+                embed.setTitle("SOFI: DROP DE USUARIO");
+                embed.setDescription(`${desc}`);
+                embed.setImage((<Attachment>drop.attachments.at(0)).url);
+            } else if (drop.content === "**Series drop**") {
+                embed.setTitle("SOFI: DROP DE SERIES");
+                embed.setDescription(`${desc}`);
+                embed.setImage((<Attachment>drop.attachments.at(0)).url);
+            }
+        }
+
+        const wh = new WebhookClient({ url: WH_SOFI_TOP_DROPS });
+        try {
+            await wh.send({
+                embeds: [embed],
+            });
+        } catch (error) {
+            console.log(`🔴 Error SOFI: TOP DROP:\n${error}`);
         }
     }
 };
