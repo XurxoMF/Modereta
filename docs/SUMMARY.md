@@ -13,7 +13,7 @@
   * [/sofi series lista](funcionalidades/lista-de-series-de-sofi/sofi-series-lista.md)
   * [/sofi series coleccionan](funcionalidades/lista-de-series-de-sofi/sofi-series-coleccionan.md)
   * [/sofi series ping](funcionalidades/lista-de-series-de-sofi/sofi-series-ping.md)
-* [🍑 Más cosas de Sofi](funcionalidades/ping-de-drops-de-sofi.md)
+* [🍑 Más cosas de Sofi](funcionalidades/mas-cosas-de-sofi.md)
 * [🫂 Acciones](funcionalidades/acciones/README.md)
   * [/acciones abrazo](funcionalidades/acciones/sofi-series-anadir.md)
   * [/acciones asesinar](funcionalidades/acciones/sofi-series-anadir-1.md)
