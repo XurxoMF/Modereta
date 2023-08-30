@@ -22,6 +22,7 @@ const exp: ComandoMessageContextMenu = {
         const msg = interaction.targetMessage;
 
         if (msg.author.id === SOFI_ID) {
+            let top = false;
             let embed = new EmbedBuilder()
                 .setTitle("IR AL DROP")
                 .setURL(`https://discord.com/channels/${msg.guildId}/${msg.channelId}/${msg.id}`)
@@ -32,10 +33,12 @@ const exp: ComandoMessageContextMenu = {
                     embed
                         .setTitle("SOFI: MINIJUEGO")
                         .setImage((<EmbedAssetData>msg.embeds[0].image).url);
+                    top = true;
                 } else if (msg.embeds[0].title === "Captcha Drop") {
                     embed
                         .setTitle("SOFI: CAPTCHA DROP")
                         .setImage((<EmbedAssetData>msg.embeds[0].image).url);
+                    top = true;
                 }
             } else {
                 if (
@@ -47,25 +50,31 @@ const exp: ComandoMessageContextMenu = {
                         .setTitle("SOFI: DROP DE USUARIO")
                         .setDescription(msg.content.split("\n")[0])
                         .setImage((<Attachment>msg.attachments.at(0)).url);
+                    top = true;
                 } else if (msg.content === "**Series drop**") {
                     embed
                         .setTitle("SOFI: DROP DE SERIES")
                         .setImage((<Attachment>msg.attachments.at(0)).url);
+                    top = true;
                 }
             }
 
-            const wh = new WebhookClient({ url: WH_SOFI_TOP_DROPS });
-            try {
-                await wh.send({
-                    embeds: [embed],
-                });
-                msg.react(`⭐`);
-                interaction.reply({
-                    content: `> <@${interaction.user.id}> Marcado como **⭐ Top Drop**!`,
-                    ephemeral: true,
-                });
-            } catch (error) {
-                console.log(`🔴 Error SOFI: TOP DROP:\n${error}`);
+            if (top) {
+                const wh = new WebhookClient({ url: WH_SOFI_TOP_DROPS });
+                try {
+                    await wh.send({
+                        embeds: [embed],
+                    });
+                    msg.react(`⭐`);
+                    interaction.reply({
+                        content: `> <@${interaction.user.id}> Marcado como **⭐ Top Drop**!`,
+                        ephemeral: true,
+                    });
+                } catch (error) {
+                    interaction.reply({
+                        content: `> <@${interaction.user.id}> Ha ocurrido un error al marcar el Top Drop!`,
+                    });
+                }
             }
         } else {
             interaction.reply({
