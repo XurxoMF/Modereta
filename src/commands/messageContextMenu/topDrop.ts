@@ -6,6 +6,7 @@ import {
     EmbedAssetData,
     Attachment,
     WebhookClient,
+    ReactionEmoji,
 } from "discord.js";
 import { MClient } from "../../helpers/MClient";
 import { TipoComandos, ComandoMessageContextMenu } from "../../types";
@@ -20,6 +21,14 @@ const exp: ComandoMessageContextMenu = {
         .setType(ApplicationCommandType.Message),
     async execute(mcli: MClient, interaction: MessageContextMenuCommandInteraction) {
         const msg = interaction.targetMessage;
+
+        let estrella = msg.reactions.cache.get("⭐");
+        if (estrella && estrella.count > 0) {
+            return interaction.reply({
+                content: `> <@${interaction.user.id}> Ese drop ya está marcado como Top Drop!`,
+                ephemeral: true,
+            });
+        }
 
         if (msg.author.id === SOFI_ID) {
             let top = false;
