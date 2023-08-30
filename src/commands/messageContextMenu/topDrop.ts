@@ -78,6 +78,11 @@ const exp: ComandoMessageContextMenu = {
                         content: `> <@${interaction.user.id}> Ha ocurrido un error al marcar el Top Drop!`,
                     });
                 }
+            } else {
+                interaction.reply({
+                    content: `> <@${interaction.user.id}> Eso no es un drop de ningún bot!`,
+                    ephemeral: true,
+                });
             }
         } else {
             interaction.reply({
