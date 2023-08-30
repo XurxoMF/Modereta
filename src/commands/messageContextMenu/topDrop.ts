@@ -51,7 +51,10 @@ const exp: ComandoMessageContextMenu = {
                         .setDescription(msg.content.split("\n")[0])
                         .setImage((<Attachment>msg.attachments.at(0)).url);
                     top = true;
-                } else if (msg.content === "**Series drop**") {
+                } else if (
+                    msg.content === "**Series drop**" ||
+                    msg.content === `*Cards can no longer be grabbed.*`
+                ) {
                     embed
                         .setTitle("SOFI: DROP DE SERIES")
                         .setImage((<Attachment>msg.attachments.at(0)).url);
