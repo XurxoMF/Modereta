@@ -23,5 +23,9 @@ _No se distingue entre mayúsculas y minúsculas. (A = a)_
 {% hint style="info" %}
 Se pueden añadir un máximo de **150** series a la lista!
 {% endhint %}
+
+{% hint style="info" %}
+Este campo se autocompleta con las series conocidas por Modereta pero se puede añadir cualquier serie aunque no aparezca en la lista, solo se tiene que escribir el nombre completo como aparece en la imagen de arriba.
+{% endhint %}
 {% endtab %}
 {% endtabs %}

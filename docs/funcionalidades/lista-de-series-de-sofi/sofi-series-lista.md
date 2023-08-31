@@ -30,5 +30,9 @@ Si se especifíca se usará al usuario mencionado.
 Si no se especifica se mostrarán **todas** las series del usuario correspondiente.\
 Si se especifica dirá si el usuario colecciona la serie o no.
 {% endhint %}
+
+{% hint style="info" %}
+Este campo se autocompleta con las series conocidas por Modereta pero se puede añadir cualquier serie aunque no aparezca en la lista, solo se tiene que escribir el nombre completo como aparece en la imagen de arriba.
+{% endhint %}
 {% endtab %}
 {% endtabs %}
