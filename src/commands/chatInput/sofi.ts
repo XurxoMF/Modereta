@@ -72,6 +72,7 @@ const exp: ComandoChatInput = {
                                 .setName("serie")
                                 .setDescription("Serie por la que se buscarán los usuarios.")
                                 .setRequired(true)
+                                .setAutocomplete(true)
                         )
                 )
                 .addSubcommand((s) =>
@@ -88,7 +89,10 @@ const exp: ComandoChatInput = {
                                 )
                         )
                         .addStringOption((o) =>
-                            o.setName("serie").setDescription("Serie que se buscará en la lista.")
+                            o
+                                .setName("serie")
+                                .setDescription("Serie que se buscará en la lista.")
+                                .setAutocomplete(true)
                         )
                 )
                 .addSubcommand((s) =>
@@ -130,6 +134,24 @@ const exp: ComandoChatInput = {
                         break;
 
                     case "añadir":
+                        if (opcion.name === "serie") {
+                            const series = await buscarLikeTodasLasSeries(mcli, opcion.value);
+                            await interaction.respond(
+                                series.map((serie) => ({ name: serie, value: serie }))
+                            );
+                        }
+                        break;
+
+                    case "coleccionan":
+                        if (opcion.name === "serie") {
+                            const series = await buscarLikeTodasLasSeries(mcli, opcion.value);
+                            await interaction.respond(
+                                series.map((serie) => ({ name: serie, value: serie }))
+                            );
+                        }
+                        break;
+
+                    case "lista":
                         if (opcion.name === "serie") {
                             const series = await buscarLikeTodasLasSeries(mcli, opcion.value);
                             await interaction.respond(
