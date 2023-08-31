@@ -220,3 +220,30 @@ export const buscarUsuariosPorSerie = async (
 
     return IDs;
 };
+
+/**
+ * Busca las 10 primeras series de un usuario que contengan las palabras seleccionadas.
+ *
+ * @param {MClient} mcli
+ * @param {string} idUsuario Usuario del que se buscarán las series
+ * @param {string} palabras Palabras que tienen que contener las series
+ * @returns {Promise<string[]>} Series encontradas para ese suuario
+ */
+export const buscarLikeSeriesUsuarios = async (
+    mcli: MClient,
+    idUsuario: string,
+    palabras: string
+): Promise<string[]> => {
+    const series = await mcli.db.SofiSeriesUsuarios.findAll({
+        where: { idUsuario: idUsuario, serie: { [Op.like]: `%${palabras}%` } },
+        limit: 10,
+    });
+
+    const arraySeries: string[] = [];
+
+    for (const serie of series) {
+        arraySeries.push(serie.getDataValue("serie"));
+    }
+
+    return arraySeries;
+};

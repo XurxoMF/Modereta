@@ -6,6 +6,7 @@ import {
     ButtonStyle,
     ActionRowBuilder,
     ComponentType,
+    AutocompleteInteraction,
 } from "discord.js";
 import { MClient } from "../../helpers/MClient";
 import { TipoComandos, ComandoChatInput } from "../../types";
@@ -17,9 +18,11 @@ import {
     listaSeries,
     usuarioColecciona,
     buscarUsuariosPorSerie,
+    buscarLikeSeriesUsuarios,
 } from "../../helpers/SofiSeriesUsuarios.helper";
 import { Colores } from "../../data/general.data";
 import { toggle } from "../../helpers/SofiSeriesUsuariosPing.helper";
+import { buscarLikeTodasLasSeries } from "../../helpers/SofiSeries.helper";
 
 const exp: ComandoChatInput = {
     tipo: TipoComandos.ChatInput,
@@ -43,6 +46,7 @@ const exp: ComandoChatInput = {
                                     `Serie que quieres añadir a tu lista. Copia el nombre de "ssl nombre-de-la-serie".`
                                 )
                                 .setRequired(true)
+                                .setAutocomplete(true)
                         )
                 )
                 .addSubcommand((s) =>
@@ -56,6 +60,7 @@ const exp: ComandoChatInput = {
                                     `Serie que quieres eliminar a tu lista. Copia el nombre de "/sofi series lista".`
                                 )
                                 .setRequired(true)
+                                .setAutocomplete(true)
                         )
                 )
                 .addSubcommand((s) =>
@@ -102,6 +107,46 @@ const exp: ComandoChatInput = {
                         )
                 )
         ),
+    async autocompletado(mcli: MClient, interaction: AutocompleteInteraction) {
+        const opcion = interaction.options.getFocused(true);
+        const subg = interaction.options.getSubcommandGroup();
+        const sub = interaction.options.getSubcommand();
+        const idUsuario = interaction.user.id;
+
+        switch (subg) {
+            case "series":
+                switch (sub) {
+                    case "eliminar":
+                        if (opcion.name === "serie") {
+                            const series = await buscarLikeSeriesUsuarios(
+                                mcli,
+                                idUsuario,
+                                opcion.value
+                            );
+                            await interaction.respond(
+                                series.map((serie) => ({ name: serie, value: serie }))
+                            );
+                        }
+                        break;
+
+                    case "añadir":
+                        if (opcion.name === "serie") {
+                            const series = await buscarLikeTodasLasSeries(mcli, opcion.value);
+                            await interaction.respond(
+                                series.map((serie) => ({ name: serie, value: serie }))
+                            );
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+                break;
+
+            default:
+                break;
+        }
+    },
     async execute(mcli: MClient, interaction: ChatInputCommandInteraction) {
         const scg = interaction.options.getSubcommandGroup(true);
         const scn = interaction.options.getSubcommand(true);

@@ -6,7 +6,6 @@ import {
     EmbedAssetData,
     Attachment,
     WebhookClient,
-    ReactionEmoji,
 } from "discord.js";
 import { MClient } from "../../helpers/MClient";
 import { TipoComandos, ComandoMessageContextMenu } from "../../types";

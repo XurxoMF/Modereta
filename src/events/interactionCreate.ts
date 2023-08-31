@@ -1,21 +1,27 @@
-import { Events, Collection, CommandInteraction } from "discord.js";
+import {
+    Events,
+    Collection,
+    BaseInteraction,
+    AutocompleteInteraction,
+    CacheType,
+} from "discord.js";
 import { MClient } from "../helpers/MClient";
 import { COOLDOWN_BASE } from "../data/general.data";
 import { DEV, DEV_ID } from "../config.json";
 
 module.exports = {
     name: Events.InteractionCreate,
-    async execute(mcli: MClient, interaction: CommandInteraction) {
+    async execute(mcli: MClient, interaction: BaseInteraction) {
         const cooldowns = mcli.cooldowns;
 
-        if (DEV && interaction.user.id !== DEV_ID) {
-            return interaction.reply({
-                content: `> <@${interaction.user.id}> El bot está en **mantenimiento**, inténtalo de nuevo dentro de un rato! <a:av_besitos:1114871486419832852>`,
-                ephemeral: true,
-            });
-        }
-
         if (interaction.isChatInputCommand()) {
+            if (DEV && interaction.user.id !== DEV_ID) {
+                return interaction.reply({
+                    content: `> <@${interaction.user.id}> El bot está en **mantenimiento**, inténtalo de nuevo dentro de un rato! <a:av_besitos:1114871486419832852>`,
+                    ephemeral: true,
+                });
+            }
+
             const comandoChatImput = mcli.comandosChatImput.get(interaction.commandName);
 
             if (!comandoChatImput) {
@@ -70,6 +76,13 @@ module.exports = {
                 }
             }
         } else if (interaction.isMessageContextMenuCommand()) {
+            if (DEV && interaction.user.id !== DEV_ID) {
+                return interaction.reply({
+                    content: `> <@${interaction.user.id}> El bot está en **mantenimiento**, inténtalo de nuevo dentro de un rato! <a:av_besitos:1114871486419832852>`,
+                    ephemeral: true,
+                });
+            }
+
             const comandoMessageContextMenu = mcli.comandosMessageContextMenu.get(
                 interaction.commandName
             );
@@ -100,6 +113,13 @@ module.exports = {
                 }
             }
         } else if (interaction.isUserContextMenuCommand()) {
+            if (DEV && interaction.user.id !== DEV_ID) {
+                return interaction.reply({
+                    content: `> <@${interaction.user.id}> El bot está en **mantenimiento**, inténtalo de nuevo dentro de un rato! <a:av_besitos:1114871486419832852>`,
+                    ephemeral: true,
+                });
+            }
+
             const comandoUserContextMenu = mcli.comandosUserContextMenu.get(
                 interaction.commandName
             );
@@ -128,6 +148,23 @@ module.exports = {
                         ephemeral: true,
                     });
                 }
+            }
+        } else if (interaction.isAutocomplete()) {
+            const comando = mcli.comandosChatImput.get(interaction.commandName);
+
+            if (!comando) {
+                console.error(`No command matching ${interaction.commandName} was found.`);
+                return;
+            }
+
+            if (comando.autocompletado) {
+                try {
+                    comando.autocompletado(mcli, interaction);
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
+                return;
             }
         } else {
             return;

@@ -4,6 +4,7 @@ import {
     ChatInputCommandInteraction,
     MessageContextMenuCommandInteraction,
     UserContextMenuCommandInteraction,
+    AutocompleteInteraction,
 } from "discord.js";
 import { MClient } from "./helpers/MClient";
 import { db } from "./models";
@@ -38,6 +39,7 @@ export interface ComandoBase {
 export interface ComandoChatInput extends ComandoBase {
     cooldown?: number;
     data: OptionalExceptFor<SlashCommandBuilder, "name">;
+    autocompletado?: (mcli: MClient, interaction: AutocompleteInteraction) => void;
     execute: (mcli: MClient, interaction: ChatInputCommandInteraction) => void;
 }
 
