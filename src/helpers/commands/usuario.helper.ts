@@ -26,6 +26,7 @@ export const usuarioInfoController = async (
     if (member === null) {
         return interaction.reply({
             content: `> El usuario mencionado no está en el servidor!`,
+            ephemeral: true,
         });
     }
 
