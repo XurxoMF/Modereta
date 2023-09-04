@@ -61,8 +61,8 @@ export const anadirSerie = async (
     if (series >= 150) return AgregarSerieStatus.MAXIMO_SERIES;
 
     const [registro, creada] = await mcli.db.SofiSeriesUsuarios.findOrCreate({
-        where: { idUsuario: idUsuario, serie: serie },
-        defaults: { idUsuario: idUsuario, serie: serie },
+        where: { idUsuario: idUsuario, serie: serie.trim() },
+        defaults: { idUsuario: idUsuario, serie: serie.trim() },
     });
 
     if (creada) {

@@ -211,7 +211,7 @@ const seriesAnadirController = async (
     interaction: ChatInputCommandInteraction
 ): Promise<void> => {
     const idUsuario = interaction.user.id;
-    const serie = interaction.options.getString("serie", true);
+    const serie = interaction.options.getString("serie", true).trim();
 
     const status: AgregarSerieStatus = await anadirSerie(mcli, idUsuario, serie);
 
