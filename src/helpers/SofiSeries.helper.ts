@@ -11,7 +11,9 @@ import { Op } from "sequelize";
 export const anadirSeries = async (mcli: MClient, series: string[]): Promise<void> => {
     try {
         for (const serie of series) {
-            await mcli.db.SofiSeries.findOrCreate({ where: { serie: serie.trim() } });
+            await mcli.db.SofiSeries.findOrCreate({
+                where: { serie: { [Op.like]: serie.trim() } },
+            });
         }
     } catch (err) {
         console.log(
