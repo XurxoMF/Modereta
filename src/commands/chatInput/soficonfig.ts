@@ -107,7 +107,7 @@ const seriesEliminarController = async (
     interaction.reply({
         content: `> <@${interaction.user.id}> ${
             estado ? "Se" : "**No** se"
-        } ha elimiando la serie ${serie} de la base de datos!`,
+        } ha elimiando la serie **${serie}** de la base de datos!`,
         ephemeral: true,
     });
 };
