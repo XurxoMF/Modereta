@@ -6,19 +6,25 @@ import { Op } from "sequelize";
  *
  * @param {MClient} mcli
  * @param {string[]} series Array de series para añadir a la db
- * @return {Promise<void>} Nada, es silenciosa
+ * @return {Promise<boolean[]>} True si se añade, false si no
  */
-export const anadirSeries = async (mcli: MClient, series: string[]): Promise<void> => {
+export const anadirSeries = async (mcli: MClient, series: string[]): Promise<boolean[]> => {
+    const creadas: boolean[] = [];
     try {
         for (const serie of series) {
-            await mcli.db.SofiSeries.findOrCreate({
-                where: { serie: { [Op.like]: serie.trim() } },
+            const s = serie.trim();
+            const [existenete, creada] = await mcli.db.SofiSeries.findOrCreate({
+                where: { serie: { [Op.like]: s } },
+                defaults: { serie: s },
             });
+            creadas.push(creada);
         }
+        return creadas;
     } catch (err) {
         console.log(
             `🔴 Error al añadir una de las sigueintes series: "${series.join('", "')}"\n${err}`
         );
+        return [false];
     }
 };
 

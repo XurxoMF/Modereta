@@ -6,7 +6,11 @@ import {
 } from "discord.js";
 import { MClient } from "../../helpers/MClient";
 import { TipoComandos, ComandoChatInput } from "../../types";
-import { buscarLikeTodasLasSeries, eliminarSerie } from "../../helpers/SofiSeries.helper";
+import {
+    anadirSeries,
+    buscarLikeTodasLasSeries,
+    eliminarSerie,
+} from "../../helpers/SofiSeries.helper";
 
 const exp: ComandoChatInput = {
     tipo: TipoComandos.ChatInput,
@@ -28,6 +32,17 @@ const exp: ComandoChatInput = {
                                 .setDescription(`Serie que quieres eliminar de la lista.`)
                                 .setRequired(true)
                                 .setAutocomplete(true)
+                        )
+                )
+                .addSubcommand((s) =>
+                    s
+                        .setName("añadir")
+                        .setDescription("Añade una serie de la lista de Series de Sofi.")
+                        .addStringOption((o) =>
+                            o
+                                .setName("serie")
+                                .setDescription(`Serie que quieres añadir de la lista.`)
+                                .setRequired(true)
                         )
                 )
         ),
@@ -68,6 +83,10 @@ const exp: ComandoChatInput = {
                         await seriesEliminarController(mcli, interaction);
                         break;
 
+                    case "añadir":
+                        await seriesAñadirController(mcli, interaction);
+                        break;
+
                     default:
                         break;
                 }
@@ -89,6 +108,19 @@ const seriesEliminarController = async (
         content: `> <@${interaction.user.id}> ${
             estado ? "Se" : "**No** se"
         } ha elimiando la serie ${serie} de la base de datos!`,
+        ephemeral: true,
+    });
+};
+
+const seriesAñadirController = async (mcli: MClient, interaction: ChatInputCommandInteraction) => {
+    const serie = interaction.options.getString("serie", true);
+    const series = [serie];
+    const creadas = await anadirSeries(mcli, series);
+
+    interaction.reply({
+        content: `> <@${interaction.user.id}> ${
+            creadas[0] ? "Se" : "**No** se"
+        } ha añadido la serie **${serie}** a la base de datos!`,
         ephemeral: true,
     });
 };
