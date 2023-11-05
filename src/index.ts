@@ -45,13 +45,6 @@ mcli.rest.on("rateLimited", (info) =>
 );
 
 setInterval(async () => {
-    let now = new Date(Date.now());
-    // VS Server genbackup
-    if (now.getMinutes() == 0) {
-        new WebhookClient({
-            url: "https://discord.com/api/webhooks/1170698294163406918/y15ZuyVdYkNAQ8D2u4IBs_MVROj_dG-uWt4uKn3_S7VpMmV3n6fYhKN0ipW6PBlj5hGR",
-        }).send({ content: "genbackup" });
-    }
     // Autoeliminación de muteos.
     const muteos = await getMuteosActivosTerminados(mcli);
     muteos.forEach(async (muteo) => {
