@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { Collection, GatewayIntentBits, GuildMember } from "discord.js";
+import { Collection, GatewayIntentBits, GuildMember, Webhook, WebhookClient } from "discord.js";
 import { TOKEN_DEV, TOKEN_PROD, DEV, GUILD_ID, CLIENT_ID_DEV, CLIENT_ID_PROD } from "./config.json";
 import {
     TipoComandos,
@@ -14,6 +14,7 @@ import { db } from "./models";
 import { desmutear, getMuteosActivosTerminados } from "./helpers/Muteos.helper";
 import { wait } from "./helpers/Generales.helper";
 import { eliminarCaducados } from "./helpers/SofiDropCount.helper";
+import { send } from "node:process";
 
 const intents = {
     intents: [
@@ -44,6 +45,13 @@ mcli.rest.on("rateLimited", (info) =>
 );
 
 setInterval(async () => {
+    let now = new Date(Date.now());
+    // VS Server genbackup
+    if (now.getMinutes() == 0) {
+        new WebhookClient({
+            url: "https://discord.com/api/webhooks/1170698294163406918/y15ZuyVdYkNAQ8D2u4IBs_MVROj_dG-uWt4uKn3_S7VpMmV3n6fYhKN0ipW6PBlj5hGR",
+        }).send({ content: "genbackup" });
+    }
     // Autoeliminación de muteos.
     const muteos = await getMuteosActivosTerminados(mcli);
     muteos.forEach(async (muteo) => {
