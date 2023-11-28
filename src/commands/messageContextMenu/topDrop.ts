@@ -42,7 +42,7 @@ const exp: ComandoMessageContextMenu = {
                         .setTitle("SOFI: MINIJUEGO")
                         .setImage((<EmbedAssetData>msg.embeds[0].image).url);
                     top = true;
-                } else if (msg.embeds[0].title === "Captcha Card") {
+                } else if (msg.embeds[0].title === "SOFI: CAPTCHADROP") {
                     embed
                         .setTitle("SOFI: CAPTCHA DROP")
                         .setImage((<EmbedAssetData>msg.embeds[0].image).url);

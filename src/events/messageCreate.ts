@@ -72,7 +72,7 @@ const sofiPingDropActividad = (message: Message): void => {
 
     if (embed === undefined) return;
 
-    if (embed.title === "Captcha Card") {
+    if (embed.title === "SOFI: CAPTCHADROP") {
         message.reply({
             content: `<@&1096410227408121898> **Captcha Drop** disponible!`,
         });
