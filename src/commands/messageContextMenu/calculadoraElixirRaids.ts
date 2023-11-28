@@ -34,25 +34,29 @@ const exp: ComandoMessageContextMenu = {
 
                     let v_facil = Number(facil[0]);
                     let a_facil = Number(facil[1]);
-                    let e_facil = v_facil * 60;
-                    let f_facil = `\`Fácil:  \` ➜ **${v_facil} :trophy: · ${a_facil} :crossed_swords: = ${e_facil} <:elixir_s:1106574363433644052>**`;
+                    let e_facil = v_facil * 80;
+                    let s_facil = v_facil * 50;
+                    let f_facil = `\`Fácil:  \` ➜ **${v_facil} :trophy: · ${a_facil} :crossed_swords: = ${e_facil} <:elixir_s:1106574363433644052>** + **${s_facil} <:shard_s:1179137332675358760>**`;
 
                     let v_medio = Number(medio[0]);
                     let a_medio = Number(medio[1]);
-                    let e_medio = v_medio * 90;
-                    let f_medio = `\`Medio:  \` ➜ **${v_medio} :trophy: · ${a_medio} :crossed_swords: = ${e_medio} <:elixir_s:1106574363433644052>**`;
+                    let e_medio = v_medio * 110;
+                    let s_medio = v_medio * 50;
+                    let f_medio = `\`Medio:  \` ➜ **${v_medio} :trophy: · ${a_medio} :crossed_swords: = ${e_medio} <:elixir_s:1106574363433644052>** + **${s_medio} <:shard_s:1179137332675358760>**`;
 
                     let v_dificil = Number(dificil[0]);
                     let a_dificil = Number(dificil[1]);
-                    let e_dificil = v_dificil * 150;
-                    let f_dificil = `\`Difícil:\` ➜ **${v_dificil} :trophy: · ${a_dificil} :crossed_swords: = ${e_dificil}  <:elixir_s:1106574363433644052>**`;
+                    let e_dificil = v_dificil * 170;
+                    let s_dificil = v_dificil * 50;
+                    let f_dificil = `\`Difícil:\` ➜ **${v_dificil} :trophy: · ${a_dificil} :crossed_swords: = ${e_dificil}  <:elixir_s:1106574363433644052>** + **${s_dificil} <:shard_s:1179137332675358760>**`;
 
                     let t_ataques = a_facil + a_medio + a_dificil;
                     let e_ataques = t_ataques * 20;
                     let f_ataques = `\`Ataques:\` ➜ **${t_ataques} = ${e_ataques} <:elixir_s:1106574363433644052>**`;
 
                     let e_total = e_ataques + e_facil + e_medio + e_dificil;
-                    let f_total = `\`Total:  \` ➜ **${e_total} <:elixir_s:1106574363433644052>**`;
+                    let s_total = s_facil + s_medio + s_dificil;
+                    let f_total = `\`Total:  \` ➜ **${e_total} <:elixir_s:1106574363433644052>** + **${s_total} <:shard_s:1179137332675358760>**`;
 
                     if (e_total > 0) {
                         fields.push({

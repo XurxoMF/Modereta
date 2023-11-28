@@ -42,7 +42,7 @@ const exp: ComandoMessageContextMenu = {
                         .setTitle("SOFI: MINIJUEGO")
                         .setImage((<EmbedAssetData>msg.embeds[0].image).url);
                     top = true;
-                } else if (msg.embeds[0].title === "Captcha Drop") {
+                } else if (msg.embeds[0].title === "Captcha Card") {
                     embed
                         .setTitle("SOFI: CAPTCHA DROP")
                         .setImage((<EmbedAssetData>msg.embeds[0].image).url);
@@ -50,9 +50,9 @@ const exp: ComandoMessageContextMenu = {
                 }
             } else {
                 if (
-                    msg.content.includes("is dropping the cards") ||
-                    msg.content.includes("Your extra drop is being used") ||
-                    msg.content.includes("dropped the cards")
+                    msg.content.includes("está **dropeando** cartas") ||
+                    msg.content.includes("Las cartas de abajo ya no pueden ser **obtenidas**") ||
+                    msg.content.includes("Tu **Drop** está siendo usado.")
                 ) {
                     embed
                         .setTitle("SOFI: DROP DE USUARIO")
@@ -60,8 +60,8 @@ const exp: ComandoMessageContextMenu = {
                         .setImage((<Attachment>msg.attachments.at(0)).url);
                     top = true;
                 } else if (
-                    msg.content === "**Series drop**" ||
-                    msg.content === `*Cards can no longer be grabbed.*`
+                    msg.content ===
+                    `Cuando el temporizador se agote, se generarán **2** cartas aleatorias de la serie más votada!`
                 ) {
                     embed
                         .setTitle("SOFI: DROP DE SERIES")

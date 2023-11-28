@@ -72,7 +72,7 @@ const sofiPingDropActividad = (message: Message): void => {
 
     if (embed === undefined) return;
 
-    if (embed.title === "Captcha Drop") {
+    if (embed.title === "Captcha Card") {
         message.reply({
             content: `<@&1096410227408121898> **Captcha Drop** disponible!`,
         });
@@ -80,7 +80,11 @@ const sofiPingDropActividad = (message: Message): void => {
         message.reply({
             content: `<@&1096410227408121898> **Minijuego** desponible!`,
         });
-    } else if (embed.description?.includes("I will drop cards from the most voted series")) {
+    } else if (
+        embed.description?.includes(
+            "Cuando el temporizador se agote, se generarán **2** cartas aleatorias de la serie más votada!"
+        )
+    ) {
         message.reply({
             content: `<@&1096410227408121898> **Drop de Series** desponible!`,
         });
