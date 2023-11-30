@@ -34,7 +34,7 @@ module.exports = {
         // Si el mensaje es del propio bot cancelamos todo.
         if (message.author.id === (DEV ? CLIENT_ID_DEV : CLIENT_ID_PROD)) return;
 
-        if (message.author.id === sofiId && message.content.includes("is dropping the cards")) {
+        if (message.author.id === sofiId && message.content.includes("está **dropeando** cartas")) {
             const palabras = message.content.split(" ");
             const id = palabras[0].slice(2, -1);
 
@@ -93,7 +93,6 @@ const sofiPingDropActividad = (message: Message): void => {
 
 const sofiDropController = async (mcli: MClient, message: Message): Promise<void> => {
     let series: string[] = [];
-    let lineasTop: string[] = [];
 
     if (message.content.includes("❤️") || message.content.includes(":heart:")) {
         const lineas = message.content.split("\n");
