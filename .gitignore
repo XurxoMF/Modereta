@@ -92,3 +92,6 @@ typings/
 
 # Config files
 /src/config.json
+
+# pm2 ecosistem
+ecosystem.config.js
