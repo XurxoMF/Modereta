@@ -154,7 +154,7 @@ setInterval(async () => {
 
         req.end();
     }
-}, 5_000);
+}, 60_000);
 
 // Importación de comandosChatImput
 const rutaCarpetas = path.join(__dirname, "commands");
