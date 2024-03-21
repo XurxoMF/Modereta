@@ -1,13 +1,4 @@
-import {
-    Attachment,
-    EmbedAssetData,
-    EmbedBuilder,
-    Events,
-    Guild,
-    GuildMember,
-    Message,
-    WebhookClient,
-} from "discord.js";
+import { Events, Guild, GuildMember, Message, WebhookClient } from "discord.js";
 import { MClient } from "../helpers/MClient";
 import {
     DEV,
@@ -16,7 +7,6 @@ import {
     WH_DEV,
     WH_NIVELES,
     DEV_ID,
-    WH_SOFI_TOP_DROPS,
     GUILD_ID,
 } from "../config.json";
 import { buscarUsuariosPorSeries } from "../helpers/SofiSeriesUsuarios.helper";
@@ -34,7 +24,11 @@ module.exports = {
         // Si el mensaje es del propio bot cancelamos todo.
         if (message.author.id === (DEV ? CLIENT_ID_DEV : CLIENT_ID_PROD)) return;
 
-        if (message.author.id === sofiId && message.content.includes("está **dropeando** cartas")) {
+        if (
+            message.author.id === sofiId &&
+            (message.content.includes("está **dropeando** cartas") ||
+                message.content.includes("is **dropping** cards"))
+        ) {
             const palabras = message.content.split(" ");
             const id = palabras[0].slice(2, -1);
 
