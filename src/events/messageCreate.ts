@@ -15,7 +15,8 @@ import { incrementarXp, recompensar } from "../helpers/Niveles.helper";
 import { anadirDrop, countDrops } from "../helpers/SofiDropCount.helper";
 import { anadirSeries } from "../helpers/SofiSeries.helper";
 const cooldowns = new Set();
-const noriId = DEV ? DEV_ID : "742070928111960155";
+// Cambiado por SOFU
+const noriId = DEV ? DEV_ID : "950166445034188820";
 const sofiId = "853629533855809596";
 
 module.exports = {
@@ -35,12 +36,7 @@ module.exports = {
             await anadirDrop(mcli, id);
         }
 
-        if (message.channel.id === "1101853797573206016" && message.author.id === sofiId && !DEV) {
-            // Pings drops Sofi por actividad
-            sofiPingDropActividad(message);
-        }
-
-        // Análisis de las series de Sofu y Nori para los pings de coleccionadas.
+        // Análisis de las series de Sofu para los pings de coleccionadas.
         if (message.author.id === noriId) {
             sofiDropController(mcli, message);
         }
@@ -59,30 +55,6 @@ module.exports = {
         if (!message.inGuild() || message.author.bot || cooldowns.has(message.author.id)) return;
         nivelesController(mcli, message);
     },
-};
-
-const sofiPingDropActividad = (message: Message): void => {
-    const embed = message.embeds.length >= 1 ? message.embeds[0] : undefined;
-
-    if (embed === undefined) return;
-
-    if (embed.title === "SOFI: CAPTCHADROP") {
-        message.reply({
-            content: `<@&1096410227408121898> **Captcha Drop** disponible!`,
-        });
-    } else if (embed.title === "SOFI: MINIGAME") {
-        message.reply({
-            content: `<@&1096410227408121898> **Minijuego** desponible!`,
-        });
-    } else if (
-        embed.description?.includes(
-            "Cuando el temporizador se agote, se generarán **2** cartas aleatorias de la serie más votada!"
-        )
-    ) {
-        message.reply({
-            content: `<@&1096410227408121898> **Drop de Series** desponible!`,
-        });
-    }
 };
 
 const sofiDropController = async (mcli: MClient, message: Message): Promise<void> => {
