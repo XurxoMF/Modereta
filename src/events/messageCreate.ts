@@ -64,7 +64,7 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
         const lineas = message.content.split("\n");
         for (const linea of lineas) {
             let partes = linea.split("•");
-            series.push(partes[partes.length - 1].trim());
+            series.push(partes[partes.length - 1].trim().replace(/\*/g, ""));
         }
     }
 
