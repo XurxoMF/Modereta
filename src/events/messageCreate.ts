@@ -16,7 +16,8 @@ import { anadirDrop, countDrops } from "../helpers/SofiDropCount.helper";
 import { anadirSeries } from "../helpers/SofiSeries.helper";
 const cooldowns = new Set();
 // Cambiado por SOFU
-const noriId = DEV ? DEV_ID : "950166445034188820";
+const sofuId = DEV ? DEV_ID : "950166445034188820";
+const noriId = DEV ? DEV_ID : "742070928111960155";
 const sofiId = "853629533855809596";
 
 module.exports = {
@@ -37,7 +38,7 @@ module.exports = {
         }
 
         // Análisis de las series de Sofu para los pings de coleccionadas.
-        if (message.author.id === noriId) {
+        if (message.author.id === noriId || message.author.id === sofuId) {
             sofiDropController(mcli, message);
         }
 
