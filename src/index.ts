@@ -15,11 +15,6 @@ import {
     GUILD_ID,
     CLIENT_ID_DEV,
     CLIENT_ID_PROD,
-    DNS,
-    DNS_CONTRASENA,
-    DNS_USUARIO,
-    DNS_HOST,
-    DNS_WH,
 } from "./config.json";
 import {
     TipoComandos,
@@ -33,7 +28,6 @@ import { db } from "./models";
 import { desmutear, getMuteosActivosTerminados } from "./helpers/Muteos.helper";
 import { wait } from "./helpers/Generales.helper";
 import { eliminarCaducados } from "./helpers/SofiDropCount.helper";
-import https from "node:https";
 
 const intents = {
     intents: [
@@ -63,8 +57,6 @@ mcli.rest.on("rateLimited", (info) =>
     console.log("🟡 Rate Limited | Información avanzada:\n", info)
 );
 
-let ipActual = "0";
-
 setInterval(async () => {
     // Autoeliminación de muteos.
     const muteos = await getMuteosActivosTerminados(mcli);
@@ -84,76 +76,6 @@ setInterval(async () => {
 
     // Autoeliminación de drops de Sofi caducados.
     eliminarCaducados(mcli);
-
-    if (DNS) {
-        const wh = new WebhookClient({ url: DNS_WH });
-
-        const req = https.get({ host: "api.ipify.org", path: "/" }, (res) => {
-            res.on("data", (ip) => {
-                ip = Buffer.from(ip).toString("utf-8");
-
-                if (ip !== ipActual) {
-                    const req = https.get(
-                        {
-                            host: "dondns.dondominio.com",
-                            path: `/json/?user=${DNS_USUARIO}&password=${DNS_CONTRASENA}&host=${DNS_HOST}&ip=${ip}`,
-                            method: "GET",
-                        },
-                        (res) => {
-                            res.on("data", (data) => {
-                                data = Buffer.from(data).toString("utf-8");
-
-                                try {
-                                    const jsonData = JSON.parse(data);
-
-                                    const embed = new EmbedBuilder().setTimestamp(Date.now());
-
-                                    if (jsonData.success) {
-                                        embed
-                                            .setTitle("IP DNS CAMBIADA!!!")
-                                            .setDescription(
-                                                `- **IP Anterior:** ${ipActual}\n- **IP Nueva:** ${ip}`
-                                            )
-                                            .setColor("#ffe208");
-
-                                        ipActual = ip;
-                                    } else {
-                                        embed
-                                            .setTitle("NO SE HA PODIDO CAMBIAR LA IP!!!")
-                                            .setDescription(
-                                                `- **IP Anterior:** ${ipActual}\n- **IP Nueva:** ${ip}`
-                                            )
-                                            .setColor("#fc0303");
-                                    }
-
-                                    wh.send({ content: `<@${DEV_ID}>`, embeds: [embed] });
-                                } catch (error) {
-                                    console.error("🟡 Error al parsear el JSON del cambio de IP!");
-                                }
-                            });
-                        }
-                    );
-
-                    req.on("error", (error) => {
-                        const embed = new EmbedBuilder()
-                            .setTitle("ERROR AL CAMBIAR IP!!!")
-                            .setDescription(`- **IP Anterior:** ${ipActual}\n- **IP Nueva:** ${ip}`)
-                            .setTimestamp(Date.now())
-                            .setColor("#fc0303");
-                        wh.send({ content: `<@${DEV_ID}>`, embeds: [embed] });
-                    });
-
-                    req.end();
-                }
-            });
-        });
-
-        req.on("error", (error) => {
-            console.log("🟡 Error al detectar la nueva IP!");
-        });
-
-        req.end();
-    }
 }, 60_000);
 
 // Importación de comandosChatImput
