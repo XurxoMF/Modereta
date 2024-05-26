@@ -247,3 +247,29 @@ export const buscarLikeSeriesUsuarios = async (
 
     return arraySeries;
 };
+
+/**
+ *
+ * @param {MClient} mcli
+ * @param {string} inicioSerie El inicio de la serie, puede terminar en ..., se parsea en este método.
+ * @returns {Promise<string[]>} Array con el ID del usuario. Solo contiene 1 id.
+ */
+export const primerColeccionistaPorSerie = async (
+    mcli: MClient,
+    inicioSerie: string
+): Promise<string[]> => {
+    if (inicioSerie.endsWith("...")) {
+        inicioSerie = inicioSerie.slice(0, -3);
+    }
+
+    const usuario = await mcli.db.SofiSeriesUsuarios.findOne({
+        where: { serie: { [Op.like]: `${inicioSerie}%` } },
+        order: [["createdAt", "ASC"]],
+    });
+
+    if (!usuario) {
+        return [];
+    }
+
+    return [usuario.getDataValue("idUsuario")];
+};
