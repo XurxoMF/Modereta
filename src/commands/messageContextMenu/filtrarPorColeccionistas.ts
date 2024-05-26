@@ -188,7 +188,14 @@ const actualizarCodigos = async (
         if (idsUsuarios.length === 1) {
             const idUsuario = idsUsuarios[0];
 
-            let estaNoServer = await interaction.guild?.members.fetch(idUsuario);
+            let estaNoServer = true;
+
+            try {
+                let user = await interaction.guild?.members.fetch(idUsuario);
+                if (user === undefined) estaNoServer = false;
+            } catch (err) {
+                estaNoServer = false;
+            }
 
             if (estaNoServer) {
                 if (!contRes[idUsuario]) {
