@@ -180,7 +180,7 @@ const actualizarCodigos = async (
 
     for (const carta of cartas) {
         let partes = carta.split(" • ");
-        let serie = partes[partes.length - 1].slice(1, -1).trim();
+        let serie = partes[partes.length - 1].trim().slice(1, -1);
         let codigo = partes[2].trim().split(" ")[0].slice(1, -1).trim();
 
         const idsUsuarios = await primerColeccionistaPorSerie(mcli, serie);
