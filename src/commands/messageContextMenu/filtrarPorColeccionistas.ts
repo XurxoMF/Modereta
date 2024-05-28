@@ -12,7 +12,10 @@ import {
     EmbedBuilder,
 } from "discord.js";
 import { MClient } from "../../helpers/MClient";
-import { primerColeccionistaPorSerie } from "../../helpers/SofiSeriesUsuarios.helper";
+import {
+    buscarUsuariosPorInicioSerie,
+    buscarUsuariosPorSerie,
+} from "../../helpers/SofiSeriesUsuarios.helper";
 import { TipoComandos, ComandoMessageContextMenu } from "../../types";
 import { Colores } from "../../data/general.data";
 
@@ -183,11 +186,9 @@ const actualizarCodigos = async (
         let serie = partes[partes.length - 1].trim().slice(1, -1);
         let codigo = partes[2].trim().split(" ")[0].slice(1, -1).trim();
 
-        const idsUsuarios = await primerColeccionistaPorSerie(mcli, serie);
+        const idsUsuarios = await buscarUsuariosPorInicioSerie(mcli, serie);
 
-        if (idsUsuarios.length === 1) {
-            const idUsuario = idsUsuarios[0];
-
+        for (const idUsuario of idsUsuarios) {
             let estaNoServer = true;
 
             try {
