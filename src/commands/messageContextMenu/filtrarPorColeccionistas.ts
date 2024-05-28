@@ -69,7 +69,12 @@ const exp: ComandoMessageContextMenu = {
 
         const btnMostrarCodigos = new ButtonBuilder()
             .setCustomId(`mostrar_codigos_button_${messageId}`)
-            .setLabel("Mostrar Resultados")
+            .setLabel("Códigos")
+            .setStyle(ButtonStyle.Success);
+
+        const btnMostrarCodigosNoComas = new ButtonBuilder()
+            .setCustomId(`mostrar_codigos_nocomas_button_${messageId}`)
+            .setLabel("Códigos Sin Comas")
             .setStyle(ButtonStyle.Success);
 
         const btnCancelar = new ButtonBuilder()
@@ -79,6 +84,7 @@ const exp: ComandoMessageContextMenu = {
 
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
             btnMostrarCodigos,
+            btnMostrarCodigosNoComas,
             btnCancelar
         );
 
@@ -135,26 +141,27 @@ const exp: ComandoMessageContextMenu = {
         const handleButtonInteraction = async (buttonInteraction: Interaction) => {
             if (!buttonInteraction.isButton() || buttonInteraction.user.id !== interaction.user.id)
                 return;
+
             if (buttonInteraction.customId === `mostrar_codigos_button_${messageId}`) {
-                mcli.off("messageUpdate", handleMessageUpdate);
-                mcli.off("interactionCreate", handleButtonInteraction);
                 usadoEn.delete(messageId);
-                try {
-                    await respuesta.delete();
-                } catch (err) {}
 
-                const respuestas = await formatearRespuesta(contRes);
+                const respuestas = await formatearRespuesta(contRes, true);
 
-                interaction.channel?.send({ embeds: [...respuestas] });
+                await respuesta.edit({ embeds: [...respuestas] });
+            }
+
+            if (buttonInteraction.customId === `mostrar_codigos_nocomas_button_${messageId}`) {
+                usadoEn.delete(messageId);
+
+                const respuestas = await formatearRespuesta(contRes, false);
+
+                await respuesta.edit({ embeds: [...respuestas] });
             }
 
             if (buttonInteraction.customId === `cancelar_button_${messageId}`) {
                 mcli.off("messageUpdate", handleMessageUpdate);
                 mcli.off("interactionCreate", handleButtonInteraction);
                 usadoEn.delete(messageId);
-                try {
-                    await respuesta.delete();
-                } catch (err) {}
             }
         };
 
@@ -208,9 +215,12 @@ const actualizarCodigos = async (
     }
 };
 
-const formatearRespuesta = async (respuesta: {
-    [key: string]: Set<string>;
-}): Promise<EmbedBuilder[]> => {
+const formatearRespuesta = async (
+    respuesta: {
+        [key: string]: Set<string>;
+    },
+    comas: boolean
+): Promise<EmbedBuilder[]> => {
     let mensajes: string[] = [];
     let nueva = "";
     let nuevoChunk = "";
@@ -229,7 +239,9 @@ const formatearRespuesta = async (respuesta: {
     }
 
     for (const idUsuario in respuesta) {
-        nueva = `<@${idUsuario}>\n\`\`\`${Array.from(respuesta[idUsuario]).join(", ")}\`\`\`\n`;
+        nueva = `<@${idUsuario}>\n\`\`\`${Array.from(respuesta[idUsuario]).join(
+            comas ? ", " : " "
+        )}\`\`\`\n`;
         nuevoChunk = formateada + nueva;
 
         if (nuevoChunk.length >= 4000) {
