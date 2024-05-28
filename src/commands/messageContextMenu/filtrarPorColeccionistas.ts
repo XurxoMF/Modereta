@@ -147,7 +147,7 @@ const exp: ComandoMessageContextMenu = {
 
                 const respuestas = await formatearRespuesta(contRes, true);
 
-                await respuesta.edit({ embeds: [...respuestas] });
+                await buttonInteraction.update({ embeds: [...respuestas] });
             }
 
             if (buttonInteraction.customId === `mostrar_codigos_nocomas_button_${messageId}`) {
@@ -155,13 +155,20 @@ const exp: ComandoMessageContextMenu = {
 
                 const respuestas = await formatearRespuesta(contRes, false);
 
-                await respuesta.edit({ embeds: [...respuestas] });
+                await buttonInteraction.update({ embeds: [...respuestas] });
             }
 
             if (buttonInteraction.customId === `cancelar_button_${messageId}`) {
                 mcli.off("messageUpdate", handleMessageUpdate);
                 mcli.off("interactionCreate", handleButtonInteraction);
                 usadoEn.delete(messageId);
+
+                let respuesta = new EmbedBuilder()
+                    .setTitle(`BUSQUEDA DE COLECCIONISTAS`)
+                    .setColor(Colores.MUTEOS)
+                    .setDescription(`Búsqueda cancelada.`);
+
+                await buttonInteraction.update({ embeds: [respuesta], components: [] });
             }
         };
 
