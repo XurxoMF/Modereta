@@ -1,6 +1,6 @@
 {
     "name": "modereta",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "description": "Bot privado de la comunidad Astro Vaporwave",
     "main": "src/index.ts",
     "scripts": {

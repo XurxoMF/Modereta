@@ -12,10 +12,7 @@ import {
     EmbedBuilder,
 } from "discord.js";
 import { MClient } from "../../helpers/MClient";
-import {
-    buscarUsuariosPorInicioSerie,
-    buscarUsuariosPorSerie,
-} from "../../helpers/SofiSeriesUsuarios.helper";
+import { buscarUsuariosPorInicioSerie } from "../../helpers/SofiSeriesUsuarios.helper";
 import { TipoComandos, ComandoMessageContextMenu } from "../../types";
 import { Colores } from "../../data/general.data";
 
@@ -28,8 +25,10 @@ const exp: ComandoMessageContextMenu = {
         .setType(ApplicationCommandType.Message),
     async execute(mcli: MClient, interaction: MessageContextMenuCommandInteraction) {
         let contRes: { [key: string]: Set<string> } = {};
-
         const message = interaction.targetMessage;
+        let mostrados = false;
+        let comas = true;
+        let propias = true;
 
         if (message.embeds.length === 0) {
             return await interaction.reply({
@@ -67,14 +66,14 @@ const exp: ComandoMessageContextMenu = {
 
         await actualizarCodigos(mcli, embed, contRes, interaction);
 
-        const btnMostrarCodigos = new ButtonBuilder()
-            .setCustomId(`mostrar_codigos_button_${messageId}`)
-            .setLabel("Códigos")
+        const btnAlternarCodigos = new ButtonBuilder()
+            .setCustomId(`alternar_codigos_button_${messageId}`)
+            .setLabel("Mostrar Códigos")
             .setStyle(ButtonStyle.Success);
 
-        const btnMostrarCodigosNoComas = new ButtonBuilder()
-            .setCustomId(`mostrar_codigos_nocomas_button_${messageId}`)
-            .setLabel("Códigos Sin Comas")
+        const btnAlternarPropias = new ButtonBuilder()
+            .setCustomId(`alternar_propias_button_${messageId}`)
+            .setLabel("Ocultar Coleccionadas")
             .setStyle(ButtonStyle.Success);
 
         const btnCancelar = new ButtonBuilder()
@@ -83,8 +82,8 @@ const exp: ComandoMessageContextMenu = {
             .setStyle(ButtonStyle.Danger);
 
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-            btnMostrarCodigos,
-            btnMostrarCodigosNoComas,
+            btnAlternarCodigos,
+            btnAlternarPropias,
             btnCancelar
         );
 
@@ -96,9 +95,7 @@ const exp: ComandoMessageContextMenu = {
                     Object.keys(contRes).length === 1
                         ? "encontró **1** usuario"
                         : `encontraron **${Object.keys(contRes).length}** usuarios`
-                } que coleccionan algunas de las cartas mostradas!\nSigue pasando las páginas de la colección para actualizar la lista.\n\nCuando termines y quieras ver los resultados pulsa el botón \`${
-                    btnMostrarCodigos.data.label
-                }\`.`
+                } que coleccionan algunas de las cartas mostradas!\nSigue pasando las páginas de la colección para actualizar la lista.\n\n- **\`Quitar/Añadir Comas\`** - Quita o añade las comas entre los códigos.\n- **\`Ocultar/Mostrar Coleccionadas\`** - Oculta o muestra los códigos de las cartas que TU coleccionas de la lista de cartas coleccionadas de los otros usuarios.\n Esto es útil para no confundirse y darle una de tus cartas a otra persona.\n- **\`Cancelar\`** - Cancela la búsqueda de cartas. Recomendable usar este botón al terminar para no tener a Modereta ocupada durante 30 minutos.`
             )
             .setFooter({
                 text: "El botón dejará de funcionar a los 30 minutos de usar el comando así que no tardes demasiado!",
@@ -125,13 +122,14 @@ const exp: ComandoMessageContextMenu = {
                         Object.keys(contRes).length === 1
                             ? "encontró **1** usuario"
                             : `encontraron **${Object.keys(contRes).length}** usuarios`
-                    } que coleccionan algunas de las cartas mostradas!\nSigue pasando las páginas de la colección para actualizar la lista.\n\nCuando termines y quieras ver los resultados pulsa el botón \`${
-                        btnMostrarCodigos.data.label
-                    }\`.`
+                    } que coleccionan algunas de las cartas mostradas!\nSigue pasando las páginas de la colección para actualizar la lista.\n\n- **\`Quitar/Añadir Comas\`** - Quita o añade las comas entre los códigos.\n- **\`Ocultar/Mostrar Coleccionadas\`** - Oculta o muestra los códigos de las cartas que TU coleccionas de la lista de cartas coleccionadas de los otros usuarios.\n Esto es útil para no confundirse y darle una de tus cartas a otra persona.\n- **\`Cancelar\`** - Cancela la búsqueda de cartas. Recomendable usar este botón al terminar para no tener a Modereta ocupada durante 30 minutos.`
                 );
                 try {
+                    btnAlternarCodigos.setLabel("Mostrar Códigos");
+
                     await respuesta.edit({
                         embeds: [embedRespuesta],
+                        components: [row],
                     });
                 } catch (err) {}
             }
@@ -142,20 +140,49 @@ const exp: ComandoMessageContextMenu = {
             if (!buttonInteraction.isButton() || buttonInteraction.user.id !== interaction.user.id)
                 return;
 
-            if (buttonInteraction.customId === `mostrar_codigos_button_${messageId}`) {
+            if (buttonInteraction.customId === `alternar_codigos_button_${messageId}`) {
                 usadoEn.delete(messageId);
 
-                const respuestas = await formatearRespuesta(contRes, true);
+                if (mostrados) {
+                    comas = !comas;
+                    if (comas) {
+                        btnAlternarCodigos.setLabel("Quitar Comas");
+                    } else {
+                        btnAlternarCodigos.setLabel("Añadir Comas");
+                    }
+                } else {
+                    btnAlternarCodigos.setLabel("Quitar Comas");
+                    mostrados = true;
+                }
 
-                await buttonInteraction.update({ embeds: [...respuestas] });
+                const respuestas = await formatearRespuesta(
+                    contRes,
+                    interaction.user.id,
+                    comas,
+                    propias
+                );
+
+                await buttonInteraction.update({ embeds: [...respuestas], components: [row] });
             }
 
-            if (buttonInteraction.customId === `mostrar_codigos_nocomas_button_${messageId}`) {
+            if (buttonInteraction.customId === `alternar_propias_button_${messageId}`) {
                 usadoEn.delete(messageId);
 
-                const respuestas = await formatearRespuesta(contRes, false);
+                propias = !propias;
+                if (propias) {
+                    btnAlternarPropias.setLabel("Ocultar Coleccionadas");
+                } else {
+                    btnAlternarPropias.setLabel("Mostrar Coleccionadas");
+                }
 
-                await buttonInteraction.update({ embeds: [...respuestas] });
+                const respuestas = await formatearRespuesta(
+                    contRes,
+                    interaction.user.id,
+                    comas,
+                    propias
+                );
+
+                await buttonInteraction.update({ embeds: [...respuestas], components: [row] });
             }
 
             if (buttonInteraction.customId === `cancelar_button_${messageId}`) {
@@ -226,7 +253,9 @@ const formatearRespuesta = async (
     respuesta: {
         [key: string]: Set<string>;
     },
-    comas: boolean
+    idExec: string,
+    comas: boolean,
+    propias: boolean
 ): Promise<EmbedBuilder[]> => {
     let mensajes: string[] = [];
     let nueva = "";
@@ -246,9 +275,37 @@ const formatearRespuesta = async (
     }
 
     for (const idUsuario in respuesta) {
-        nueva = `<@${idUsuario}>\n\`\`\`${Array.from(respuesta[idUsuario]).join(
-            comas ? ", " : " "
-        )}\`\`\`\n`;
+        if (propias) {
+            nueva = `<@${idUsuario}>\n\`\`\`${Array.from(respuesta[idUsuario]).join(
+                comas ? ", " : " "
+            )}\`\`\`\n`;
+        } else {
+            if (idUsuario === idExec) {
+                nueva = `<@${idUsuario}>\n\`\`\`${Array.from(respuesta[idUsuario]).join(
+                    comas ? ", " : " "
+                )}\`\`\`\n`;
+            } else {
+                if (respuesta[idExec]) {
+                    const codesPropias = Array.from(respuesta[idExec]);
+                    let codes: string[] = [];
+
+                    codes.push(
+                        ...Array.from(respuesta[idUsuario]).filter(
+                            (value) => !codesPropias.includes(value)
+                        )
+                    );
+
+                    if (codes.length > 0) {
+                        nueva = `<@${idUsuario}>\n\`\`\`${codes.join(comas ? ", " : " ")}\`\`\`\n`;
+                    } else {
+                        nueva = ``;
+                    }
+                } else {
+                    nueva = ``;
+                }
+            }
+        }
+
         nuevoChunk = formateada + nueva;
 
         if (nuevoChunk.length >= 4000) {
