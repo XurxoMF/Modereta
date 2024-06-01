@@ -301,7 +301,9 @@ const formatearRespuesta = async (
                         nueva = ``;
                     }
                 } else {
-                    nueva = ``;
+                    nueva = `<@${idUsuario}>\n\`\`\`${Array.from(respuesta[idUsuario]).join(
+                        comas ? ", " : " "
+                    )}\`\`\`\n`;
                 }
             }
         }
