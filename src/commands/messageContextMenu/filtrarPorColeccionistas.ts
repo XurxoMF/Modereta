@@ -29,6 +29,8 @@ const exp: ComandoMessageContextMenu = {
         let mostrados = false;
         let comas = true;
         let propias = true;
+        let respuestas: EmbedBuilder[] = [];
+        let respuestaActual = 0;
 
         if (message.embeds.length === 0) {
             return await interaction.reply({
@@ -80,6 +82,18 @@ const exp: ComandoMessageContextMenu = {
             .setCustomId(`cancelar_button_${messageId}`)
             .setLabel("Cancelar")
             .setStyle(ButtonStyle.Danger);
+
+        const btnPagSig = new ButtonBuilder()
+            .setCustomId(`pag_sig_button_${messageId}`)
+            .setLabel(">>")
+            .setStyle(ButtonStyle.Success);
+
+        const btnPagAnt = new ButtonBuilder()
+            .setCustomId(`pag_ant_button_${messageId}`)
+            .setLabel("<<")
+            .setStyle(ButtonStyle.Success);
+
+        const rowPags = new ActionRowBuilder<ButtonBuilder>().addComponents(btnPagAnt, btnPagSig);
 
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
             btnAlternarCodigos,
@@ -155,14 +169,38 @@ const exp: ComandoMessageContextMenu = {
                     mostrados = true;
                 }
 
-                const respuestas = await formatearRespuesta(
-                    contRes,
-                    interaction.user.id,
-                    comas,
-                    propias
-                );
+                respuestas = await formatearRespuesta(contRes, interaction.user.id, comas, propias);
 
-                await buttonInteraction.update({ embeds: [...respuestas], components: [row] });
+                await buttonInteraction.update({
+                    embeds: [respuestas[respuestaActual]],
+                    components: [row, rowPags],
+                });
+            }
+
+            if (buttonInteraction.customId === `pag_sig_button_${messageId}`) {
+                if (respuestaActual >= respuestas.length - 1) {
+                    respuestaActual = 0;
+                } else {
+                    respuestaActual++;
+                }
+
+                await buttonInteraction.update({
+                    embeds: [respuestas[respuestaActual]],
+                    components: [row, rowPags],
+                });
+            }
+
+            if (buttonInteraction.customId === `pag_ant_button_${messageId}`) {
+                if (respuestaActual <= respuestas.length - 1) {
+                    respuestaActual = respuestas.length - 1;
+                } else {
+                    respuestaActual++;
+                }
+
+                await buttonInteraction.update({
+                    embeds: [respuestas[respuestaActual]],
+                    components: [row, rowPags],
+                });
             }
 
             if (buttonInteraction.customId === `alternar_propias_button_${messageId}`) {
@@ -175,14 +213,12 @@ const exp: ComandoMessageContextMenu = {
                     btnAlternarPropias.setLabel("Mostrar Coleccionadas");
                 }
 
-                const respuestas = await formatearRespuesta(
-                    contRes,
-                    interaction.user.id,
-                    comas,
-                    propias
-                );
+                respuestas = await formatearRespuesta(contRes, interaction.user.id, comas, propias);
 
-                await buttonInteraction.update({ embeds: [...respuestas], components: [row] });
+                await buttonInteraction.update({
+                    embeds: [respuestas[respuestaActual]],
+                    components: [row, rowPags],
+                });
             }
 
             if (buttonInteraction.customId === `cancelar_button_${messageId}`) {
@@ -322,11 +358,13 @@ const formatearRespuesta = async (
 
     let iteracion = 1;
     for (const mensaje of mensajes) {
-        let newEmbed = new EmbedBuilder(embed.data);
-        newEmbed
+        const newEmbed = new EmbedBuilder()
             .setTitle(`RESULTADOS DE LA BÚSQUEDA | ${iteracion++}`)
             .setColor(Colores.SANCION_ELIMINADA)
-            .setDescription(mensaje);
+            .setDescription(mensaje)
+            .setFooter({
+                text: "Los resultados pueden no ser 100% exactos al no poder verse la serie completa en la colección.",
+            });
         embeds.push(newEmbed);
     }
 
