@@ -140,6 +140,9 @@ const exp: ComandoMessageContextMenu = {
                               }** usuarios que coleccionan`
                     } algunas de las cartas mostradas!\nSigue pasando las páginas de la colección para actualizar la lista.\n\n- 👁️ - Muestra los códigos que colecciona cada persona.\n- **\`,\`** - Quita o añade las comas entre los códigos.\n- ♻️ - Oculta o muestra los códigos de las cartas que TU coleccionas de la lista de los otros usuarios.\n- ❌ - Cancela la búsqueda de cartas.\n- ⬅️ y ➡️ - Pasa las páginas de resultados en caso de tener varias.`
                 );
+
+                btnAlternarCodigos.setLabel("👁️");
+
                 try {
                     await respuesta.edit({
                         embeds: [embedRespuesta],
