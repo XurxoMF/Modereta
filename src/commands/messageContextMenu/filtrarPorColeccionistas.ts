@@ -322,11 +322,12 @@ const formatearRespuesta = async (
 
     let iteracion = 1;
     for (const mensaje of mensajes) {
-        embed
+        let newEmbed = new EmbedBuilder(embed.data);
+        newEmbed
             .setTitle(`RESULTADOS DE LA BÚSQUEDA | ${iteracion++}`)
             .setColor(Colores.SANCION_ELIMINADA)
             .setDescription(mensaje);
-        embeds.push(embed);
+        embeds.push(newEmbed);
     }
 
     return embeds;
