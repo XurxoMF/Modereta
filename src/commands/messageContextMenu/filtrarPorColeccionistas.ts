@@ -70,28 +70,28 @@ const exp: ComandoMessageContextMenu = {
 
         const btnAlternarCodigos = new ButtonBuilder()
             .setCustomId(`alternar_codigos_button_${messageId}`)
-            .setLabel("Mostrar Códigos")
+            .setLabel("👁️")
             .setStyle(ButtonStyle.Success);
 
         const btnAlternarPropias = new ButtonBuilder()
             .setCustomId(`alternar_propias_button_${messageId}`)
-            .setLabel("Ocultar Coleccionadas")
+            .setLabel("♻️")
             .setStyle(ButtonStyle.Success);
 
         const btnCancelar = new ButtonBuilder()
             .setCustomId(`cancelar_button_${messageId}`)
-            .setLabel("Cancelar")
+            .setLabel("❌")
             .setStyle(ButtonStyle.Danger);
 
         const btnPagSig = new ButtonBuilder()
             .setCustomId(`pag_sig_button_${messageId}`)
-            .setLabel(">>")
-            .setStyle(ButtonStyle.Success);
+            .setLabel("➡️")
+            .setStyle(ButtonStyle.Primary);
 
         const btnPagAnt = new ButtonBuilder()
             .setCustomId(`pag_ant_button_${messageId}`)
-            .setLabel("<<")
-            .setStyle(ButtonStyle.Success);
+            .setLabel("⬅️")
+            .setStyle(ButtonStyle.Primary);
 
         const rowPags = new ActionRowBuilder<ButtonBuilder>().addComponents(btnPagAnt, btnPagSig);
 
@@ -107,9 +107,9 @@ const exp: ComandoMessageContextMenu = {
             .setDescription(
                 `Se ${
                     Object.keys(contRes).length === 1
-                        ? "encontró **1** usuario"
-                        : `encontraron **${Object.keys(contRes).length}** usuarios`
-                } que coleccionan algunas de las cartas mostradas!\nSigue pasando las páginas de la colección para actualizar la lista.\n\n- **\`Quitar/Añadir Comas\`** - Quita o añade las comas entre los códigos.\n- **\`Ocultar/Mostrar Coleccionadas\`** - Oculta o muestra los códigos de las cartas que TU coleccionas de la lista de cartas coleccionadas de los otros usuarios.\n Esto es útil para no confundirse y darle una de tus cartas a otra persona.\n- **\`Cancelar\`** - Cancela la búsqueda de cartas. Recomendable usar este botón al terminar para no tener a Modereta ocupada durante 30 minutos.`
+                        ? "encontró **1** usuario que colecciona"
+                        : `encontraron **${Object.keys(contRes).length}** usuarios que coleccionan`
+                } algunas de las cartas mostradas!\nSigue pasando las páginas de la colección para actualizar la lista.\n\n- 👁️ - Muestra los códigos que colecciona cada persona.\n- **\`,\`** - Quita o añade las comas entre los códigos.\n- ♻️ - Oculta o muestra los códigos de las cartas que TU coleccionas de la lista de los otros usuarios.\n- ❌ - Cancela la búsqueda de cartas.\n- ⬅️ y ➡️ - Pasa las páginas de resultados en caso de tener varias.`
             )
             .setFooter({
                 text: "El botón dejará de funcionar a los 30 minutos de usar el comando así que no tardes demasiado!",
@@ -139,8 +139,6 @@ const exp: ComandoMessageContextMenu = {
                     } que coleccionan algunas de las cartas mostradas!\nSigue pasando las páginas de la colección para actualizar la lista.\n\n- **\`Quitar/Añadir Comas\`** - Quita o añade las comas entre los códigos.\n- **\`Ocultar/Mostrar Coleccionadas\`** - Oculta o muestra los códigos de las cartas que TU coleccionas de la lista de cartas coleccionadas de los otros usuarios.\n Esto es útil para no confundirse y darle una de tus cartas a otra persona.\n- **\`Cancelar\`** - Cancela la búsqueda de cartas. Recomendable usar este botón al terminar para no tener a Modereta ocupada durante 30 minutos.`
                 );
                 try {
-                    btnAlternarCodigos.setLabel("Mostrar Códigos");
-
                     await respuesta.edit({
                         embeds: [embedRespuesta],
                         components: [row],
@@ -159,13 +157,8 @@ const exp: ComandoMessageContextMenu = {
 
                 if (mostrados) {
                     comas = !comas;
-                    if (comas) {
-                        btnAlternarCodigos.setLabel("Quitar Comas");
-                    } else {
-                        btnAlternarCodigos.setLabel("Añadir Comas");
-                    }
                 } else {
-                    btnAlternarCodigos.setLabel("Quitar Comas");
+                    btnAlternarCodigos.setLabel(",");
                     mostrados = true;
                 }
 
@@ -207,11 +200,6 @@ const exp: ComandoMessageContextMenu = {
                 usadoEn.delete(messageId);
 
                 propias = !propias;
-                if (propias) {
-                    btnAlternarPropias.setLabel("Ocultar Coleccionadas");
-                } else {
-                    btnAlternarPropias.setLabel("Mostrar Coleccionadas");
-                }
 
                 respuestas = await formatearRespuesta(contRes, interaction.user.id, comas, propias);
 
