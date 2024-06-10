@@ -162,6 +162,7 @@ const exp: ComandoMessageContextMenu = {
 
                 if (mostrados) {
                     comas = !comas;
+                    btnAlternarCodigos.setLabel(",");
                 } else {
                     btnAlternarCodigos.setLabel(",");
                     mostrados = true;
