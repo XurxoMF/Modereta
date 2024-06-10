@@ -190,10 +190,10 @@ const exp: ComandoMessageContextMenu = {
             }
 
             if (buttonInteraction.customId === `pag_ant_button_${messageId}`) {
-                if (respuestaActual <= respuestas.length - 1) {
+                if (respuestaActual <= 0) {
                     respuestaActual = respuestas.length - 1;
                 } else {
-                    respuestaActual++;
+                    respuestaActual--;
                 }
 
                 await buttonInteraction.update({
@@ -306,14 +306,28 @@ const formatearRespuesta = async (
 
     for (const idUsuario in respuesta) {
         if (propias) {
-            nueva = `<@${idUsuario}>\n\`\`\`${Array.from(respuesta[idUsuario]).join(
-                comas ? ", " : " "
-            )}\`\`\`\n`;
+            nueva = `<@${idUsuario}>\n\`\`\``;
+            for (const code of respuesta[idUsuario]) {
+                nueva += `${code}${comas ? ", " : " "}`;
+                if (nueva.length >= 3500) {
+                    nueva.slice(0, -2);
+                    formateada += `${nueva}\`\`\`\n`;
+                    nueva = `<@${idUsuario}>\n\`\`\``;
+                }
+            }
+            nueva += `\`\`\`\n`;
         } else {
             if (idUsuario === idExec) {
-                nueva = `<@${idUsuario}>\n\`\`\`${Array.from(respuesta[idUsuario]).join(
-                    comas ? ", " : " "
-                )}\`\`\`\n`;
+                nueva = `<@${idUsuario}>\n\`\`\``;
+                for (const code of respuesta[idUsuario]) {
+                    nueva += `${code}${comas ? ", " : " "}`;
+                    if (nueva.length >= 3500) {
+                        nueva.slice(0, -2);
+                        formateada += `${nueva}\`\`\`\n`;
+                        nueva = `<@${idUsuario}>\n\`\`\``;
+                    }
+                }
+                nueva += `\`\`\`\n`;
             } else {
                 if (respuesta[idExec]) {
                     const codesPropias = Array.from(respuesta[idExec]);
@@ -326,21 +340,37 @@ const formatearRespuesta = async (
                     );
 
                     if (codes.length > 0) {
-                        nueva = `<@${idUsuario}>\n\`\`\`${codes.join(comas ? ", " : " ")}\`\`\`\n`;
+                        nueva = `<@${idUsuario}>\n\`\`\``;
+                        for (const code of codes) {
+                            nueva += `${code}${comas ? ", " : " "}`;
+                            if (nueva.length >= 3500) {
+                                nueva.slice(0, -2);
+                                formateada += `${nueva}\`\`\`\n`;
+                                nueva = `<@${idUsuario}>\n\`\`\``;
+                            }
+                        }
+                        nueva += `\`\`\`\n`;
                     } else {
                         nueva = ``;
                     }
                 } else {
-                    nueva = `<@${idUsuario}>\n\`\`\`${Array.from(respuesta[idUsuario]).join(
-                        comas ? ", " : " "
-                    )}\`\`\`\n`;
+                    nueva = `<@${idUsuario}>\n\`\`\``;
+                    for (const code of respuesta[idUsuario]) {
+                        nueva += `${code}${comas ? ", " : " "}`;
+                        if (nueva.length >= 3500) {
+                            nueva.slice(0, -2);
+                            formateada += `${nueva}\`\`\`\n`;
+                            nueva = `<@${idUsuario}>\n\`\`\``;
+                        }
+                    }
+                    nueva += `\`\`\`\n`;
                 }
             }
         }
 
         nuevoChunk = formateada + nueva;
 
-        if (nuevoChunk.length >= 4000) {
+        if (nuevoChunk.length >= 3500) {
             mensajes.push(formateada);
             formateada = "";
         }
