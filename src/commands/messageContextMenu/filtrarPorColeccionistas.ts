@@ -310,14 +310,14 @@ const formatearRespuesta = async (
             for (const code of respuesta[idUsuario]) {
                 nueva += `${code}${comas ? ", " : " "}`;
                 if (nueva.length >= 3500) {
-                    nueva.trim();
-                    if (nueva.endsWith(",")) nueva.slice(0, -1);
+                    nueva = nueva.trim();
+                    if (nueva.endsWith(",")) nueva = nueva.slice(0, -1);
                     formateada += `${nueva}\`\`\`\n`;
                     nueva = `<@${idUsuario}>\n\`\`\``;
                 }
             }
-            nueva.trim();
-            if (nueva.endsWith(",")) nueva.slice(0, -1);
+            nueva = nueva.trim();
+            if (nueva.endsWith(",")) nueva = nueva.slice(0, -1);
             nueva += `\`\`\`\n`;
         } else {
             if (idUsuario === idExec) {
@@ -325,14 +325,14 @@ const formatearRespuesta = async (
                 for (const code of respuesta[idUsuario]) {
                     nueva += `${code}${comas ? ", " : " "}`;
                     if (nueva.length >= 3500) {
-                        nueva.trim();
-                        if (nueva.endsWith(",")) nueva.slice(0, -1);
+                        nueva = nueva.trim();
+                        if (nueva.endsWith(",")) nueva = nueva.slice(0, -1);
                         formateada += `${nueva}\`\`\`\n`;
                         nueva = `<@${idUsuario}>\n\`\`\``;
                     }
                 }
-                nueva.trim();
-                if (nueva.endsWith(",")) nueva.slice(0, -1);
+                nueva = nueva.trim();
+                if (nueva.endsWith(",")) nueva = nueva.slice(0, -1);
                 nueva += `\`\`\`\n`;
             } else {
                 if (respuesta[idExec]) {
@@ -350,14 +350,14 @@ const formatearRespuesta = async (
                         for (const code of codes) {
                             nueva += `${code}${comas ? ", " : " "}`;
                             if (nueva.length >= 3500) {
-                                nueva.trim();
-                                if (nueva.endsWith(",")) nueva.slice(0, -1);
+                                nueva = nueva.trim();
+                                if (nueva.endsWith(",")) nueva = nueva.slice(0, -1);
                                 formateada += `${nueva}\`\`\`\n`;
                                 nueva = `<@${idUsuario}>\n\`\`\``;
                             }
                         }
-                        nueva.trim();
-                        if (nueva.endsWith(",")) nueva.slice(0, -1);
+                        nueva = nueva.trim();
+                        if (nueva.endsWith(",")) nueva = nueva.slice(0, -1);
                         nueva += `\`\`\`\n`;
                     } else {
                         nueva = ``;
@@ -367,14 +367,14 @@ const formatearRespuesta = async (
                     for (const code of respuesta[idUsuario]) {
                         nueva += `${code}${comas ? ", " : " "}`;
                         if (nueva.length >= 3500) {
-                            nueva.trim();
-                            if (nueva.endsWith(",")) nueva.slice(0, -1);
+                            nueva = nueva.trim();
+                            if (nueva.endsWith(",")) nueva = nueva.slice(0, -1);
                             formateada += `${nueva}\`\`\`\n`;
                             nueva = `<@${idUsuario}>\n\`\`\``;
                         }
                     }
-                    nueva.trim();
-                    if (nueva.endsWith(",")) nueva.slice(0, -1);
+                    nueva = nueva.trim();
+                    if (nueva.endsWith(",")) nueva = nueva.slice(0, -1);
                     nueva += `\`\`\`\n`;
                 }
             }
