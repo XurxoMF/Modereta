@@ -89,7 +89,7 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
 
         if (usuarios.length <= 0) return;
 
-        let content = `<a:av_anya_yay:1115737171962384515> Algún usuario colecciona cartas de ese Drop!`;
+        let content = ``;
 
         for (const s of series) {
             let menciones: Set<string> = new Set();
@@ -117,13 +117,9 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
             seriesUsuarios.set(s, menciones);
         }
 
-        if (seriesUsuarios.size > 0) {
-            for (const su of seriesUsuarios) {
-                if (su[1].size > 0) {
-                    content += `\n<a:av_arrow:1114871485157355530>**${su[0]}** ${[...su[1]].join(
-                        ` `
-                    )}`;
-                }
+        for (const su of seriesUsuarios) {
+            if (su[1].size > 0) {
+                content += `\n<a:av_arrow:1114871485157355530>**${su[0]}** ${[...su[1]].join(` `)}`;
             }
         }
 
@@ -137,10 +133,12 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
 
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(btnGuiaSeries);
 
-        await message.reply({
-            content: content,
-            components: [row],
-        });
+        if (content.length >= 0) {
+            await message.reply({
+                content: `<a:av_anya_yay:1115737171962384515> Algún usuario colecciona cartas de ese Drop!${content}`,
+                components: [row],
+            });
+        }
     }
 };
 
