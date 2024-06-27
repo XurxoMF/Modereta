@@ -1,4 +1,13 @@
-import { Events, Guild, GuildMember, Message, WebhookClient } from "discord.js";
+import {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    Events,
+    Guild,
+    GuildMember,
+    Message,
+    WebhookClient,
+} from "discord.js";
 import { MClient } from "../helpers/MClient";
 import {
     DEV,
@@ -80,7 +89,7 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
 
         if (usuarios.length <= 0) return;
 
-        let content = ``;
+        let content = `<a:av_anya_yay:1115737171962384515> Algún usuario colecciona cartas de ese Drop!`;
 
         for (const s of series) {
             let menciones: Set<string> = new Set();
@@ -110,13 +119,24 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
 
         for (const su of seriesUsuarios) {
             if (su[1].size > 0) {
-                content += `**${su[0]}**\n> ${[...su[1]].join(`, `)}\n`;
+                content += `\n<a:av_arrow:1114871485157355530>**${su[0]}** ${[...su[1]].join(` `)}`;
             }
         }
+
+        const btnGuiaSeries = new ButtonBuilder()
+            .setCustomId(`btn_guia_series`)
+            .setLabel("<a:av_chef_what:1115747246412148758> Que es esto?")
+            .setStyle(ButtonStyle.Link)
+            .setURL(
+                "https://xurxomf.gitbook.io/docs-modereta/funcionalidades/lista-de-series-de-sofi"
+            );
+
+        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(btnGuiaSeries);
 
         if (content.length > 0) {
             await message.reply({
                 content: content,
+                components: [row],
             });
         }
     }
