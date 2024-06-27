@@ -117,9 +117,13 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
             seriesUsuarios.set(s, menciones);
         }
 
-        for (const su of seriesUsuarios) {
-            if (su[1].size > 0) {
-                content += `\n<a:av_arrow:1114871485157355530>**${su[0]}** ${[...su[1]].join(` `)}`;
+        if (seriesUsuarios.size > 0) {
+            for (const su of seriesUsuarios) {
+                if (su[1].size > 0) {
+                    content += `\n<a:av_arrow:1114871485157355530>**${su[0]}** ${[...su[1]].join(
+                        ` `
+                    )}`;
+                }
             }
         }
 
@@ -133,12 +137,10 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
 
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(btnGuiaSeries);
 
-        if (content.length > 0) {
-            await message.reply({
-                content: content,
-                components: [row],
-            });
-        }
+        await message.reply({
+            content: content,
+            components: [row],
+        });
     }
 };
 
