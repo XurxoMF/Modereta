@@ -124,7 +124,6 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
         }
 
         const btnGuiaSeries = new ButtonBuilder()
-            .setCustomId(`btn_guia_series`)
             .setLabel("<a:av_chef_what:1115747246412148758> Que es esto?")
             .setStyle(ButtonStyle.Link)
             .setURL(
