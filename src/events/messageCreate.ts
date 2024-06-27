@@ -133,7 +133,7 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
 
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(btnGuiaSeries);
 
-        if (content.length >= 0) {
+        if (content.length > 0) {
             await message.reply({
                 content: `<a:av_anya_yay:1115737171962384515> Algún usuario colecciona cartas de ese Drop!${content}`,
                 components: [row],
