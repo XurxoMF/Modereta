@@ -124,7 +124,8 @@ const sofiDropController = async (mcli: MClient, message: Message): Promise<void
         }
 
         const btnGuiaSeries = new ButtonBuilder()
-            .setLabel("<a:av_chef_what:1115747246412148758> Que es esto?")
+            .setLabel("Que es esto?")
+            .setEmoji("<a:av_chef_what:1115747246412148758>")
             .setStyle(ButtonStyle.Link)
             .setURL(
                 "https://xurxomf.gitbook.io/docs-modereta/funcionalidades/lista-de-series-de-sofi"
