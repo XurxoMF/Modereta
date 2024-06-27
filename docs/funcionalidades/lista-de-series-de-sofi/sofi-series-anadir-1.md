@@ -18,16 +18,6 @@ Cuando se abra el desplegable de opciones ve al apartado **`Aplicaciones`** y se
 
 Ahora solo tienes que ir pasando las páginas de la colección de Sofi hasta donde sea necesario.
 
-Una vez termines de pasar las páginas que necesitabas presiona el botón **`Mostrar Resultados`** del mensaje de Modereta para ver la lista de códigos separada por usuarios. Si quieres cancelar el filtrado pulta **Calcelar**.
+Una vez termines de pasar las páginas que necesitabas presiona el botón **`Mostrar Resultados`** del mensaje de Modereta para ver la lista de códigos separada por usuarios. Si quieres cancelar el filtrado pulsa **Calcelar**.
 
-{% hint style="info" %}
-Ejemplo del mensaje del botón **`Mostrar Resultados`** y **`Cancelar`**:
-
-<img src="../../.gitbook/assets/MostrarResultados.png" alt="" data-size="original">
-{% endhint %}
-
-{% hint style="info" %}
-Ejemlpo del resultado de los códigos:
-
-<img src="../../.gitbook/assets/Resultado.png" alt="" data-size="original">
-{% endhint %}
+Hay botones para ocultar las comas, ocultar los códigos de cartas que coleccionas de las listas de los demás, pasar páginas y demás.
