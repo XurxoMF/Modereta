@@ -1,6 +1,6 @@
 # 📋 Lista de series de Sofi
 
-[sofi-series-coleccionan.md](sofi-series-coleccionan.md "mention")La segunda funcionalidad más importante del bot es la de las **series coleccionadas por cada usuario en Sofi bot**.
+La segunda funcionalidad más importante del bot es la de las **series coleccionadas por cada usuario en Sofi bot**.
 
 Con esta podréis añadir las series que coleccionáis a una lista para que cuando alguna carta de esas series sea dropeada por Sofi, Modereta os mencionará para que podáis reclamarla.
 
